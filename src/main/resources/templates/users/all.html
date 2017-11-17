@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>Users</title>
+</head>
+<body>
+<header th:include="layout :: site-header" ></header>
+<div class="container-fluid" id="app">
+<div class="modal" id="editFormModal">
+	<div class="modal-header"></div>
+	<div class="modal-body">
+		<form id="editForm">
+			<div class="form">
+				<label for="fullName">Full Name</label>
+				<input type="text" id="fullName"/>
+			</div>
+			<div class="form">
+				<label for="email">Email</label>
+				<input type="text" id="email"/>
+			</div>
+			<div class="form">
+				<label for="admin">Admin</label>
+				<input type="checkbox"/>
+			</div>
+			<div class="form">
+				<label for="password">Password</label>
+				<input type="password" id="password"/>
+			</div>
+			<div class="form">
+				<label for="confirmPassword">Confirm Password</label>
+				<input type="password" id="confirmPassword"/>
+			</div>
+			<div class="form">
+				<input type="submit" value="confirm"/>
+			</div>
+		</form>
+	</div>
+</div>
+	<table>
+		<caption>List of users</caption>
+		<thead>
+			<tr>
+				<td></td>
+				<td><input type="text"/></td>
+				<td><input type="text"/></td>
+				<td><input type="text"/></td>
+				<td></td>
+			</tr>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">FullName</th>
+				<th scope="col">Email</th>
+				<th scope="col">Admin</th>
+				<th scope="col">...</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr v-for="user in users">
+				<td>{{user.id}}</td>
+				<td>{{user.fullName}}</td>
+				<td>{{user.email}}</td>
+				<td>{{user.admin}}</td>
+				<td>
+					<button v-on:click="editUser(user)">edit</button>
+					<button v-on:click="deleteUSer(user)">delete</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<footer th:replace="layout :: site-footer" ></footer>
+<script th:replace="layout :: vueJS"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	var users = /*[[${users}]]*/[];
+	/*]]>*/
+</script>
+<script type="application/javascript">
+new Vue({
+  el: '#app',
+  data: {
+    users: users,
+    selectedUser: null
+  },
+  methods:{
+      editUser: function(user){
+          this.selectedUser = user.copy();
+          alert("edit " + this.selectedUser.id);
+      },
+      deleteUser: function(user){
+          this.selectedUser = user.copy();
+		alert("delete " + this.selectedUser.id);
+      },
+      confirmFormSubmit: function(){
+
+      }
+  }
+})
+</script>
+</body>
+</html>

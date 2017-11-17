@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>Users</title>
+</head>
+<body>
+<header th:include="layout :: site-header" ></header>
+<div class="container-fluid" id="app">
+	<table>
+		<caption>List of users</caption>
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">FullName</th>
+				<th scope="col">Email</th>
+				<th scope="col">Admin</th>
+				<th scope="col">...</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="user in users">
+				<td>{{user.id}}</td>
+				<td>{{user.fullName}}</td>
+				<td>{{user.email}}</td>
+				<td>{{user.admin}}</td>
+				<td>
+					<button v-on:click="editUser(user)">edit</button>
+					<button v-on:click="deleteUSer(user)">delete</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<footer th:replace="layout :: site-footer" ></footer>
+<script th:replace="layout :: vueJS"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	var users = /*[[${users}]]*/[];
+	/*]]>*/
+</script>
+<script type="application/javascript">
+var app = new Vue({
+  el: '#app',
+  data: {
+    users: users
+  },
+  methods:{
+      editUser: function(user){
+          alert("edit " + user.id);
+      },
+      deleteUser: function(user){
+		alert("delete " + user.id);
+      }
+  }
+})
+</script>
+</body>
+</html>
