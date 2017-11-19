@@ -1,4 +1,4 @@
-package com.helmo.NatAdmin.services;
+package com.helmo.NatAdmin.services.crudServices;
 
 import com.helmo.NatAdmin.models.Identifiable;
 
