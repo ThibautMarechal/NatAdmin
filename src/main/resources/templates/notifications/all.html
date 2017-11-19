@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head th:include="layout :: site-head">
+    <title>Users</title>
+</head>
+<body>
+<header th:include="layout :: site-header" ></header>
+<div class="container-fluid" id="app">
+	<table>
+		<caption>List of notifications</caption>
+		<thead>
+			<tr>
+				<td></td>
+				<td><input type="text"/></td>
+				<td><input type="text"/></td>
+				<td><input type="text"/></td>
+				<td></td>
+			</tr>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Date</th>
+				<th scope="col">Caption</th>
+				<th scope="col">Description</th>
+				<th scope="col">Status</th>
+				<th scope="col">...</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr v-for="notification in notifications">
+				<td>{{notification.id}}</td>
+				<td>{{notification.date}}</td>
+				<td>{{notification.caption}}</td>
+				<td>{{notification.description}}</td>
+				<td>{{notification.status}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<footer th:replace="layout :: site-footer" ></footer>
+<script th:replace="layout :: vueJS"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	var notifications = /*[[${notifications}]]*/[];
+	/*]]>*/
+</script>
+<script type="application/javascript">
+new Vue({
+  el: '#app',
+  data: {
+      notifications: notifications
+  },
+  methods:{
+
+  }
+})
+</script>
+</body>
+</html>

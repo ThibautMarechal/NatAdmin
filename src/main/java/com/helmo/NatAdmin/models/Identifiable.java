@@ -1,6 +1,6 @@
 package com.helmo.NatAdmin.models;
 
-public class Identifiable {
+public abstract class Identifiable {
     private long id;
 
     public long getId() {
