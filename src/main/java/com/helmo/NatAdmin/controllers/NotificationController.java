@@ -2,10 +2,13 @@ package com.helmo.NatAdmin.controllers;
 
 import com.helmo.NatAdmin.models.Notification;
 import com.helmo.NatAdmin.services.NotificationService;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -27,5 +30,11 @@ public class NotificationController {
         List<Notification> notifications = notificationService.getAll();
         model.addAttribute("notifications", notifications);
         return "notifications/all";
+    }
+
+    @RequestMapping(value = "confirm/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String confirm(@PathVariable("id")long id, Model model){
+        return "{form-status: true}";
     }
 }
