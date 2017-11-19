@@ -1,11 +1,11 @@
 package com.helmo.NatAdmin.models;
 
-public class User
+public class User extends Identifiable
 {
     private String fullName;
-    private long id;
     private String Email;
     private boolean isAdmin;
+    private String profilePictureUrl;
     public User()
     {
     }
@@ -18,16 +18,6 @@ public class User
     public void setFullName(String fullName)
     {
         this.fullName = fullName;
-    }
-
-    public long getId()
-    {
-        return id;
-    }
-
-    public void setId(long id)
-    {
-        this.id = id;
     }
 
     public String getEmail()
@@ -48,5 +38,13 @@ public class User
     public void setAdmin(boolean admin)
     {
         isAdmin = admin;
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head th:include="layout :: site-head">
     <title>Users</title>
 </head>
@@ -20,7 +20,7 @@
 			</div>
 			<div class="form">
 				<label for="admin">Admin</label>
-				<input type="checkbox"/>
+				<input type="checkbox" id="admin"/>
 			</div>
 			<div class="form">
 				<label for="password">Password</label>
@@ -63,7 +63,7 @@
 				<td>{{user.admin}}</td>
 				<td>
 					<button v-on:click="editUser(user)">edit</button>
-					<button v-on:click="deleteUSer(user)">delete</button>
+					<button v-on:click="deleteUser(user)">delete</button>
 				</td>
 			</tr>
 		</tbody>
@@ -85,12 +85,12 @@ new Vue({
   },
   methods:{
       editUser: function(user){
-          this.selectedUser = user.copy();
+          this.selectedUser = user;
           alert("edit " + this.selectedUser.id);
       },
       deleteUser: function(user){
-          this.selectedUser = user.copy();
-		alert("delete " + this.selectedUser.id);
+          this.selectedUser = user;
+          alert("delete " + this.selectedUser.id);
       },
       confirmFormSubmit: function(){
 

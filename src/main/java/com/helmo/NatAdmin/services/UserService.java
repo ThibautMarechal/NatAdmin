@@ -1,11 +1,12 @@
 package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.User;
+import com.helmo.NatAdmin.services.crudServices.ICrudService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService implements AbstractService<User>
+public class UserService implements ICrudService<User>
 {
     public UserService(){}
     @Override
@@ -31,18 +32,23 @@ public class UserService implements AbstractService<User>
     @Override
     public void update(User toUpdate)
     {
-
+        //TODO
     }
 
     @Override
     public void create(User toUpdate)
     {
-
+        //TODO
     }
 
     @Override
     public void delete(User toUpdate)
     {
+        //TODO
+    }
 
+    @Override
+    public void delete(long idToDelete) {
+        //TODO
     }
 }
