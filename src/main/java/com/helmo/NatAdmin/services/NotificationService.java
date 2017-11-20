@@ -24,7 +24,7 @@ public class NotificationService implements IReadService<Notification> {
         n.setCaption("Caption #" + id);
         n.setDescription("Description #"+ id);
         n.setDate(Date.from(Instant.now()));
-        n.setOk(false);
+        n.setStatus(false);
         return n;
     }
 }

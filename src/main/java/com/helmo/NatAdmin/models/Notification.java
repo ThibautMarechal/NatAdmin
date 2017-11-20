@@ -6,7 +6,7 @@ public class Notification  extends Identifiable{
     private String caption;
     private String description;
     private Date date;
-    private boolean isOk;
+    private boolean status;
 
     public String getCaption() {
         return caption;
@@ -32,11 +32,11 @@ public class Notification  extends Identifiable{
         this.date = date;
     }
 
-    public boolean isOk() {
-        return isOk;
+    public boolean getStatus() {
+        return status;
     }
 
-    public void setOk(boolean ok) {
-        isOk = ok;
+    public void setStatus(boolean ok) {
+        status = ok;
     }
 }

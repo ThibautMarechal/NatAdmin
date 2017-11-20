@@ -19,7 +19,7 @@ public class UserForm
     private String password;
     @NotNull
     @Size(min=8, max=50)
-    private String confirmpassword;
+    private String confirmedPassword;
 
     public String getFullName()
     {
@@ -54,12 +54,12 @@ public class UserForm
 
     public String getConfirmpassword()
     {
-        return confirmpassword;
+        return confirmedPassword;
     }
 
     public void setConfirmpassword(String confirmpassword)
     {
-        this.confirmpassword = confirmpassword;
+        this.confirmedPassword = confirmpassword;
     }
 
     public boolean isAdmin()

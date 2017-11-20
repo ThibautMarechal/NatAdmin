@@ -1,5 +1,6 @@
 package com.helmo.NatAdmin.controllers;
 
+import com.helmo.NatAdmin.forms.UserForm;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.UserService;
 import org.springframework.http.MediaType;
@@ -13,7 +14,6 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController
 {
-
     private UserService userService;
 
     public UserController()
@@ -37,7 +37,31 @@ public class UserController
 
     @RequestMapping(value = "edit/{id}", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String edit(@PathVariable("id") Long id, Model model){
-        return "{form-status: true}";
+    public String edit(@PathVariable("id") Long id, Model model, @ModelAttribute UserForm userForm){
+        //TODO Validate user input
+        User user = userService.getById(id);
+        user.setFullName(userForm.getFullName());
+        user.setEmail(userForm.getEmail());
+        user.setAdmin(userForm.isAdmin());
+        userService.update(user);
+        return "{\"success\":1}";
+    }
+
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String delete(@PathVariable("id") Long id){
+        return "{\"success\":1}";
+    }
+
+    @RequestMapping(value = "create", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String create(Model model, @ModelAttribute UserForm userForm){
+        //TODO Validate user input
+        User user = new User();
+        user.setFullName(userForm.getFullName());
+        user.setEmail(userForm.getEmail());
+        user.setAdmin(userForm.isAdmin());
+        userService.update(user);
+        return "{\"success\":1}";
     }
 }
