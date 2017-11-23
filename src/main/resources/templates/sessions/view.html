@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: site-head">
+    <title th:text="${user.fullName}">View Post</title>
 </head>
+
 <body>
 
+<header th:replace="layout :: site-header" ></header>
+<main>
+<!--TODO USER EDIT FORM MODAL-->
+<!--TODO DISPLAY USER INFO-->
+<!--TODO DISPLAY SESSIONS-->
+</main>
+<footer th:replace="layout :: site-footer" ></footer>
 </body>
 </html>
