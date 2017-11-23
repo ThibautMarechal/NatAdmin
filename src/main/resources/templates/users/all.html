@@ -176,8 +176,11 @@ new Vue({
 			 data: $("#editForm").serialize(),
 			 success: function(data)
 			 {
-			     console.log(data);
-				 //TODO handle response
+			      if(data.status === 1){
+					 //TODO handle response positive response
+				 }else{
+					 alert(data.errorMessage);
+				 }
 				 $("#editModal").modal('hide')
 			 }
 		   });
@@ -188,8 +191,11 @@ new Vue({
 			 url: "/users/delete/"+ this.selectedUser.id,
 			 success: function(data)
 				 {
-					 console.log(data);
-					 //TODO handle response
+				     if(data.status === 1){
+				         //TODO handle response positive response
+				     }else{
+				         alert(data.errorMessage);
+				     }
 					 $("#deleteModal").modal('hide')
 				 }
 		   });
@@ -201,8 +207,11 @@ new Vue({
 			 data: $("#createForm").serialize(),
 			 success: function(data)
 			 {
-				 console.log(data);
-				 //TODO handle response
+				 if(data.status === 1){
+					 //TODO handle response positive response
+				 }else{
+					 alert(data.errorMessage);
+				 }
 				 $("#createModal").modal('hide')
 			 }
 		 });

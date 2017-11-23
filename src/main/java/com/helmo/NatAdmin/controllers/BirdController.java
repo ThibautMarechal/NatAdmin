@@ -2,17 +2,19 @@ package com.helmo.NatAdmin.controllers;
 
 import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.services.BirdService;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("birds")
-public class BirdController {
+public class    BirdController {
     private BirdService birdService;
 
     public BirdController() {
@@ -51,5 +53,11 @@ public class BirdController {
         //return "birds/view";
         //}
         return "birds/edit";
+    }
+
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String delete(@PathVariable("id")long id, Model model){
+        return "{\"status\" : 1}";
     }
 }

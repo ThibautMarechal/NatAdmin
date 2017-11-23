@@ -75,8 +75,11 @@ new Vue({
 				 url: "/notifications/accept/"+ this.selectedNotification.id,
 				 success: function(data)
 				 {
-					 console.log(data);
-					 //TODO handle response
+					 if(data.status === 1){
+						 //TODO handle response positive response
+					 }else{
+						 alert(data.errorMessage);
+					 }
 				 }
 			 });
 		},
@@ -86,8 +89,11 @@ new Vue({
 				 url: "/notifications/refuse/"+ this.selectedNotification.id,
 				 success: function(data)
 				 {
-					 console.log(data);
-					 //TODO handle response
+				     if(data.status === 1){
+						 //TODO handle response positive response
+					 }else{
+						 alert(data.errorMessage);
+					 }
 				 }
 			 });
 		}
