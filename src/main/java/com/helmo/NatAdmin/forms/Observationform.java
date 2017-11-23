@@ -12,7 +12,7 @@ public class Observationform
     @NotNull
     @Min(0)
     private int heigth;
-    
+
     public int getBirdNumber()
     {
         return birdNumber;
