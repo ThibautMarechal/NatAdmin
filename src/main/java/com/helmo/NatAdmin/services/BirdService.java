@@ -9,21 +9,22 @@ import java.util.List;
 public class BirdService implements ICrudService<Bird> {
     @Override
     public void create(Bird toCreate) {
-        //TODO
+        //TODO REST CALL
     }
 
     @Override
     public void delete(Bird toDelete) {
-        //TODO
+        //TODO REST CALL
     }
 
     @Override
     public void delete(long idToDelete) {
-        //TODO
+        //TODO REST CALL
     }
 
     @Override
     public List<Bird> getAll() {
+        //TODO REST CALL
         List<Bird> birds = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             birds.add(getById(i));
@@ -33,6 +34,7 @@ public class BirdService implements ICrudService<Bird> {
 
     @Override
     public Bird getById(long id) {
+        //TODO REST CALL
         Bird b = new Bird();
         b.setId(id);
         b.setName("Bird #"+id);
@@ -43,6 +45,6 @@ public class BirdService implements ICrudService<Bird> {
 
     @Override
     public void update(Bird toUpdate) {
-        //TODO
+        //TODO REST CALL
     }
 }

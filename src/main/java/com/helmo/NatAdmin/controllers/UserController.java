@@ -50,6 +50,7 @@ public class UserController
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String delete(@PathVariable("id") Long id){
+        //LOGIC
         return "{\"success\":1}";
     }
 

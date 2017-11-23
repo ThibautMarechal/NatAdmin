@@ -32,9 +32,15 @@ public class NotificationController {
         return "notifications/all";
     }
 
-    @RequestMapping(value = "confirm/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "accept/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String confirm(@PathVariable("id")long id, Model model){
-        return "{form-status: true}";
+    public String accept(@PathVariable("id")long id, Model model){
+        return "{\"success\":1}";
+    }
+
+    @RequestMapping(value = "refuse/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String refuse(@PathVariable("id")long id, Model model){
+        return "{\"success\":1}";
     }
 }

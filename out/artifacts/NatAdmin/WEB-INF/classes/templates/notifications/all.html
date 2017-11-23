@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head th:include="layout :: site-head">
+    <title>Users</title>
+</head>
+<body>
+<header th:include="layout :: site-header" ></header>
+<div class="container-fluid" id="app">
+	<div class="modal fade" tabindex="-1" role="dialog" id="notificationModal" aria-labelledby="editFormModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Notification</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>{{selectedNotification.date}}</p>
+					<p>{{selectedNotification.caption}}</p>
+					<p>{{selectedNotification.description}}</p>
+					<p>{{selectedNotification.status}}</p>
+					<p>{{selectedNotification.observation.mediaPath}}</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="acceptNotification">Accept</button>
+					<button type="button" class="btn btn-error" data-dismiss="modal"  v-on:click="refuseNotification">Refuse</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<table class="table table-hover table-responsive-sm">
+		<caption>List of notifications</caption>
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Date</th>
+				<th scope="col">Caption</th>
+				<th scope="col">Description</th>
+				<th scope="col">Status</th>
+				<th scope="col">...</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="notification in notifications" v-on:click="handleNotification(notification)">
+				<td>{{notification.id}}</td>
+				<td>{{notification.date}}</td>
+				<td>{{notification.caption}}</td>
+				<td>{{notification.description}}</td>
+				<td>{{notification.status}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<footer th:replace="layout :: site-footer" ></footer>
+<script th:replace="layout :: vueJS"></script>
+<div th:replace="layout :: bottom-script"></div>
+<script th:inline="javascript" type="application/javascript">
+/*<![CDATA[*/
+var notifications = /*[[${notifications}]]*/[];
+new Vue({
+	el: '#app',
+	data: {
+		notifications: notifications,
+		selectedNotification: notifications[0]
+	},
+	methods:{
+		handleNotification: function(notification){
+		    this.selectedNotification = notification;
+			$("#notificationModal").modal('show');
+		},
+		acceptNotification: function(){
+		    $.ajax({
+				 type: "GET",
+				 url: "/notifications/accept/"+ this.selectedNotification.id,
+				 success: function(data)
+				 {
+					 console.log(data);
+					 //TODO handle response
+				 }
+			 });
+		},
+		refuseNotification: function(){
+			$.ajax({
+				 type: "GET",
+				 url: "/notifications/refuse/"+ this.selectedNotification.id,
+				 success: function(data)
+				 {
+					 console.log(data);
+					 //TODO handle response
+				 }
+			 });
+		}
+	}
+})
+/*]]>*/
+</script>
+</body>
+</html>

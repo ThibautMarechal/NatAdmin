@@ -10,7 +10,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Delete account</h5>
+					<h5 class="modal-title">Notification</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -20,10 +20,11 @@
 					<p>{{selectedNotification.caption}}</p>
 					<p>{{selectedNotification.description}}</p>
 					<p>{{selectedNotification.status}}</p>
+					<p>{{selectedNotification.observation.mediaPath}}</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-error" v-on:click="acceptNotification">Delete</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="refuseNotification">Cancel</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="acceptNotification">Accept</button>
+					<button type="button" class="btn btn-error" data-dismiss="modal"  v-on:click="refuseNotification">Refuse</button>
 				</div>
 			</div>
 		</div>
@@ -76,7 +77,6 @@ new Vue({
 				 {
 					 console.log(data);
 					 //TODO handle response
-					 $("#notificationModal").modal('hide')
 				 }
 			 });
 		},
@@ -88,7 +88,6 @@ new Vue({
 				 {
 					 console.log(data);
 					 //TODO handle response
-					 $("#notificationModal").modal('hide')
 				 }
 			 });
 		}

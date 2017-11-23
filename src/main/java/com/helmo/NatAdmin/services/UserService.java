@@ -12,6 +12,7 @@ public class UserService implements ICrudService<User>
     @Override
     public List<User> getAll()
     {
+        //TODO REST CALL
         List<User> users = new ArrayList<User>();
         for (int i =1; i <= 10; ++i){
             users.add(getById(i));
@@ -22,6 +23,7 @@ public class UserService implements ICrudService<User>
     @Override
     public User getById(long id)
     {
+        //TODO REST CALL
         User u = new User();
         u.setFullName("fullname #"+id);
         u.setEmail("email #"+id);
@@ -32,23 +34,23 @@ public class UserService implements ICrudService<User>
     @Override
     public void update(User toUpdate)
     {
-        //TODO
+        //TODO REST CALL
     }
 
     @Override
     public void create(User toUpdate)
     {
-        //TODO
+        //TODO REST CALL
     }
 
     @Override
     public void delete(User toUpdate)
     {
-        //TODO
+        //TODO REST CALL
     }
 
     @Override
     public void delete(long idToDelete) {
-        //TODO
+        //TODO REST CALL
     }
 }
