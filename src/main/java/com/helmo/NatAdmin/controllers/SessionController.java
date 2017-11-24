@@ -1,9 +1,11 @@
 package com.helmo.NatAdmin.controllers;
 
+import com.helmo.NatAdmin.forms.SessionForm;
 import com.helmo.NatAdmin.services.SessionService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +34,7 @@ public class SessionController
     }
 
     @RequestMapping(value = "edit/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String edit(Model model, @PathVariable("id")long id){
+    public String edit(Model model, @PathVariable("id")long id, @ModelAttribute SessionForm sessionForm){
         return "{\"status\": 1}";
     }
 
