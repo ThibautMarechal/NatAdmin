@@ -1,14 +1,12 @@
 package com.helmo.NatAdmin.controllers;
 
+import com.helmo.NatAdmin.forms.BirdForm;
 import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.services.BirdService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,21 +41,24 @@ public class    BirdController {
     }
 
     @RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
-    public String updatePOST(@PathVariable("id")long id, Model model)
+    public String updatePOST(@PathVariable("id")long id, Model model, @ModelAttribute BirdForm birdForm)
     {
         Bird bird = birdService.getById(id);
-        //TODO update bird
-        //if(valid){
-        //birdService.update(bird);
-        //model.addAttribute("bird", bird);
-        //return "birds/view";
-        //}
+        /*
+        TODO update bird
+        if(//valid){
+            birdService.update(bird);
+            model.addAttribute("bird", bird);
+            return "birds/view";
+        }
+        */
         return "birds/edit";
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String delete(@PathVariable("id")long id, Model model){
+        birdService.delete(id);
         return "{\"status\" : 1}";
     }
 }
