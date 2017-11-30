@@ -59,28 +59,31 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="fullName">Full Name</label>
-						<input type="text" class="form-control" name="fullName" placeholder="Full Name" v-model="selectedUser.fullName"/>
+						<input type="text" class="form-control" name="fullName" placeholder="Full Name" v-model="fullName"/>
 					</div>
 					<div class="form-group">
 						<label for="email">Email</label>
-						<input type="email" class="form-control" name="email" placeholder="sample@domain.com" v-model="selectedUser.email"/>
+						<input type="email" class="form-control" name="email" placeholder="sample@domain.com" v-model="email"/>
 					</div>
 					<div class="form-group">
 						<label for="admin">Admin</label>
-						<input type="checkbox" class="form-check-input" name="admin" v-model="selectedUser.admin"/>
+						<input type="checkbox" class="form-check-input" name="admin" v-model="admin"/>
 					</div>
 					<div class="form-group">
-						<label for="password">Password</label>
-						<input type="password" class="form-control" name="password"/>
+						<label for="password">New password</label>
+						<input type="password" class="form-control" name="password" v-model="password"/>
 					</div>
 					<div class="form-group">
-						<label for="confirmedPassword">Confirm Password</label>
-						<input type="password" class="form-control" name="confirmedPassword"/>
+						<label for="confirmedPassword">Confirm new password</label>
+						<input type="password" class="form-control" name="confirmedPassword" v-model="passwordConfirmed"/>
 					</div>
 				</div>
+				<div v-if="password !== passwordConfirmed" class="alert alert-danger" role="alert">
+                                      Passwords doesnt match
+                                    </div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" v-on:click="editSubmit">Edit</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
 				</div>
 			</form>
 		</div>
@@ -97,12 +100,12 @@
 			</div>
 			<div class="modal-body">
 				<p>Full Name : {{selectedUser.fullName}}</p>
-				<p>Email: {{selectedUser.fullName}}</p>
+				<p>Email: {{selectedUser.email}}</p>
 				<p>Admin: {{selectedUser.admin}}</p>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-error" v-on:click="deleteSubmit">Delete</button>
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" v-on:click="deleteSubmit">Delete</button>
+				<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
 			</div>
 		</div>
 	</div>
@@ -118,11 +121,11 @@
 				<th scope="col">...</th>
 			</tr>
 			<tr>
-				<td></td>
-				<td><input type="text" v-model="fullNameFilter" placeholder="Full Name filter"/></td>
-				<td><input type="text" v-model="emailFilter" placeholder="Email filter"/></td>
-				<td></td>
-				<td></td>
+				<th></th>
+				<th><input type="text" v-model="fullNameFilter" placeholder="Full Name filter"/></th>
+				<th><input type="text" v-model="emailFilter" placeholder="Email filter"/></th>
+				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -133,8 +136,9 @@
 				<td>{{user.email}}</td>
 				<td>{{user.admin}}</td>
 				<td>
-					<button class="btn" v-on:click="editUser(user)">edit</button>
-					<button class="btn" v-on:click="deleteUser(user)">delete</button>
+					<a class="btn btn-primary" :href="'/users/' + user.id">view</a>
+					<button class="btn btn-primary" v-on:click="editUser(user)">edit</button>
+					<button class="btn btn-primary" v-on:click="deleteUser(user)">delete</button>
 				</td>
 			</tr>
 		</tbody>
@@ -152,7 +156,12 @@ new Vue({
     users: users,
     selectedUser: users[0],
     fullNameFilter: "",
-    emailFilter: ""
+    emailFilter: "",
+    password: "",
+	passwordConfirmed: "",
+	fullName: "",
+	email: "",
+	admin: false,
   },
   methods:{
       filter: function(user){
@@ -160,6 +169,9 @@ new Vue({
       },
       editUser: function(user){
           this.selectedUser = user;
+          this.fullName = user.fullName;
+          this.email = user.email;
+          this.admin = user.admin;
           $("#editModal").modal('show')
       },
       deleteUser: function(user){
@@ -170,15 +182,20 @@ new Vue({
           $("#createModal").modal('show')
       },
       editSubmit: function(){
+          var self = this;
           $.ajax({
 			 type: "POST",
-			 url: "/users/edit/"+ this.selectedUser.id,
+			 url: "/users/edit/"+ self.selectedUser.id,
 			 data: $("#editForm").serialize(),
 			 success: function(data)
 			 {
-			      if(data.status === 1){
-					 //TODO handle response positive response
+			     if(data.status === 1){
+			        console.log(self.selectedUser.fullName, self.fullName);
+					self.selectedUser.fullName = self.fullName;
+					self.selectedUser.email = self.email;
+					self.selectedUser.admin = self.admin;
 				 }else{
+			         console.log(data);
 					 alert(data.errorMessage);
 				 }
 				 $("#editModal").modal('hide')
@@ -186,14 +203,19 @@ new Vue({
 		   });
       },
       deleteSubmit: function(){
+          var self = this;
           $.ajax({
 			 type: "GET",
-			 url: "/users/delete/"+ this.selectedUser.id,
+			 url: "/users/delete/"+ self.selectedUser.id,
 			 success: function(data)
 				 {
 				     if(data.status === 1){
-				         //TODO handle response positive response
+				         var index = self.users.indexOf(self.selectedUser);
+							if (index > -1) {
+								self.users.splice(index, 1);
+							}
 				     }else{
+				         console.log(data);
 				         alert(data.errorMessage);
 				     }
 					 $("#deleteModal").modal('hide')
@@ -201,6 +223,7 @@ new Vue({
 		   });
       },
       createSubmit: function(){
+          var self = this;
           $.ajax({
 			 type: "POST",
 			 url: "/users/create",
@@ -210,6 +233,7 @@ new Vue({
 				 if(data.status === 1){
 					 //TODO handle response positive response
 				 }else{
+				     console.log(data);
 					 alert(data.errorMessage);
 				 }
 				 $("#createModal").modal('hide')

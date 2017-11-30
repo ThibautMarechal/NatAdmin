@@ -31,7 +31,7 @@ public class NotificationService implements IReadService<Notification> {
 //        o.setDateTime(Date.from(Instant.now()));
 //        o.setDateTime(new Timestamp(new Date().getTime()));
         o.setBird(new BirdService().getById(42));
-//        o.setOnlinePath("mon super chemin");
+        o.setMediaPath("http://thibautmarechal.be/natagora/QuentinGriGri.jpg");
         n.setObservation(o);
         return n;
     }

@@ -35,12 +35,12 @@ public class NotificationController {
     @RequestMapping(value = "accept/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String accept(@PathVariable("id")long id, Model model){
-        return "{\"success\":1}";
+        return "{\"status\":1}";
     }
 
     @RequestMapping(value = "refuse/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String refuse(@PathVariable("id")long id, Model model){
-        return "{\"success\":1}";
+        return "{\"status\":1}";
     }
 }

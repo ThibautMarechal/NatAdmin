@@ -70,28 +70,32 @@ new Vue({
 			$("#notificationModal").modal('show');
 		},
 		acceptNotification: function(){
+		    var self = this;
 		    $.ajax({
 				 type: "GET",
-				 url: "/notifications/accept/"+ this.selectedNotification.id,
+				 url: "/notifications/accept/"+ self.selectedNotification.id,
 				 success: function(data)
 				 {
 					 if(data.status === 1){
-						 //TODO handle response positive response
+						 self.selectedNotification.status = true;
 					 }else{
+					     console.log(data);
 						 alert(data.errorMessage);
 					 }
 				 }
 			 });
 		},
 		refuseNotification: function(){
+		    var self = this;
 			$.ajax({
 				 type: "GET",
 				 url: "/notifications/refuse/"+ this.selectedNotification.id,
 				 success: function(data)
 				 {
 				     if(data.status === 1){
-						 //TODO handle response positive response
+						 self.selectedNotification.status = false;
 					 }else{
+				         console.log(data);
 						 alert(data.errorMessage);
 					 }
 				 }

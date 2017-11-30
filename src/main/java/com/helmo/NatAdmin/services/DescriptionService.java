@@ -7,9 +7,10 @@ import java.util.List;
 
 public class DescriptionService implements ICrudService<Description> {
     @Override
-    public void create(Description toCreate)
+    public long create(Description toCreate)
     {
         //TODO
+        return 1;
     }
 
     @Override
