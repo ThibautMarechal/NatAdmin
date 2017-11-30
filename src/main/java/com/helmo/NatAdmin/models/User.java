@@ -12,9 +12,9 @@ import java.util.List;
 @Getter @Setter
 public class User extends IdentifiedModel {
 	private String fullName;
-	private String email;
+	private String Email;
 	private boolean isAdmin;
-	private String onlinePath;
+	private String profilePictureUrl;
 	
 	private List<Role> roles;
 	private List<Session> sessions;

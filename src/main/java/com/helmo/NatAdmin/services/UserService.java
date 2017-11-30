@@ -1,6 +1,7 @@
 package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.User;
+import com.helmo.NatAdmin.security.RestTemplateFactory;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -18,8 +19,8 @@ public class UserService implements ICrudService<User> {
 	private final Environment env;
 	
 	
-	public UserService(RestTemplate template, Environment env) {
-		restTemplate = template;
+	public UserService(RestTemplateFactory template, Environment env) {
+		restTemplate = template.getObject();
 		this.env = env;
 	}
 	

@@ -3,7 +3,7 @@ package com.helmo.NatAdmin.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -11,19 +11,20 @@ import java.util.List;
 public class Session extends IdentifiedModel {
 	private User user;
 	private String name;
-	private Timestamp dateStart;
-	private Timestamp dateEnd;
+	private Date start;
+	private Date end;
 	private String latitude;
 	private String longitude;
 	private List<Observation> observations;
+	private String location;
 	
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
-//		this.location = String.format("%s - %s", longitude, latitude);
+		this.location = String.format("%s - %s", longitude, latitude);
 	}
 	
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
-//		this.location = String.format("%s - %s", longitude, latitude);
+		this.location = String.format("%s - %s", longitude, latitude);
 	}
 }

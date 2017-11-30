@@ -2,16 +2,10 @@ package com.helmo.NatAdmin.reception;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 public abstract class MongoIdentifiedModel {
 	
-	@Id
 	@Getter @Setter
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	@Override

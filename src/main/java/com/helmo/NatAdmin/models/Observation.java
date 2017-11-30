@@ -3,18 +3,18 @@ package com.helmo.NatAdmin.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
 public class Observation extends IdentifiedModel {
-	private Timestamp dateTime;
+	private Date date;
 	private String latitude;
 	private String longitude;
-	private int nbrObs;
-	private boolean validation;
+	private int numberOfBird;
+	private boolean isValid;
 	private Bird bird;
-	private MediaType mediaType;
-	private String onlinePath;
+	private String mediaType;
+	private String mediaPath;
 	
 }

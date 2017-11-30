@@ -1,9 +1,6 @@
 package com.helmo.NatAdmin.services;
 
-import com.helmo.NatAdmin.models.MediaType;
-import com.helmo.NatAdmin.models.Observation;
 import com.helmo.NatAdmin.models.Session;
-import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -11,10 +8,7 @@ import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Service
