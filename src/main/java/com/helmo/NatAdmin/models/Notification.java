@@ -1,8 +1,12 @@
 package com.helmo.NatAdmin.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
-public class Notification extends Identifiable
+@Getter @Setter
+public class Notification extends IdentifiedModel
 {
     private String caption;
     private String description;

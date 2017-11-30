@@ -38,7 +38,6 @@ public class BirdService implements ICrudService<Bird> {
 	public Bird getById(long id) {
 		//TODO REST CALL
 		Bird b = new Bird();
-		b.setId(id);
 		b.setName("Bird #" + id);
 		b.setDescription("Bird Description #" + id);
 		b.setAverageHeigth((int) id);
