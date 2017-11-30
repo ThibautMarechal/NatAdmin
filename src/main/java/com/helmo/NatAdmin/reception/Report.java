@@ -12,9 +12,9 @@ public class Report extends IdentifiedModel {
 	
 	private Timestamp date;
 	
-	private User user;
+	private RUser RUser;
 	
-	private Observation observation;
+	private RObservation RObservation;
 	
 	public Report() {}
 }

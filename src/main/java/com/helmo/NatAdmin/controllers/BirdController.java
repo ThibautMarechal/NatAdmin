@@ -49,7 +49,7 @@ public class BirdController {
         TODO update bird
         if(//valid){
             birdService.update(bird);
-            model.addAttribute("bird", bird);
+            model.addAttribute("bird", RBird);
             return "birds/view";
         }
         */

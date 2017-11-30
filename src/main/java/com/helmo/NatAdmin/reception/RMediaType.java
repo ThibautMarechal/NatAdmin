@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class MediaType extends IdentifiedModel {
+public class RMediaType extends IdentifiedModel {
 
 	private String name;
 	
-	public MediaType() {}
+	public RMediaType() {}
 }

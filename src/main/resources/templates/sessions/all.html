@@ -44,7 +44,7 @@
 				<td></td>
 				<td><input type="text" v-model="dateFilter" placeholder="Date filter"/></td>
 				<td><input type="text" v-model="locationFilter" placeholder="Location filter"/></td>
-				<td><input type="text" v-model="userFilter" placeholder="user filter"/></td>
+				<td><input type="text" v-model="userFilter" placeholder="RUser filter"/></td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -55,7 +55,7 @@
 				<td scope="row">{{session.id}}</td>
 				<td>{{session.dateStart}}</td>
 				<td>{{session.location}}</td>
-				<td>{{session.user.fullName}}</td>
+				<td>{{session.RUser.fullName}}</td>
 				<td>{{observationSize(session)}}</td>
 				<td>
 					<a class="btn btn-primary" :href="'/sessions/' +session.id">view</a>

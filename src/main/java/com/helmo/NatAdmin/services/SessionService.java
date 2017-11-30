@@ -24,8 +24,9 @@ public class SessionService implements ICrudService<Session> {
 	}
 	
 	@Override
-	public void create(Session toCreate) {
+	public long create(Session toCreate) {
 		//TODO
+		return 1;
 	}
 	
 	@Override
@@ -58,7 +59,7 @@ public class SessionService implements ICrudService<Session> {
 //		s.setLatitude("Latitude #" + id);
 //		s.setLongitude("Longitude #" + id);
 //		s.setName("Name #" + id);
-////        s.setUser();
+////        s.setRUser();
 //		List<Observation> obs = new ArrayList<>();
 //		for (int i = 0; i < 10; i++) {
 //			MediaType mt = new MediaType();

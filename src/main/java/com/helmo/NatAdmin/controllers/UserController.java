@@ -37,7 +37,7 @@ public class UserController
     @RequestMapping(value = "edit/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String edit(@PathVariable("id") Long id, Model model, @ModelAttribute UserForm userForm){
-        //TODO Validate user input
+        //TODO Validate RUser input
         User user = userService.getById(id);
         user.setFullName(userForm.getFullName());
         user.setEmail(userForm.getEmail());
@@ -56,7 +56,7 @@ public class UserController
     @RequestMapping(value = "create", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String create(Model model, @ModelAttribute UserForm userForm){
-        //TODO Validate user input
+        //TODO Validate RUser input
         User user = new User();
         user.setFullName(userForm.getFullName());
         user.setEmail(userForm.getEmail());

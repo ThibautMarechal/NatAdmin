@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.sql.Timestamp;
 
 @Getter @Setter
-public class Notification extends IdentifiedModel {
+public class RNotification extends IdentifiedModel {
 
 	private String caption;
 	
@@ -16,7 +16,7 @@ public class Notification extends IdentifiedModel {
 	
 	private boolean status;
 	
-	private Observation observation;
+	private RObservation RObservation;
 	
-	public Notification() {}
+	public RNotification() {}
 }

@@ -6,15 +6,15 @@ import lombok.Setter;
 import java.sql.Timestamp;
 
 @Getter @Setter
-public class Comment extends IdentifiedModel {
+public class RComment extends IdentifiedModel {
 
 	private String commentary;
 	
 	private Timestamp date;
 	
-	private User user;
+	private RUser RUser;
 	
-	private Observation observation;
+	private RObservation RObservation;
 	
-	public Comment() {}
+	public RComment() {}
 }

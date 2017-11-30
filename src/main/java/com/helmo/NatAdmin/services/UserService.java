@@ -1,7 +1,7 @@
 package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.User;
-import com.helmo.NatAdmin.security.RestTemplateFactory;
+import com.helmo.NatAdmin.reception.RUser;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -9,6 +9,7 @@ import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,10 +30,15 @@ public class UserService implements ICrudService<User> {
 		restTemplate.getInterceptors().add(
 			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
 		);
-		return Arrays.asList(restTemplate.exchange(
+		List<RUser> rUsers =  Arrays.asList(restTemplate.exchange(
 			  env.getProperty("rest.url") + "/users",
-			  HttpMethod.GET, null, User[].class
+			  HttpMethod.GET, null, RUser[].class
 		).getBody());
+		
+		List<User> rtn = new ArrayList<>();
+		for(RUser item : rUsers)
+			rtn.add(item.getModel());
+		return rtn;
 	}
 	
 	@Override
@@ -40,10 +46,12 @@ public class UserService implements ICrudService<User> {
 		restTemplate.getInterceptors().add(
 			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
 		);
-		return restTemplate.exchange(
+		RUser rUser = restTemplate.exchange(
 			  env.getProperty("rest.url") + "/users/" + id,
-			  HttpMethod.GET, null, User.class
+			  HttpMethod.GET, null, RUser.class
 		).getBody();
+		
+		return rUser.getModel();
 	}
 	
 	@Override
@@ -52,8 +60,9 @@ public class UserService implements ICrudService<User> {
 	}
 	
 	@Override
-	public void create(User toUpdate) {
+	public long create(User toUpdate) {
 		//TODO REST CALL
+		return 1;
 	}
 	
 	@Override

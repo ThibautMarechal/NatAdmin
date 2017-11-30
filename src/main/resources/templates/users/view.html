@@ -59,9 +59,9 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>Full Name : {{user.fullName}}</p>
-				<p>Email: {{user.email}}</p>
-				<p>Admin: {{user.admin}}</p>
+				<p>Full Name : {{RUser.fullName}}</p>
+				<p>Email: {{RUser.email}}</p>
+				<p>Admin: {{RUser.admin}}</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger" v-on:click="deleteSubmit">Delete</button>
@@ -70,9 +70,9 @@
 		</div>
 	</div>
 </div>
-	<img :src="user.profilePictureUrl"/>
-	<h2>{{user.fullName}}</h2>
-	<h2>{{user.email}}</h2>
+	<img :src="RUser.profilePictureUrl"/>
+	<h2>{{RUser.fullName}}</h2>
+	<h2>{{RUser.email}}</h2>
 	<button type="button" class="btn btn-primary" v-on:click="editUser">Edit</button>
 	<button type="button" class="btn btn-warning" v-on:click="deleteUser">Delete</button>
 	<table class="table table-hover table-responsive-sm">
@@ -85,10 +85,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="session in user.sessions">
+			<tr v-for="session in RUser.sessions">
 				<td>{{session.location}}</td>
 				<td>{{session.informations}}</td>
-				<td><a :href="'/sessions/' + user.session.id">view</a></td>
+				<td><a :href="'/sessions/' + RUser.session.id">view</a></td>
 			</tr>
 		</tbody>
 	</table>
@@ -98,7 +98,7 @@
 <div th:replace="layout :: bottom-script"></div>
 <script th:inline="javascript" type="application/javascript">
 /*<![CDATA[*/
-var user = /*[[${user}]]*/;
+var RUser = /*[[${RUser}]]*/;
 new Vue({
 	el: '#app',
 	data: {

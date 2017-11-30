@@ -1,10 +1,11 @@
 package com.helmo.NatAdmin.models;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public abstract class IdentifiedModel {
     
-    @Getter
+    @Getter @Setter
     private long id;
     
     @Override
