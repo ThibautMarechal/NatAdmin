@@ -19,8 +19,8 @@ public class UserService implements ICrudService<User> {
 	private final Environment env;
 	
 	
-	public UserService(RestTemplateFactory template, Environment env) {
-		restTemplate = template.getObject();
+	public UserService(RestTemplate template, Environment env) {
+		restTemplate = template;
 		this.env = env;
 	}
 	
