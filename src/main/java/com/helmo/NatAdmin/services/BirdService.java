@@ -2,6 +2,7 @@ package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class BirdService implements ICrudService<Bird> {
 		for (int i = 0; i < 10; i++) {
 			birds.add(getById(i));
 		}
+		
 		return birds;
 	}
 	
@@ -36,7 +38,6 @@ public class BirdService implements ICrudService<Bird> {
 	public Bird getById(long id) {
 		//TODO REST CALL
 		Bird b = new Bird();
-		b.setId(id);
 		b.setName("Bird #" + id);
 		b.setDescription("Bird Description #" + id);
 		b.setAverageHeigth((int) id);

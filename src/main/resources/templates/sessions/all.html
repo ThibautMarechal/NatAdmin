@@ -31,7 +31,7 @@
 
 			<tr v-for="session in sessions" v-if="filter(session)">
 				<td scope="row">{{session.id}}</td>
-				<td>{{session.start}}</td>
+				<td>{{session.dateStart}}</td>
 				<td>{{session.location}}</td>
 				<td>{{session.user.fullName}}</td>
 				<td>{{observationSize(session)}}</td>

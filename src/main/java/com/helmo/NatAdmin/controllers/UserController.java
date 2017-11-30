@@ -14,11 +14,10 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController
 {
-    private UserService userService;
+    private final UserService userService;
 
-    public UserController()
-    {
-        this.userService = new UserService();
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)

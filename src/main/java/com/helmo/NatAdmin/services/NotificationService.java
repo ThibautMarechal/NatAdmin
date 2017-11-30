@@ -4,6 +4,7 @@ import com.helmo.NatAdmin.models.Notification;
 import com.helmo.NatAdmin.models.Observation;
 import com.helmo.NatAdmin.services.crudServices.IReadService;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,16 +24,15 @@ public class NotificationService implements IReadService<Notification> {
     public Notification getById(long id) {
         //TODO REST CALL
         Notification n = new Notification();
-        n.setId(id);
         n.setCaption("Caption #" + id);
         n.setDescription("Description #"+ id);
         n.setDate(Date.from(Instant.now()));
         n.setStatus(false);
         Observation o = new Observation();
-        o.setId(42);
-        o.setDate(Date.from(Instant.now()));
+//        o.setDateTime(Date.from(Instant.now()));
+        o.setDateTime(new Timestamp(new Date().getTime()));
         o.setBird(new BirdService().getById(42));
-        o.setMediaPath("mon super chemin");
+        o.setOnlinePath("mon super chemin");
         n.setObservation(o);
         return n;
     }

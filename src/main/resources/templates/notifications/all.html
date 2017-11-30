@@ -16,11 +16,11 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>{{selectedNotification.date}}</p>
+					<p>{{selectedNotification.dateTime}}</p>
 					<p>{{selectedNotification.caption}}</p>
 					<p>{{selectedNotification.description}}</p>
 					<p>{{selectedNotification.status}}</p>
-					<p>{{selectedNotification.observation.mediaPath}}</p>
+					<p>{{selectedNotification.observation.onlinePath}}</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="acceptNotification">Accept</button>
@@ -44,7 +44,7 @@
 		<tbody>
 			<tr v-for="notification in notifications" v-on:click="handleNotification(notification)">
 				<td>{{notification.id}}</td>
-				<td>{{notification.date}}</td>
+				<td>{{notification.dateTime}}</td>
 				<td>{{notification.caption}}</td>
 				<td>{{notification.description}}</td>
 				<td>{{notification.status}}</td>

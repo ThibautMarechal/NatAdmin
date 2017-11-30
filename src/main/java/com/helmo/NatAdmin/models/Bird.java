@@ -1,6 +1,6 @@
 package com.helmo.NatAdmin.models;
 
-public class Bird  extends Identifiable{
+public class Bird  extends IdentifiedModel {
     private String name;
     private int averageHeigth;
     private String description;

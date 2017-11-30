@@ -2645,8 +2645,8 @@ function mountComponent (
     updateComponent = function () {
       var name = vm._name;
       var id = vm._uid;
-      var startTag = "vue-perf-start:" + id;
-      var endTag = "vue-perf-end:" + id;
+      var startTag = "vue-perf-dateStart:" + id;
+      var endTag = "vue-perf-dateEnd:" + id;
 
       mark(startTag);
       var vnode = vm._render();
@@ -3421,7 +3421,7 @@ function initMethods (vm, methods) {
       if ((key in vm) && isReserved(key)) {
         warn(
           "Method \"" + key + "\" conflicts with an existing Vue instance method. " +
-          "Avoid defining component methods that start with _ or $."
+          "Avoid defining component methods that dateStart with _ or $."
         );
       }
     }
@@ -4400,8 +4400,8 @@ function initMixin (Vue) {
     var startTag, endTag;
     /* istanbul ignore if */
     if ("development" !== 'production' && config.performance && mark) {
-      startTag = "vue-perf-start:" + (vm._uid);
-      endTag = "vue-perf-end:" + (vm._uid);
+      startTag = "vue-perf-dateStart:" + (vm._uid);
+      endTag = "vue-perf-dateEnd:" + (vm._uid);
       mark(startTag);
     }
 
@@ -4597,7 +4597,7 @@ function initExtend (Vue) {
         warn(
           'Invalid component name: "' + name + '". Component names ' +
           'can only contain alphanumeric characters and the hyphen, ' +
-          'and must start with a letter.'
+          'and must dateStart with a letter.'
         );
       }
     }
@@ -5901,7 +5901,7 @@ function createPatchFunction (backend) {
               // e.g. for directives that uses the "inserted" hook.
               var insert = ancestor.data.hook.insert;
               if (insert.merged) {
-                // start at index 1 to avoid re-invoking component mounted hook
+                // dateStart at index 1 to avoid re-invoking component mounted hook
                 for (var i$2 = 1; i$2 < insert.fns.length; i$2++) {
                   insert.fns[i$2]();
                 }
@@ -6194,7 +6194,7 @@ function parseFilters (exp) {
       !curly && !square && !paren
     ) {
       if (expression === undefined) {
-        // first filter, end of expression
+        // first filter, dateEnd of expression
         lastFilterIndex = i + 1;
         expression = exp.slice(0, i).trim();
       } else {
@@ -7384,7 +7384,7 @@ function enter (vnode, toggleDisplay) {
     });
   }
 
-  // start enter transition
+  // dateStart enter transition
   beforeEnterHook && beforeEnterHook(el);
   if (expectsCSS) {
     addTransitionClass(el, startClass);
@@ -8549,7 +8549,7 @@ function parseHTML (html, options) {
     if (html === last) {
       options.chars && options.chars(html);
       if ("development" !== 'production' && !stack.length && options.warn) {
-        options.warn(("Mal-formatted tag at end of template: \"" + html + "\""));
+        options.warn(("Mal-formatted tag at dateEnd of template: \"" + html + "\""));
       }
       break
     }
@@ -8660,7 +8660,7 @@ function parseHTML (html, options) {
           options.warn
         ) {
           options.warn(
-            ("tag <" + (stack[i].tag) + "> has no matching end tag.")
+            ("tag <" + (stack[i].tag) + "> has no matching dateEnd tag.")
           );
         }
         if (options.end) {
@@ -10488,8 +10488,8 @@ Vue$3.prototype.$mount = function (
 
       /* istanbul ignore if */
       if ("development" !== 'production' && config.performance && mark) {
-        mark('compile end');
-        measure(("vue " + (this._name) + " compile"), 'compile', 'compile end');
+        mark('compile dateEnd');
+        measure(("vue " + (this._name) + " compile"), 'compile', 'compile dateEnd');
       }
     }
   }
