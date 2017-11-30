@@ -8,11 +8,9 @@ import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 import java.net.URI;
-import java.util.List;
 
 public class HttpComponentsClientHttpRequestFactoryBasicAuth
 	extends HttpComponentsClientHttpRequestFactory {

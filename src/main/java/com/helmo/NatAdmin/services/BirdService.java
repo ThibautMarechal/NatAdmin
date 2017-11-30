@@ -2,7 +2,6 @@ package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;

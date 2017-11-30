@@ -8,7 +8,7 @@ import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -25,37 +25,24 @@ public class UserService implements ICrudService<User> {
 	
 	@Override
 	public List<User> getAll() {
-		//TODO REST CALL
-		List<User> users = new ArrayList<User>();
-		for (int i = 1; i <= 10; ++i) {
-			users.add(getById(i));
-		}
-//		final String uri = "http://192.168.128.13:8081/GRIMAR%2D1.0/users";
-//
-//		RestTemplate restTemplate = new RestTemplate();
-//		String result = restTemplate.getForObject(uri, String.class);
-//		System.out.print(result);
-		
 		restTemplate.getInterceptors().add(
-				new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
+			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
 		);
-		
-		restTemplate.exchange(
-				env.getProperty("rest.url") + "/notifications/7",
-				HttpMethod.GET, null, User.class
-		);
-		
-		return users;
+		return Arrays.asList(restTemplate.exchange(
+			  env.getProperty("rest.url") + "/users",
+			  HttpMethod.GET, null, User[].class
+		).getBody());
 	}
 	
 	@Override
 	public User getById(long id) {
-		//TODO REST CALL
-		User u = new User();
-		u.setFullName("fullname #" + id);
-		u.setEmail("email #" + id);
-//		u.setId(id);
-		return u;
+		restTemplate.getInterceptors().add(
+			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
+		);
+		return restTemplate.exchange(
+			  env.getProperty("rest.url") + "/users/" + id,
+			  HttpMethod.GET, null, User.class
+		).getBody();
 	}
 	
 	@Override
