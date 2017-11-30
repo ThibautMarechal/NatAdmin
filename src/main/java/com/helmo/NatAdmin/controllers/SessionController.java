@@ -5,10 +5,7 @@ import com.helmo.NatAdmin.services.SessionService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("sessions")
@@ -34,11 +31,13 @@ public class SessionController
     }
 
     @RequestMapping(value = "edit/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public String edit(Model model, @PathVariable("id")long id, @ModelAttribute SessionForm sessionForm){
         return "{\"status\": 1}";
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public String delete(Model model, @PathVariable("id")long id){
         return "{\"status\": 1}";
     }

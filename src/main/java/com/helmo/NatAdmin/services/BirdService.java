@@ -8,8 +8,9 @@ import java.util.List;
 
 public class BirdService implements ICrudService<Bird> {
     @Override
-    public void create(Bird toCreate) {
+    public long create(Bird toCreate) {
         //TODO REST CALL
+        return 1;
     }
 
     @Override

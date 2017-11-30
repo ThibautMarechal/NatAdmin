@@ -35,7 +35,7 @@ public class UserController
         return "users/view";
     }
 
-    @RequestMapping(value = "edit/{id}", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String edit(@PathVariable("id") Long id, Model model, @ModelAttribute UserForm userForm){
         //TODO Validate user input
@@ -44,14 +44,14 @@ public class UserController
         user.setEmail(userForm.getEmail());
         user.setAdmin(userForm.isAdmin());
         userService.update(user);
-        return "{\"success\":1}";
+        return "{\"status\":1}";
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String delete(@PathVariable("id") Long id){
         //LOGIC
-        return "{\"success\":1}";
+        return "{\"status\":1}";
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
@@ -62,7 +62,7 @@ public class UserController
         user.setFullName(userForm.getFullName());
         user.setEmail(userForm.getEmail());
         user.setAdmin(userForm.isAdmin());
-        userService.update(user);
-        return "{\"success\":1}";
+        long id = userService.create(user);
+        return String.format("{\"status\":1,\"newId\":%d}", id);
     }
 }

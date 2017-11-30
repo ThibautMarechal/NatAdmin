@@ -14,12 +14,10 @@ public class UserForm
     private String email;
     @NotNull
     private boolean isAdmin;
-    @NotNull
     @Size(min=8, max=50)
     private String password;
-    @NotNull
     @Size(min=8, max=50)
-    private String confirmedPassword;
+    private String passwordConfirmed;
 
     public String getFullName()
     {
@@ -52,14 +50,14 @@ public class UserForm
         this.password = password;
     }
 
-    public String getConfirmpassword()
+    public String getPasswordConfirmed()
     {
-        return confirmedPassword;
+        return passwordConfirmed;
     }
 
-    public void setConfirmpassword(String confirmpassword)
+    public void setPasswordConfirmed(String passwordConfirmed)
     {
-        this.confirmedPassword = confirmpassword;
+        this.passwordConfirmed = passwordConfirmed;
     }
 
     public boolean isAdmin()

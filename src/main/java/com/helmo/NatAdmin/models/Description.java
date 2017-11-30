@@ -1,5 +1,5 @@
 package com.helmo.NatAdmin.models;
 
-public class Description
+public class Description extends Identifiable
 {
 }

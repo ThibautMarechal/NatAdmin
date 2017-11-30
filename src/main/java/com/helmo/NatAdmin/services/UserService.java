@@ -28,6 +28,7 @@ public class UserService implements ICrudService<User>
         u.setFullName("fullname #"+id);
         u.setEmail("email #"+id);
         u.setId(id);
+        u.setProfilePictureUrl("http://thibautmarechal.be/natagora/QuentinGriGri.jpg");
         return u;
     }
 
@@ -38,9 +39,10 @@ public class UserService implements ICrudService<User>
     }
 
     @Override
-    public void create(User toUpdate)
+    public long create(User toUpdate)
     {
         //TODO REST CALL
+        return 1;
     }
 
     @Override

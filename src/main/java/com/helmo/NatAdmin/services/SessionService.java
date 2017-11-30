@@ -12,9 +12,10 @@ import java.util.List;
 public class SessionService implements ICrudService<Session>
 {
     @Override
-    public void create(Session toCreate)
+    public long create(Session toCreate)
     {
         //TODO
+        return 1;
     }
 
     @Override

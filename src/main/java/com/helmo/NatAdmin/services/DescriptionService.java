@@ -5,12 +5,13 @@ import com.helmo.NatAdmin.services.crudServices.ICrudService;
 
 import java.util.List;
 
-public class DescriptionService extends ICrudService<Description>
+public class DescriptionService implements ICrudService<Description>
 {
     @Override
-    public void create(Description toCreate)
+    public long create(Description toCreate)
     {
         //TODO
+        return 1;
     }
 
     @Override
