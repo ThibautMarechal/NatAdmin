@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("birds")
-public class    BirdController {
+public class BirdController {
     private BirdService birdService;
 
     public BirdController() {
@@ -27,6 +27,7 @@ public class    BirdController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
+//    @GetMapping("/{id}") //Another way to do it
     public String view(@PathVariable("id")long id, Model model){
         Bird bird = birdService.getById(id);
         model.addAttribute("bird", bird);
