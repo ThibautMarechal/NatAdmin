@@ -3,14 +3,32 @@ package com.helmo.NatAdmin.services;
 import com.helmo.NatAdmin.models.MediaType;
 import com.helmo.NatAdmin.models.Observation;
 import com.helmo.NatAdmin.models.Session;
+import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.client.support.BasicAuthorizationInterceptor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class SessionService implements ICrudService<Session> {
+	
+	private final RestTemplate restTemplate;
+	private final Environment env;
+	
+	
+	public SessionService(RestTemplate template, Environment env) {
+		restTemplate = template;
+		this.env = env;
+	}
+	
 	@Override
 	public void create(Session toCreate) {
 		//TODO
@@ -28,11 +46,13 @@ public class SessionService implements ICrudService<Session> {
 	
 	@Override
 	public List<Session> getAll() {
-		List<Session> sessions = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
-			sessions.add(getById(i));
-		}
-		return sessions;
+		restTemplate.getInterceptors().add(
+			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
+		);
+		return Arrays.asList(restTemplate.exchange(
+			  env.getProperty("rest.url") + "/sessions",
+			  HttpMethod.GET, null, Session[].class
+		).getBody());
 	}
 	
 	@Override
