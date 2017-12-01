@@ -11,7 +11,8 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class RObservation extends IdentifiedModel {
+public class RObservation extends IdentifiedModel
+		implements ReceptionObject<Observation> {
 	
 	private String latitude;
 	
@@ -43,6 +44,7 @@ public class RObservation extends IdentifiedModel {
 	public RObservation() {
 	}
 	
+	@Override
 	public Observation getModel() {
 		Observation rtn = new Observation();
 		rtn.setLatitude(this.latitude);

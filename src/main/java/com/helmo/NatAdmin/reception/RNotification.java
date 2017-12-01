@@ -1,13 +1,17 @@
 package com.helmo.NatAdmin.reception;
 
+import com.helmo.NatAdmin.models.Notification;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.naming.NoInitialContextException;
 import java.sql.Timestamp;
 
-@Getter @Setter
-public class RNotification extends IdentifiedModel {
-
+@Getter
+@Setter
+public class RNotification extends IdentifiedModel
+		implements ReceptionObject<Notification> {
+	
 	private String caption;
 	
 	private String description;
@@ -16,7 +20,20 @@ public class RNotification extends IdentifiedModel {
 	
 	private boolean status;
 	
-	private RObservation RObservation;
+	private RObservation rObservation;
 	
-	public RNotification() {}
+	public RNotification() {
+	}
+	
+	@Override
+	public Notification getModel() {
+		Notification rtn = new Notification();
+		rtn.setId(this.getId());
+		rtn.setCaption(this.caption);
+		rtn.setDescription(this.description);
+		rtn.setDate(this.date);
+		rtn.setStatus(this.status);
+		rtn.setObservation(this.rObservation.getModel());
+		return rtn;
+	}
 }

@@ -14,7 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-public class RUser extends IdentifiedModel {
+public class RUser extends IdentifiedModel
+		implements ReceptionObject<User> {
 	
 	@NotEmpty
 	private String fullName;
@@ -46,6 +47,7 @@ public class RUser extends IdentifiedModel {
 		this.rRoles = rRoles;
 	}
 	
+	@Override
 	public User getModel() {
 		User output = new User();
 		output.setId(this.getId());
@@ -68,7 +70,7 @@ public class RUser extends IdentifiedModel {
 	public List<Session> getSessions() {
 		List<Session> output = new ArrayList<>();
 		for (RSession item : rSessions)
-			output.add(item.getSession());
+			output.add(item.getModel());
 		return output;
 	}
 }

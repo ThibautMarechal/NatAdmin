@@ -1,6 +1,6 @@
 package com.helmo.NatAdmin.reception;
 
-import com.helmo.NatAdmin.models.Comment;
+import com.helmo.NatAdmin.models.Report;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +8,7 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class RComment extends IdentifiedModel
-		implements ReceptionObject<Comment> {
+public class RReport extends IdentifiedModel implements ReceptionObject<Report> {
 	
 	private String commentary;
 	
@@ -19,12 +18,13 @@ public class RComment extends IdentifiedModel
 	
 	private RObservation rObservation;
 	
-	public RComment() {
+	public RReport() {
 	}
 	
 	@Override
-	public Comment getModel() {
-		Comment rtn = new Comment();
+	public Report getModel() {
+		Report rtn = new Report();
+		rtn.setId(this.getId());
 		rtn.setCommentary(this.commentary);
 		rtn.setDate(this.date);
 		rtn.setUser(this.rUser.getModel());

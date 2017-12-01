@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class RRole extends IdentifiedModel{
+public class RRole extends IdentifiedModel
+		implements ReceptionObject<Role> {
 	
 	private String name;
 	
@@ -17,6 +18,7 @@ public class RRole extends IdentifiedModel{
 		this.description = desc;
 	}
 	
+	@Override
 	public Role getModel() {
 		Role rtn = new Role();
 		rtn.setName(this.name);
