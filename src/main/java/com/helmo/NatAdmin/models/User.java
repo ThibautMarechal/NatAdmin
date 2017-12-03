@@ -16,6 +16,7 @@ import java.util.List;
 @Getter @Setter
 public class User extends IdentifiedModel
 	  implements ExchangeObject<RUser> {
+	
 	private String fullName;
 	private String Email;
 	private boolean isAdmin;

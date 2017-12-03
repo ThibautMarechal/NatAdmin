@@ -36,7 +36,7 @@ public class Session extends IdentifiedModel
 	@Override
 	public RSession getExchangeModel() {
 		RSession rtn = new RSession();
-		rtn.setRUser(this.user.getExchangeModel());
+//		rtn.setRUser(this.user.getExchangeModel());
 		rtn.setName(this.name);
 		rtn.setDateStart(new Timestamp(this.start.getTime()));
 		rtn.setDateEnd(new Timestamp(this.end.getTime()));
