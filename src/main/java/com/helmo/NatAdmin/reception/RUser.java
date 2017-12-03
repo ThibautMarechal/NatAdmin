@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class RUser extends IdentifiedModel
-		implements ReceptionObject<User> {
+	  implements ReceptionObject<User> {
 	
 	@NotEmpty
 	private String fullName;

@@ -8,7 +8,8 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class RReport extends IdentifiedModel implements ReceptionObject<Report> {
+public class RReport extends IdentifiedModel
+	  implements ReceptionObject<Report> {
 	
 	private String commentary;
 	

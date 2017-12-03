@@ -9,32 +9,31 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class RBird extends MongoIdentifiedModel {
-	
-	public static final String NAME = "name"; //Used with Datastore
-	public static final String DESCRIPTION = "description";
-	public static final String DATA = "data";
-	public static final String PICTURE = "picture";
-	public static final String MULTIPLE = "multiple";
+public class RBird extends MongoIdentifiedModel
+	implements ReceptionObject<Bird> {
 	
 	private String name;
 	private String description;
 	
 	private List<String> picture;
-	private Map<String, String> data;
-	private Map<String, List<String>> multiple;
+	private Map<String, List<Object>> data;
 	
 	public RBird() {
+	}
+	
+	public List<Object> get(String key) {
+		return data.get(key);
 	}
 	
 	@Override
 	public String toString() {
 		return String.format(
-				"BIRD [id=%s, name=%s ]\n\t[Data : %d]\n\t[Picture : %d]\n\t[Multiple : %d]",
-				getId(), name, data.size(), picture.size(), multiple.size()
+			  "BIRD [id=%s, name=%s ]\n\t[Picture : %d]\n\t[Data : %d]",
+			  getId(), name, picture.size(), data.size()
 		);
 	}
 	
+	@Override
 	public Bird getModel() {
 		Bird rtn = new Bird();
 		rtn.setName(this.name);

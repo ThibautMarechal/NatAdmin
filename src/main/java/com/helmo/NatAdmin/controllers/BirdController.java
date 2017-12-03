@@ -16,7 +16,7 @@ public class BirdController {
     private BirdService birdService;
 
     public BirdController() {
-        this.birdService = new BirdService();
+        this.birdService = new BirdService(restTemplate, env, caller);
     }
 
     @RequestMapping("")

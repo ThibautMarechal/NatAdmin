@@ -1,28 +1,28 @@
 package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.User;
+import com.helmo.NatAdmin.reception.CallREST;
 import com.helmo.NatAdmin.reception.RUser;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class UserService implements ICrudService<User> {
 	
+	private final String CONTROLLER_NAME = "users";
+	
 	private final RestTemplate restTemplate;
-	private final Environment env;
+	private final CallREST caller;
 	
 	
-	public UserService(RestTemplate template, Environment env) {
+	public UserService(RestTemplate template, CallREST caller) {
 		restTemplate = template;
-		this.env = env;
+		this.caller = caller;
 	}
 	
 	@Override
@@ -30,13 +30,10 @@ public class UserService implements ICrudService<User> {
 		restTemplate.getInterceptors().add(
 			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
 		);
-		List<RUser> rUsers =  Arrays.asList(restTemplate.exchange(
-			  env.getProperty("rest.url") + "/users",
-			  HttpMethod.GET, null, RUser[].class
-		).getBody());
+		List<RUser> rUsers = caller.getAll(RUser[].class, CONTROLLER_NAME, restTemplate);
 		
 		List<User> rtn = new ArrayList<>();
-		for(RUser item : rUsers)
+		for (RUser item : rUsers)
 			rtn.add(item.getModel());
 		return rtn;
 	}
@@ -46,12 +43,7 @@ public class UserService implements ICrudService<User> {
 		restTemplate.getInterceptors().add(
 			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
 		);
-		RUser rUser = restTemplate.exchange(
-			  env.getProperty("rest.url") + "/users/" + id,
-			  HttpMethod.GET, null, RUser.class
-		).getBody();
-		
-		return rUser.getModel();
+		return caller.getById(RUser.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
 	@Override

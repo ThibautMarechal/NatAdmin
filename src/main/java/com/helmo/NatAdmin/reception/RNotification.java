@@ -4,7 +4,6 @@ import com.helmo.NatAdmin.models.Notification;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.naming.NoInitialContextException;
 import java.sql.Timestamp;
 
 @Getter

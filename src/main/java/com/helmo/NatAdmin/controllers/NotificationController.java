@@ -21,7 +21,7 @@ public class NotificationController {
 
     public NotificationController()
     {
-        this.notificationService = new NotificationService();
+        this.notificationService = new NotificationService(restTemplate, env, caller);
     }
 
 
