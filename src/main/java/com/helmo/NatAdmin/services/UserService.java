@@ -52,13 +52,15 @@ public class UserService implements ICrudService<User> {
 	}
 	
 	@Override
-	public long create(User toUpdate) {
-		//TODO REST CALL
-		return 1;
+	public long create(User toCreate) { //TODO Return the object itself
+		restTemplate.getInterceptors().add(
+			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
+		);
+		return caller.create(RUser.class, CONTROLLER_NAME, toCreate.getExchangeModel(), restTemplate).getModel().getId();
 	}
 	
 	@Override
-	public void delete(User toUpdate) {
+	public void delete(User toDelete) {
 		//TODO REST CALL
 	}
 	

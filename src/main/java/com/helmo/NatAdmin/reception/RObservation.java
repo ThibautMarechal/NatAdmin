@@ -54,7 +54,7 @@ public class RObservation extends IdentifiedModel
 		rtn.setValid(this.validation);
 		rtn.setMediaPath(this.onlinePath);
 		rtn.setBird(rBird.getModel());
-		
+		rtn.setMediaType(this.rMediaType.getName());
 		return rtn;
 	}
 }
