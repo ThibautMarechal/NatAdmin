@@ -32,10 +32,18 @@ public class CallREST {
 	}
 	
 	public <T> T create(Class<T> rObject, String controllerName, T object, RestTemplate restTemplate) {
+		return insert(rObject, controllerName, object, restTemplate, HttpMethod.POST);
+	}
+	
+	public <T> T update(Class<T> rObject, String controllerName, T object, RestTemplate restTemplate) {
+		return insert(rObject, controllerName, object, restTemplate, HttpMethod.PUT);
+	}
+	
+	private <T> T insert(Class<T> rObject, String controllerName, T object, RestTemplate restTemplate, HttpMethod method) {
 		HttpEntity<T> entity = new HttpEntity<>(object);
 		return restTemplate.exchange(
-			  env.getProperty("rest.url") + "/" + controllerName,
-			  HttpMethod.POST, entity, rObject
+				env.getProperty("rest.url") + "/" + controllerName,
+				method, entity, rObject
 		).getBody();
 	}
 }

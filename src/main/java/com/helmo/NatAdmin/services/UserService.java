@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -48,7 +49,10 @@ public class UserService implements ICrudService<User> {
 	
 	@Override
 	public void update(User toUpdate) {
-		//TODO REST CALL
+		restTemplate.getInterceptors().add(
+				new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
+		);
+		caller.update(RUser[].class, CONTROLLER_NAME, new RUser[] {new RUser(toUpdate)}, restTemplate);
 	}
 	
 	@Override
@@ -56,7 +60,7 @@ public class UserService implements ICrudService<User> {
 		restTemplate.getInterceptors().add(
 			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
 		);
-		return caller.create(RUser.class, CONTROLLER_NAME, new RUser(toCreate), restTemplate).getModel().getId();
+		return caller.create(RUser[].class, CONTROLLER_NAME, new RUser[] {new RUser(toCreate)}, restTemplate)[0].getId();
 	}
 	
 	@Override
