@@ -3,17 +3,22 @@ package com.helmo.NatAdmin.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-public class User extends Identifiable
-{
-    private String fullName;
-    private String email;
-    private boolean isAdmin;
-    private String profilePictureUrl;
-    public User()
-    {
-    }
+public class User extends IdentifiedModel {
+	private String fullName;
+	private String email;
+	private boolean isAdmin;
+	private String profilePictureUrl;
+	private String password;
+	
+	private List<Role> roles;
+	private List<Session> sessions;
+	
+	public User() {
+	}
 /*
     public String getFullName()
     {

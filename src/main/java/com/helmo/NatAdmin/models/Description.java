@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Description extends Identifiable
+public class Description extends IdentifiedModel
 {
     public String key;
     public List<String> value;
