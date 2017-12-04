@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class RObservation extends IdentifiedModel
-		implements ReceptionObject<Observation> {
+	  implements ReceptionObject<Observation> {
 	
 	private String latitude;
 	private String longitude;
@@ -26,6 +26,7 @@ public class RObservation extends IdentifiedModel
 	@JsonProperty("mediaType")
 	private RMediaType rMediaType;
 	@JsonIgnore
+	@JsonProperty("session")
 	private RSession rSession;
 	
 	private Path localPath;
@@ -58,7 +59,10 @@ public class RObservation extends IdentifiedModel
 		rtn.setNumberOfBird(this.nbrObs);
 		rtn.setValid(this.validation);
 		rtn.setMediaPath(this.onlinePath);
-		rtn.setBird(rBird.getModel());
+		rtn.setBird(
+			  (rBird != null)
+					? rBird.getModel()
+					: null);
 		rtn.setMediaType(this.rMediaType.getName());
 		return rtn;
 	}

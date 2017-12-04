@@ -1,5 +1,6 @@
 package com.helmo.NatAdmin.reception;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.helmo.NatAdmin.models.Comment;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,9 @@ public class RComment extends IdentifiedModel
 	
 	private String commentary;
 	private Timestamp date;
+	@JsonProperty("user")
 	private RUser rUser;
+	@JsonProperty("observations")
 	private RObservation rObservation;
 	
 	public RComment() {

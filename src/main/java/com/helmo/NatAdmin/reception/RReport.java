@@ -1,5 +1,6 @@
 package com.helmo.NatAdmin.reception;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.helmo.NatAdmin.models.Report;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,9 @@ public class RReport extends IdentifiedModel
 	
 	private String commentary;
 	private Timestamp date;
+	@JsonProperty("user")
 	private RUser rUser;
+	@JsonProperty("observations")
 	private RObservation rObservation;
 	
 	public RReport() {

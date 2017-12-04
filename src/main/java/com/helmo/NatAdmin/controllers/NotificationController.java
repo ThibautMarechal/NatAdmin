@@ -34,6 +34,9 @@ public class NotificationController {
 	@RequestMapping(value = "accept/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String accept(@PathVariable("id") long id, Model model) {
+		Notification notification = new Notification();
+		//TODO Receive a good model and define Notification
+		notificationService.update(notification);
 		return "{\"status\":1}";
 	}
 	

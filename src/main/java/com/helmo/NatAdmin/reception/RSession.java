@@ -29,6 +29,7 @@ public class RSession extends IdentifiedModel
 	@JsonProperty("observations")
 	private List<RObservation> rObservations;
 	
+	@JsonProperty("user")
 	private RUser rUser;
 	
 	public RSession() {

@@ -49,6 +49,7 @@ public class UserController {
 	@ResponseBody
 	public String delete(@PathVariable("id") Long id) {
 		//LOGIC
+		userService.delete(id);
 		return "{\"status\":1}";
 	}
 	

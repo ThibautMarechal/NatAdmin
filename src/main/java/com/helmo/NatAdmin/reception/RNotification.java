@@ -1,5 +1,6 @@
 package com.helmo.NatAdmin.reception;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.helmo.NatAdmin.models.Notification;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class RNotification extends IdentifiedModel
 	
 	private boolean status;
 	
+	@JsonProperty("observation")
 	private RObservation rObservation;
 	
 	public RNotification() {
