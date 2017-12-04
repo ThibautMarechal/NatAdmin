@@ -1,23 +1,15 @@
 package com.helmo.NatAdmin.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Dictionary;
+import java.util.List;
+
+@Getter
+@Setter
 public class Bird  extends IdentifiedModel {
     private String name;
     private String description;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Dictionary<String, List<String>> attribute;
 }

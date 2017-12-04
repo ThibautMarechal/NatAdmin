@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-primary" v-on:click="createSubmit" value="create"/>
+					<button type="button" class="btn btn-primary" v-on:click="createSubmit">Create</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 				</div>
 			</form>
@@ -79,8 +79,11 @@
 						<input type="password" class="form-control" name="confirmedPassword"/>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<input type="submit" class="btn btn-primary" v-on:click="editSubmit" value="Edit"/>
+				<div v-if="password !== passwordConfirmed" class="alert alert-danger" role="alert">
+                                      Passwords doesnt match
+                                    </div>
+				<button class="modal-footer">
+					<button type="button" class="btn btn-primary" v-on:click="editSubmit">Edit</button>
 					<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
 				</div>
 			</form>

@@ -5,7 +5,8 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Getter @Setter
+@Getter
+@Setter
 public class Notification extends IdentifiedModel
 {
     private String caption;
@@ -13,5 +14,4 @@ public class Notification extends IdentifiedModel
     private Date date;
     private boolean status;
     private Observation observation;
-
 }

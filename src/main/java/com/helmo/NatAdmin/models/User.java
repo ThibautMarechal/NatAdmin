@@ -7,6 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
+<<<<<<< HEAD
 public class User extends IdentifiedModel {
 	private String fullName;
 	private String email;
@@ -58,4 +59,12 @@ public class User extends IdentifiedModel {
         this.profilePictureUrl = profilePictureUrl;
     }
     */
+=======
+public class User extends Identifiable
+{
+    private String fullName;
+    private String email;
+    private boolean isAdmin;
+    private String profilePictureUrl;
+>>>>>>> master
 }
