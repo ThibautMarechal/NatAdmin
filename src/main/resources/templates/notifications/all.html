@@ -16,11 +16,11 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>{{selectedNotification.dateTime}}</p>
+					<p>{{selectedNotification.date}}</p>
 					<p>{{selectedNotification.caption}}</p>
 					<p>{{selectedNotification.description}}</p>
 					<p>{{selectedNotification.status}}</p>
-					<p>{{selectedNotification.observation.onlinePath}}</p>
+					<p>{{selectedNotification.observation.mediaPath}}</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="acceptNotification">Accept</button>
@@ -44,7 +44,7 @@
 		<tbody>
 			<tr v-for="notification in notifications" v-on:click="handleNotification(notification)">
 				<td>{{notification.id}}</td>
-				<td>{{notification.dateTime}}</td>
+				<td>{{notification.date}}</td>
 				<td>{{notification.caption}}</td>
 				<td>{{notification.description}}</td>
 				<td>{{notification.status}}</td>
@@ -70,32 +70,28 @@ new Vue({
 			$("#notificationModal").modal('show');
 		},
 		acceptNotification: function(){
-		    var self = this;
 		    $.ajax({
 				 type: "GET",
-				 url: "/notifications/accept/"+ self.selectedNotification.id,
+				 url: "/notifications/accept/"+ this.selectedNotification.id,
 				 success: function(data)
 				 {
 					 if(data.status === 1){
-						 self.selectedNotification.status = true;
+						 //TODO handle response positive response
 					 }else{
-					     console.log(data);
 						 alert(data.errorMessage);
 					 }
 				 }
 			 });
 		},
 		refuseNotification: function(){
-		    var self = this;
 			$.ajax({
 				 type: "GET",
 				 url: "/notifications/refuse/"+ this.selectedNotification.id,
 				 success: function(data)
 				 {
 				     if(data.status === 1){
-						 self.selectedNotification.status = false;
+						 //TODO handle response positive response
 					 }else{
-				         console.log(data);
 						 alert(data.errorMessage);
 					 }
 				 }

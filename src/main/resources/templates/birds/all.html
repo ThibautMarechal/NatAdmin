@@ -80,18 +80,19 @@
 			},
 			deleteSubmit: function(){
 			    var self = this;
+			    console.log("/birds/delete/"+ this.selectedBird.id);
 				$.ajax({
 					type: "GET",
 					url: "/birds/delete/"+ this.selectedBird.id,
 				 	success: function(data)
 					{
+						console.log(data);
 						if(data.status === 1){
 							var index = self.birds.indexOf(self.selectedBird);
 							if (index > -1) {
 								self.birds.splice(index, 1);
 							}
 						}else{
-							console.log(data);
 						    alert(data.messageError);
 						}
                         $("#deleteModal").modal('hide');
