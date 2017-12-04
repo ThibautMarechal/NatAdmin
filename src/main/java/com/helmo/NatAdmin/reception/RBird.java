@@ -21,6 +21,12 @@ public class RBird extends MongoIdentifiedModel
 	public RBird() {
 	}
 	
+	public RBird(Bird bird) {
+		this.setId(bird.getId());
+		this.name = bird.getName();
+		this.description = bird.getDescription();
+	}
+	
 	public List<Object> get(String key) {
 		return data.get(key);
 	}

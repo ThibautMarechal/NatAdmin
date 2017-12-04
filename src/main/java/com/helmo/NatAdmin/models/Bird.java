@@ -1,9 +1,6 @@
 package com.helmo.NatAdmin.models;
 
-import com.helmo.NatAdmin.reception.RBird;
-
-public class Bird extends IdentifiedModel
-	  implements ExchangeObject<RBird> {
+public class Bird extends IdentifiedModel {
 	private String name;
 	private int averageHeigth;
 	private String description;
@@ -30,14 +27,5 @@ public class Bird extends IdentifiedModel
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	@Override
-	public RBird getExchangeModel() {
-		RBird rtn = new RBird();
-		rtn.setName(this.name);
-		rtn.setDescription(this.description);
-		
-		return rtn;
 	}
 }

@@ -34,6 +34,16 @@ public class RSession extends IdentifiedModel
 	public RSession() {
 	}
 	
+	public RSession(Session ses) {
+		this.setId(ses.getId());
+		this.name = ses.getName();
+		this.dateStart = new Timestamp(ses.getStart().getTime());
+		this.dateEnd = new Timestamp(ses.getEnd().getTime());
+		this.latitude = ses.getLatitude();
+		this.longitude = ses.getLongitude();
+		this.rObservations = ses.getRObservations();
+	}
+	
 	@Override
 	public Session getModel() {
 		Session rtn = new Session();

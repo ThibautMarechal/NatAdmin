@@ -38,13 +38,29 @@ public class RUser extends IdentifiedModel
 	public RUser() {
 	}
 	
-	public RUser(String fullName, String email, String pass, boolean admin, String onlinePath, List<RRole> rRoles) {
-		this.fullName = fullName;
-		this.email = email;
-		this.admin = admin;
-		this.password = pass;
-		this.onlinePath = onlinePath;
-		this.rRoles = rRoles;
+	public RUser(User usr) {
+		this.setId(usr.getId());
+		this.fullName = usr.getFullName();
+		this.email = usr.getEmail();
+		this.admin = usr.isAdmin();
+		this.password = usr.getPassword();
+		this.onlinePath = usr.getProfilePictureUrl();
+		this.rRoles = convertRRoles(usr.getRoles());
+		this.rSessions = convertRSessions(usr.getSessions());
+	}
+	
+	private List<RSession> convertRSessions(List<Session> sessions) {
+		List<RSession> rtn = new ArrayList<>();
+		for(Session ses : sessions)
+			rtn.add(new RSession(ses));
+		return rtn;
+	}
+	
+	private List<RRole> convertRRoles(List<Role> roles) {
+		List<RRole> rtn = new ArrayList<>();
+		for(Role role : roles)
+			rtn.add(new RRole(role));
+		return rtn;
 	}
 	
 	@Override

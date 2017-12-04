@@ -12,14 +12,18 @@ public class RComment extends IdentifiedModel
 		implements ReceptionObject<Comment> {
 	
 	private String commentary;
-	
 	private Timestamp date;
-	
 	private RUser rUser;
-	
 	private RObservation rObservation;
 	
 	public RComment() {
+	}
+	
+	public RComment(Comment cmt) {
+		this.commentary = cmt.getCommentary();
+		this.date = new Timestamp(cmt.getDate().getTime());
+		this.rUser = new RUser(cmt.getUser());
+		this.rObservation = new RObservation(cmt.getObservation());
 	}
 	
 	@Override

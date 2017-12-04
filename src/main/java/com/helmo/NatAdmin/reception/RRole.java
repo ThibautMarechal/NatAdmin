@@ -21,6 +21,12 @@ public class RRole extends IdentifiedModel
 		this.description = desc;
 	}
 	
+	public RRole(Role role) {
+		this.setId(role.getId());
+		this.name = role.getName();
+		this.description = role.getDescription();
+	}
+	
 	@Override
 	public Role getModel() {
 		Role rtn = new Role();

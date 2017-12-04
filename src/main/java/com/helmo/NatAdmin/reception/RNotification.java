@@ -24,6 +24,15 @@ public class RNotification extends IdentifiedModel
 	public RNotification() {
 	}
 	
+	public RNotification(Notification not) {
+		this.setId(not.getId());
+		this.caption = not.getCaption();
+		this.description = not.getDescription();
+		this.date = new Timestamp(not.getDate().getTime());
+		this.status = not.isStatus();
+		this.rObservation = new RObservation(not.getObservation());
+	}
+	
 	@Override
 	public Notification getModel() {
 		Notification rtn = new Notification();

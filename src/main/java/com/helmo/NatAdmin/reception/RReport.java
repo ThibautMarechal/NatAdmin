@@ -12,14 +12,18 @@ public class RReport extends IdentifiedModel
 	  implements ReceptionObject<Report> {
 	
 	private String commentary;
-	
 	private Timestamp date;
-	
 	private RUser rUser;
-	
 	private RObservation rObservation;
 	
 	public RReport() {
+	}
+	
+	public RReport(Report rep) {
+		this.commentary = rep.getCommentary();
+		this.date = new Timestamp(rep.getDate().getTime());
+		this.rUser = new RUser(rep.getUser());
+		this.rObservation = new RObservation(rep.getObservation());
 	}
 	
 	@Override
