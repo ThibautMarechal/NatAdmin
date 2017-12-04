@@ -56,7 +56,7 @@ public class UserService implements ICrudService<User> {
 		restTemplate.getInterceptors().add(
 			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
 		);
-		return caller.create(RUser.class, CONTROLLER_NAME, toCreate.getExchangeModel(), restTemplate).getModel().getId();
+		return caller.create(RUser.class, CONTROLLER_NAME, new RUser(toCreate), restTemplate).getModel().getId();
 	}
 	
 	@Override

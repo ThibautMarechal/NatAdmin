@@ -7,6 +7,7 @@ import com.helmo.NatAdmin.models.Session;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.jws.Oneway;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,14 @@ public class RSession extends IdentifiedModel
 		this.dateEnd = new Timestamp(ses.getEnd().getTime());
 		this.latitude = ses.getLatitude();
 		this.longitude = ses.getLongitude();
-		this.rObservations = ses.getRObservations();
+		this.rObservations = convertRObservations(ses.getObservations());
+	}
+	
+	private List<RObservation> convertRObservations(List<Observation> observations) {
+		List<RObservation> rtn = new ArrayList<>();
+		for(Observation obs : observations)
+			rtn.add(new RObservation(obs));
+		return rtn;
 	}
 	
 	@Override
