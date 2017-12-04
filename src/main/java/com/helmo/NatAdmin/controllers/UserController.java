@@ -63,6 +63,16 @@ public class UserController
         user.setEmail(userForm.getEmail());
         user.setAdmin(userForm.isAdmin());
         long id = userService.create(user);
-        return String.format("{\"status\":1,\"newId\":%d}", id);
+        return String.format(
+            "{" +
+            "\"status\":1," +
+            "\"content\":" +
+                "{" +
+                "\"id\":%d" +
+                "\"fullName\": \"%s\"" +
+                "\"email\": \"%s\"" +
+                "\"admin\": %b" +
+                "}" +
+            "}", id, user.getFullName(), user.getEmail(), user.isAdmin());
     }
 }

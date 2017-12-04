@@ -1,15 +1,20 @@
 package com.helmo.NatAdmin.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class User extends Identifiable
 {
     private String fullName;
-    private String Email;
+    private String email;
     private boolean isAdmin;
     private String profilePictureUrl;
     public User()
     {
     }
-
+/*
     public String getFullName()
     {
         return fullName;
@@ -22,12 +27,12 @@ public class User extends Identifiable
 
     public String getEmail()
     {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email)
     {
-        Email = email;
+        this.email = email;
     }
 
     public boolean isAdmin()
@@ -47,4 +52,5 @@ public class User extends Identifiable
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
     }
+    */
 }

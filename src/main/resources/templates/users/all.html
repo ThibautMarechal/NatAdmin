@@ -4,8 +4,9 @@
     <title>Users</title>
 </head>
 <body>
-<header th:include="layout :: site-header" ></header>
+<header th:include="layout :: site-header"></header>
 <div class="container-fluid" id="app">
+<button class="btn btn-primary" v-on:click="createUser">Create new user</button>
 <div class="modal fade" tabindex="-1" role="dialog" id="createModal" aria-labelledby="createModal" aria-hidden="true">
   	<div class="modal-dialog" role="document">
     	<div class="modal-content">
@@ -39,7 +40,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" v-on:click="createSubmit">Create</button>
+					<input type="submit" class="btn btn-primary" v-on:click="createSubmit" value="create"/>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 				</div>
 			</form>
@@ -82,7 +83,7 @@
                                       Passwords doesnt match
                                     </div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" v-on:click="editSubmit">Edit</button>
+					<input type="submit" class="btn btn-primary" v-on:click="editSubmit" value="Edit"/>
 					<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
 				</div>
 			</form>
@@ -104,7 +105,7 @@
 				<p>Admin: {{selectedUser.admin}}</p>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" v-on:click="deleteSubmit">Delete</button>
+				<input type="submit" value="Delete" class="btn btn-danger" v-on:click="deleteSubmit"/>
 				<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
 			</div>
 		</div>
@@ -190,7 +191,6 @@ new Vue({
 			 success: function(data)
 			 {
 			     if(data.status === 1){
-			        console.log(self.selectedUser.fullName, self.fullName);
 					self.selectedUser.fullName = self.fullName;
 					self.selectedUser.email = self.email;
 					self.selectedUser.admin = self.admin;
@@ -224,14 +224,21 @@ new Vue({
       },
       createSubmit: function(){
           var self = this;
+          console.log("createSubmit");
           $.ajax({
 			 type: "POST",
-			 url: "/users/create",
+			 url: "/users/create/",
 			 data: $("#createForm").serialize(),
 			 success: function(data)
 			 {
 				 if(data.status === 1){
-					 //TODO handle response positive response
+				     console.log(data);
+				     var newUser = {};
+				     newUser.id = data.content.id;
+				     newUser.fullName = data.content.fullName;
+				     newUser.email = data.content.email;
+				     newUser.admin = data.content.admin;
+					 self.users.push(newUser)
 				 }else{
 				     console.log(data);
 					 alert(data.errorMessage);
