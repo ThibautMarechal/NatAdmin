@@ -52,13 +52,32 @@ public class BirdController {
             return "birds/view";
         }
         */
-		return "birds/edit";
-	}
-	
-	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public String delete(@PathVariable("id") long id, Model model) {
-		birdService.delete(id);
-		return "{\"status\" : 1}";
-	}
+        return "birds/edit";
+    }
+
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String delete(@PathVariable("id")long id, Model model){
+        birdService.delete(id);
+        return "{\"status\" : 1}";
+    }
+
+    @RequestMapping(value = "create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String create(@ModelAttribute BirdForm birdForm){
+        Bird newBird = new Bird();
+        newBird.setDescription(birdForm.getDescription());
+        newBird.setName(birdForm.getName());
+        long id = birdService.create(newBird);
+        return String.format(
+            "{" +
+                "\"status\":1," +
+                "\"content\":" +
+                "{" +
+                    "\"id\":%d," +
+                    "\"name\": \"%s\"," +
+                    "\"description\": \"%s\"," +
+                "}" +
+            "}", id, newBird.getName(), newBird.getDescription());
+    }
 }

@@ -1,10 +1,13 @@
 package com.helmo.NatAdmin.forms;
 
+import javax.validation.constraints.NotNull;
+
 public class BirdForm
 {
+    @NotNull
     private String name;
+    @NotNull
     private String description;
-    private int height;
 
     public String getName()
     {
@@ -24,15 +27,5 @@ public class BirdForm
     public void setDescription(String description)
     {
         this.description = description;
-    }
-
-    public int getHeight()
-    {
-        return height;
-    }
-
-    public void setHeight(int height)
-    {
-        this.height = height;
     }
 }

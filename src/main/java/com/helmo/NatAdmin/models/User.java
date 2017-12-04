@@ -1,27 +1,56 @@
 package com.helmo.NatAdmin.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+@Getter
+@Setter
+public class User extends Identifiable
+{
+    private String fullName;
+    private String email;
+    private boolean isAdmin;
+    private String profilePictureUrl;
+    public User()
+    {
+    }
+/*
+    public String getFullName()
+    {
+        return fullName;
+    }
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Getter @Setter
-public class User extends IdentifiedModel {
-	
-	private String fullName;
-	private String email;
-	private boolean isAdmin;
-	private String profilePictureUrl;
-	
-	private String password;
-	
-	private List<Role> roles;
-	private List<Session> sessions;
-	
-	public User() {
-	}
+    public void setFullName(String fullName)
+    {
+        this.fullName = fullName;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public boolean isAdmin()
+    {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin)
+    {
+        isAdmin = admin;
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
+    }
+    */
 }
