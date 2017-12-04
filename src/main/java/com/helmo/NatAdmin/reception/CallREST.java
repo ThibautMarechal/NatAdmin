@@ -31,19 +31,30 @@ public class CallREST {
 		).getBody();
 	}
 	
-	public <T> T create(Class<T> rObject, String controllerName, T object, RestTemplate restTemplate) {
-		return insert(rObject, controllerName, object, restTemplate, HttpMethod.POST);
+	public <T> T[] create(Class<T[]> rObject, String controllerName, T[] object, RestTemplate restTemplate) {
+		return callWithMultiEntity(rObject, controllerName, object, restTemplate, HttpMethod.POST);
 	}
 	
-	public <T> T update(Class<T> rObject, String controllerName, T object, RestTemplate restTemplate) {
-		return insert(rObject, controllerName, object, restTemplate, HttpMethod.PUT);
+	public <T> T[] update(Class<T[]> rObject, String controllerName, T[] object, RestTemplate restTemplate) {
+		return callWithMultiEntity(rObject, controllerName, object, restTemplate, HttpMethod.PUT);
 	}
 	
-	private <T> T insert(Class<T> rObject, String controllerName, T object, RestTemplate restTemplate, HttpMethod method) {
-		HttpEntity<T> entity = new HttpEntity<>(object);
+	private <T> T[] callWithMultiEntity(Class<T[]> rObject, String controllerName, T[] object, RestTemplate restTemplate, HttpMethod method) {
+		HttpEntity<T[]> entity = new HttpEntity<>(object);
 		return restTemplate.exchange(
 				env.getProperty("rest.url") + "/" + controllerName,
 				method, entity, rObject
+		).getBody();
+	}
+	
+	public <T> T[] delete(Class<T[]> rObject, String controllerName, T[] object, RestTemplate restTemplate) {
+		return callWithMultiEntity(rObject, controllerName, object, restTemplate, HttpMethod.DELETE);
+	}
+	
+	public <T> T deleteById(Class<T> rObject, String controllerName, long id, RestTemplate restTemplate) {
+		return restTemplate.exchange(
+			  env.getProperty("rest.url") + "/" + controllerName + "/" + id,
+			  HttpMethod.DELETE, null, rObject
 		).getBody();
 	}
 }

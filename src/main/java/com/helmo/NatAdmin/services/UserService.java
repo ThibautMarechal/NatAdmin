@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,13 +23,13 @@ public class UserService implements ICrudService<User> {
 	public UserService(RestTemplate template, CallREST caller) {
 		restTemplate = template;
 		this.caller = caller;
+		restTemplate.getInterceptors().add(
+			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
+		);
 	}
 	
 	@Override
 	public List<User> getAll() {
-		restTemplate.getInterceptors().add(
-			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
-		);
 		List<RUser> rUsers = caller.getAll(RUser[].class, CONTROLLER_NAME, restTemplate);
 		
 		List<User> rtn = new ArrayList<>();
@@ -41,35 +40,26 @@ public class UserService implements ICrudService<User> {
 	
 	@Override
 	public User getById(long id) {
-		restTemplate.getInterceptors().add(
-			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
-		);
 		return caller.getById(RUser.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
 	@Override
 	public void update(User toUpdate) {
-		restTemplate.getInterceptors().add(
-				new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
-		);
 		caller.update(RUser[].class, CONTROLLER_NAME, new RUser[] {new RUser(toUpdate)}, restTemplate);
 	}
 	
 	@Override
 	public long create(User toCreate) { //TODO Return the object itself
-		restTemplate.getInterceptors().add(
-			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
-		);
 		return caller.create(RUser[].class, CONTROLLER_NAME, new RUser[] {new RUser(toCreate)}, restTemplate)[0].getId();
 	}
 	
 	@Override
 	public void delete(User toDelete) {
-		//TODO REST CALL
+		caller.delete(RUser[].class, CONTROLLER_NAME, new RUser[] {new RUser(toDelete)}, restTemplate);
 	}
 	
 	@Override
 	public void delete(long idToDelete) {
-		//TODO REST CALL
+		caller.deleteById(RUser.class, CONTROLLER_NAME, idToDelete, restTemplate);
 	}
 }

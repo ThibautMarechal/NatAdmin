@@ -1,10 +1,8 @@
 package com.helmo.NatAdmin.models;
 
-import com.helmo.NatAdmin.reception.RObservation;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
