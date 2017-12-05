@@ -30,10 +30,8 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 	
 	
 	public List<Notification> getAll() {
-		List<RNotification> rNotifications = caller.getAll(RNotification[].class, CONTROLLER_NAME, restTemplate);
-		
 		List<Notification> rtn = new ArrayList<>();
-		for (RNotification item : rNotifications)
+		for (RNotification item : caller.getAll(RNotification[].class, CONTROLLER_NAME, restTemplate))
 			rtn.add(item.getModel());
 		return rtn;
 	}
