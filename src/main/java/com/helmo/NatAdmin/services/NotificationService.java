@@ -23,13 +23,13 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 	public NotificationService(RestTemplate restTemplate, CallREST caller) {
 		this.restTemplate = restTemplate;
 		this.caller = caller;
+		restTemplate.getInterceptors().add(
+			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
+		);
 	}
 	
 	
 	public List<Notification> getAll() {
-		restTemplate.getInterceptors().add(
-			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
-		);
 		List<RNotification> rNotifications = caller.getAll(RNotification[].class, CONTROLLER_NAME, restTemplate);
 		
 		List<Notification> rtn = new ArrayList<>();
@@ -40,9 +40,6 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 	
 	@Override
 	public Notification getById(long id) {
-		restTemplate.getInterceptors().add(
-			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
-		);
 		return caller.getById(RNotification.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
