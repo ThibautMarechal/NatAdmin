@@ -1,6 +1,7 @@
 package com.helmo.NatAdmin.controllers;
 
 import com.helmo.NatAdmin.models.Notification;
+import com.helmo.NatAdmin.models.NotificationStatus;
 import com.helmo.NatAdmin.services.NotificationService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,10 @@ public class NotificationController {
 	@ResponseBody
 	public String accept(@PathVariable("id") long id, Model model) {
 		Notification notification = new Notification();
+		NotificationStatus status = new NotificationStatus();
+		status.setName("ACCEPTED");
 		//TODO Receive a good model and define Notification
+		notification.setStatus(status);
 		notificationService.update(notification);
 		return "{\"status\":1}";
 	}
@@ -43,6 +47,11 @@ public class NotificationController {
 	@RequestMapping(value = "refuse/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String refuse(@PathVariable("id") long id, Model model) {
+		Notification notification = new Notification();
+		NotificationStatus status = new NotificationStatus();
+		status.setName("REFUSED");
+		//TODO Receive a good model and define Notification
+		notification.setStatus(status);
 		return "{\"status\":1}";
 	}
 }

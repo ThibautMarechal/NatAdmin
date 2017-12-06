@@ -2,6 +2,7 @@ package com.helmo.NatAdmin.reception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.helmo.NatAdmin.models.Notification;
+import com.helmo.NatAdmin.models.NotificationStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,7 @@ public class RNotification extends IdentifiedModel
 	
 	private Timestamp date;
 	
-	private boolean status;
+	private RNotificationStatus status;
 	
 	@JsonProperty("observation")
 	private RObservation rObservation;
@@ -31,7 +32,7 @@ public class RNotification extends IdentifiedModel
 		this.caption = not.getCaption();
 		this.description = not.getDescription();
 		this.date = new Timestamp(not.getDate().getTime());
-		this.status = not.isStatus();
+		this.status = new RNotificationStatus(not.getStatus());
 		this.rObservation = new RObservation(not.getObservation());
 	}
 	
@@ -42,7 +43,7 @@ public class RNotification extends IdentifiedModel
 		rtn.setCaption(this.caption);
 		rtn.setDescription(this.description);
 		rtn.setDate(this.date);
-		rtn.setStatus(this.status);
+		rtn.setStatus(this.status.getModel());
 		rtn.setObservation(this.rObservation.getModel());
 		return rtn;
 	}

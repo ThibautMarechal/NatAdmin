@@ -12,6 +12,6 @@ public class Notification extends IdentifiedModel
     private String caption;
     private String description;
     private Date date;
-    private boolean status;
+    private NotificationStatus status;
     private Observation observation;
 }

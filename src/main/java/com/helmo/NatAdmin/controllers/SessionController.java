@@ -35,6 +35,7 @@ public class SessionController {
 	
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String delete(Model model, @PathVariable("id") long id) {
+		sessionService.delete(id);
 		return "{\"status\": 1}";
 	}
 }
