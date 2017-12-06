@@ -20,7 +20,6 @@ public class RUser extends IdentifiedModel
 	@NotEmpty
 	private String fullName;
 	
-	//@Email(message = "Please, provide a valid email")
 	@NotEmpty
 	private String email;
 	
