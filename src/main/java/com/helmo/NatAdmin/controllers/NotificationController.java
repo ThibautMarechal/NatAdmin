@@ -2,6 +2,7 @@ package com.helmo.NatAdmin.controllers;
 
 import com.helmo.NatAdmin.models.Notification;
 import com.helmo.NatAdmin.models.NotificationStatus;
+import com.helmo.NatAdmin.models.Observation;
 import com.helmo.NatAdmin.services.NotificationService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,6 @@ import java.util.List;
 @Controller
 @RequestMapping("notifications")
 public class NotificationController {
-	
 	
 	private final NotificationService notificationService;
 	
@@ -41,6 +41,10 @@ public class NotificationController {
 		//TODO Receive a good model and define Notification
 		notification.setStatus(status);
 		notificationService.update(notification);
+		
+		//TODO Update Observation
+		Observation obsToUpdate = notification.getObservation();
+		obsToUpdate.setValid(true);
 		return "{\"status\":1}";
 	}
 	
@@ -52,6 +56,11 @@ public class NotificationController {
 		status.setName("REFUSED");
 		//TODO Receive a good model and define Notification
 		notification.setStatus(status);
+		notificationService.update(notification);
+	
+		//TODO Update Observation
+		Observation obsToUpdate = notification.getObservation();
+		obsToUpdate.setValid(false);
 		return "{\"status\":1}";
 	}
 }
