@@ -3,6 +3,7 @@ package com.helmo.NatAdmin.services;
 import com.helmo.NatAdmin.models.Description;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DescriptionService implements ICrudService<Description>
@@ -29,15 +30,30 @@ public class DescriptionService implements ICrudService<Description>
     @Override
     public List<Description> getAll()
     {
-        //TODO
-        return null;
+        List<Description> attributes = new ArrayList<>();
+        for (int i = 0; i < 10; i++)
+        {
+            attributes.add(getById(i));
+        }
+        return attributes;
     }
 
     @Override
     public Description getById(long id)
     {
-        //TODO
-        return null;
+        Description description = new Description();
+        description.setKey("colors #"+id);
+        List<String> colors = new ArrayList<>();
+        colors.add("blue #"+id);
+        colors.add("red #"+id);
+        colors.add("green #"+id);
+        colors.add("yellow #"+id);
+        colors.add("orange #"+id);
+        colors.add("purple #"+id);
+        colors.add("white #"+id);
+        colors.add("black #"+id);
+        description.setValues(colors);
+        return description;
     }
 
     @Override
