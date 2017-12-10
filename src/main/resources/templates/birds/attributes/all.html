@@ -157,20 +157,22 @@
 			  	this.attributeValues.push("");
 			},
 			editAttribute: function(attribute){
-			    this.seletedAttribute = attribute;
+			    this.selectedAttribute = attribute;
 				this.attributeKey = attribute.key;
 				this.attributeValues = attribute.values.slice();
 			    $("#editModal").modal("show");
 			},
 			editSubmit: function(){
-			    console.log($("#editForm").serialize());
+			    var self = this;
                 $.ajax({
-                    type: "GET",
-                    url: "/birds/attributes/delete/"+ self.seletedAttribute.id,
+                    type: "POST",
+                    url: "/birds/attributes/edit/"+ self.selectedAttribute.id,
+					data: $('#editForm').serialize(),
                     success: function(data)
                     {
                         if(data.status === 1){
-
+                            self.selectedAttribute.key = self.attributeKey;
+                            self.selectedAttribute.values = self.attributeValues.slice();
                         }else{
                             console.log(data);
                             alert(data.errorMessage);

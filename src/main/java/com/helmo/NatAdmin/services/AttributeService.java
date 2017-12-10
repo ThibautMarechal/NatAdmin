@@ -42,6 +42,7 @@ public class AttributeService implements ICrudService<Attribute>
     public Attribute getById(long id)
     {
         Attribute attribute = new Attribute();
+        attribute.setId(id);
         attribute.setKey("colors #"+id);
         List<String> colors = new ArrayList<>();
         colors.add("blue #"+id);

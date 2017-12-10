@@ -7,6 +7,7 @@
 <body>
 
 <header th:replace="layout :: site-header" ></header>
+<!--
 <main class="container-fluid" id="app">
 	<h1>{{bird.name}}</h1>
 	<p>{{bird.description}}</p>
@@ -25,7 +26,27 @@
 			<button class="btn btn-primary" v-on:click="addNewAttribute()">add attribute</button>
 		</li>
 	</ul>
-	<!--TODO BIRD PICTURE-->
+	TODO BIRD PICTURE
+
+-->
+<main class="container-fluid" id="app">
+	<h1>{{bird.name}}</h1>
+	<p>{{bird.description}}</p>
+	<ul>
+		<li v-for="(value, key) in bird.attributes">
+			<p>{{key}} :
+				<select class="multiple-select" multiple="multiple" v-model="bird.attributes[key]">
+					<option v-for="attribute in attributes" v-if="attribute.key === key" :value="aValue">{{attribute.values}}</option>
+				</select>
+			</p>
+		</li>
+		<li>
+			<select id="newAttributeSelect">
+				<option v-for="attribute in attributes" v-if="bird.attributes[attribute.key] === undefined" v-for="attributeValues in attribute.value">{{attributeValues}}</option>
+			</select>
+			<button class="btn btn-primary" v-on:click="addNewAttribute()">add attribute</button>
+		</li>
+	</ul>
 </main>
 <footer th:replace="layout :: site-footer" ></footer>
 <script th:replace="layout :: vueJS"></script>
