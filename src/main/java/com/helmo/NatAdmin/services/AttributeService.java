@@ -1,22 +1,22 @@
 package com.helmo.NatAdmin.services;
 
-import com.helmo.NatAdmin.models.Description;
+import com.helmo.NatAdmin.models.Attribute;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttributeService implements ICrudService<Description>
+public class AttributeService implements ICrudService<Attribute>
 {
     @Override
-    public long create(Description toCreate)
+    public long create(Attribute toCreate)
     {
         //TODO
         return 1;
     }
 
     @Override
-    public void delete(Description toDelete)
+    public void delete(Attribute toDelete)
     {
         //TODO
     }
@@ -28,9 +28,9 @@ public class AttributeService implements ICrudService<Description>
     }
 
     @Override
-    public List<Description> getAll()
+    public List<Attribute> getAll()
     {
-        List<Description> attributes = new ArrayList<>();
+        List<Attribute> attributes = new ArrayList<>();
         for (int i = 0; i < 10; i++)
         {
             attributes.add(getById(i));
@@ -39,9 +39,9 @@ public class AttributeService implements ICrudService<Description>
     }
 
     @Override
-    public Description getById(long id)
+    public Attribute getById(long id)
     {
-        Description description = new Description();
+        Attribute description = new Attribute();
         description.setKey("colors #"+id);
         List<String> colors = new ArrayList<>();
         colors.add("blue #"+id);
@@ -52,12 +52,12 @@ public class AttributeService implements ICrudService<Description>
         colors.add("purple #"+id);
         colors.add("white #"+id);
         colors.add("black #"+id);
-        description.setValues(colors);
+        description.setValue(colors);
         return description;
     }
 
     @Override
-    public void update(Description toUpdate)
+    public void update(Attribute toUpdate)
     {
         //TODO
     }
