@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("birds")
-public class    BirdController {
+public class BirdController {
     private BirdService birdService;
     private AttributeService attributeService;
 

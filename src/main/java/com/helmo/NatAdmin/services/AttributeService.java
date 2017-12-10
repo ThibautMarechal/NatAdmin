@@ -41,8 +41,8 @@ public class AttributeService implements ICrudService<Attribute>
     @Override
     public Attribute getById(long id)
     {
-        Attribute description = new Attribute();
-        description.setKey("colors #"+id);
+        Attribute attribute = new Attribute();
+        attribute.setKey("colors #"+id);
         List<String> colors = new ArrayList<>();
         colors.add("blue #"+id);
         colors.add("red #"+id);
@@ -52,8 +52,8 @@ public class AttributeService implements ICrudService<Attribute>
         colors.add("purple #"+id);
         colors.add("white #"+id);
         colors.add("black #"+id);
-        description.setValue(colors);
-        return description;
+        attribute.setValues(colors);
+        return attribute;
     }
 
     @Override

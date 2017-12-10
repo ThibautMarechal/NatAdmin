@@ -50,7 +50,7 @@
 						</div>
 						<p>Values :</p>
 						<div class="form-group" v-for="(value, i) in attributeValues">
-							<input type="text" class="form-control" name="value[]" placeholder="value" v-model="attributeValues[i]"/>
+							<input type="text" class="form-control" name="value" placeholder="value" v-model="attributeValues[i]"/>
 						</div>
 						<button type="button" class="btn btn-primary" v-on:click="addValue">add value</button>
     				</div>
@@ -164,7 +164,21 @@
 			},
 			editSubmit: function(){
 			    console.log($("#editForm").serialize());
-				$("#editModal").modal("hide");
+                $.ajax({
+                    type: "GET",
+                    url: "/birds/attributes/delete/"+ self.seletedAttribute.id,
+                    success: function(data)
+                    {
+                        if(data.status === 1){
+
+                        }else{
+                            console.log(data);
+                            alert(data.errorMessage);
+                        }
+                        $("#editModal").modal("hide");
+                    }
+                });
+
 			},
 			deleteAttribute: function(attribute){
 			    this.seletedAttribute = attribute;

@@ -1,6 +1,6 @@
 package com.helmo.NatAdmin.controllers;
 
-import com.helmo.NatAdmin.models.Description;
+import com.helmo.NatAdmin.models.Attribute;
 import com.helmo.NatAdmin.services.AttributeService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -39,7 +39,7 @@ public class AttributeController
     @RequestMapping(method = RequestMethod.POST, value = "create", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String create(Model model){
-        long id = attributeService.create(new Description());
+        long id = attributeService.create(new Attribute());
         return String.format(
         "{" +
             "\"status\":1," +
