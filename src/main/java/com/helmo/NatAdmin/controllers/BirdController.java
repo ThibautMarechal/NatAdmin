@@ -3,6 +3,7 @@ package com.helmo.NatAdmin.controllers;
 import com.helmo.NatAdmin.forms.BirdForm;
 import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.services.BirdService;
+import com.helmo.NatAdmin.services.AttributeService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +15,11 @@ import java.util.List;
 @RequestMapping("birds")
 public class    BirdController {
     private BirdService birdService;
+    private AttributeService attributeService;
 
     public BirdController() {
         this.birdService = new BirdService();
+        attributeService = new AttributeService();
     }
 
     @RequestMapping("")
@@ -30,18 +33,12 @@ public class    BirdController {
     public String view(@PathVariable("id")long id, Model model){
         Bird bird = birdService.getById(id);
         model.addAttribute("bird", bird);
+        model.addAttribute("attributes", attributeService.getAll());
         return "birds/view";
     }
 
-    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
-    public String updateGET(@PathVariable("id")long id, Model model){
-        Bird bird = birdService.getById(id);
-        model.addAttribute("bird", bird);
-        return "birds/edit";
-    }
-
     @RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
-    public String updatePOST(@PathVariable("id")long id, Model model, @ModelAttribute BirdForm birdForm)
+    public String edit(@PathVariable("id")long id, Model model, @ModelAttribute BirdForm birdForm)
     {
         Bird bird = birdService.getById(id);
         /*
@@ -79,5 +76,9 @@ public class    BirdController {
                     "\"description\": \"%s\"," +
                 "}" +
             "}", id, newBird.getName(), newBird.getDescription());
+    }
+    @GetMapping("test")
+    public String test(){
+        return "birds/test";
     }
 }

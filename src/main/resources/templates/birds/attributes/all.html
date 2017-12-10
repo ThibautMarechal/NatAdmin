@@ -1,56 +1,200 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
-<head th:include="layout :: site-head">
-    <title>Users</title>
-</head>
+<head th:include="layout :: site-head"></head>
 <body>
 <header th:include="layout :: site-header" ></header>
 <div class="container-fluid" id="app">
-<!--TODO FORM EDIT MODAL-->
-    <table>
-        <caption>List of description possible</caption>
+	<div class="modal fade" tabindex="-1" role="dialog" id="createModal" aria-labelledby="createModal" aria-hidden="true">
+      	<div class="modal-dialog" role="document">
+        	<div class="modal-content">
+    			<form id="createForm">
+    				<div class="modal-header">
+    					<h5 class="modal-title">Create attribute</h5>
+    					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    						<span aria-hidden="true">&times;</span>
+    					</button>
+    				</div>
+    				<div class="modal-body">
+						<div class="form-group">
+							<label for="key">Key</label>
+							<input type="text" class="form-control" name="key" placeholder="key" v-model="attributeKey"/>
+						</div>
+						<p>Values :</p>
+						<div class="form-group" v-for="(value, i) in attributeValues">
+							<input type="text" class="form-control" name="value[]" placeholder="value" v-model="attributeValues[i]"/>
+						</div>
+						<button type="button" class="btn btn-primary" v-on:click="addValue">add value</button>
+    				</div>
+    				<div class="modal-footer">
+    					<button type="button" class="btn btn-primary" v-on:click="createSubmit">Create</button>
+    					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="editModal" aria-labelledby="editModal" aria-hidden="true">
+      	<div class="modal-dialog" role="document">
+        	<div class="modal-content">
+    			<form id="editForm">
+    				<div class="modal-header">
+    					<h5 class="modal-title">Edit attribute</h5>
+    					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    						<span aria-hidden="true">&times;</span>
+    					</button>
+    				</div>
+    				<div class="modal-body">
+						<div class="form-group">
+							<label for="key">Key</label>
+							<input type="text" class="form-control" name="key" placeholder="key" v-model="attributeKey"/>
+						</div>
+						<p>Values :</p>
+						<div class="form-group" v-for="(value, i) in attributeValues">
+							<input type="text" class="form-control" name="value[]" placeholder="value" v-model="attributeValues[i]"/>
+						</div>
+						<button type="button" class="btn btn-primary" v-on:click="addValue">add value</button>
+    				</div>
+    				<div class="modal-footer">
+    					<button type="button" class="btn btn-primary" v-on:click="editSubmit">Edit</button>
+    					<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="deleteModal" aria-labelledby="deleteModal" aria-hidden="true">
+      	<div class="modal-dialog" role="document">
+        	<div class="modal-content">
+    			<div class="modal-header">
+    				<h5 class="modal-title">Delete attribute</h5>
+    				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    					<span aria-hidden="true">&times;</span>
+    				</button>
+    			</div>
+    			<div class="modal-body">
+					<h2>{{attributeKey}}</h2>
+					<ul>
+						<li v-for="value in attributeValues">{{value}}</li>
+					</ul>
+    			</div>
+    			<div class="modal-footer">
+    				<input type="submit" value="Delete" class="btn btn-danger" v-on:click="deleteSubmit"/>
+    				<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <button class="btn btn-primary" v-on:click="createAttribute()">Add Attribute</button>
+    <table class="table table-hover table-responsive-sm">
+        <caption>List of attributes</caption>
         <thead>
-        <tr>
-            <td></td>
-            <td><input type="text"/></td>
-            <td><input type="text"/></td>
-            <td><input type="text"/></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Key</th>
-            <th scope="col">...</th>
-        </tr>
+			<tr>
+				<td></td>
+				<td><input type="text" v-model="keyFilter" placeholder="Key filter"/></td>
+				<td></td>
+			</tr>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Key</th>
+				<th scope="col">...</th>
+			</tr>
         </thead>
         <tbody>
-
-        <tr v-for="description in descriptions">
-            <td>{{description.id}}</td>
-            <td>{{description.key}}</td>
-            <td><!--TODO BUTTON EDIT--></td>
-            <td></td>
-        </tr>
+			<tr v-for="attribute in attributes" v-if="filter(attribute.key)">
+				<td>{{attribute.id}}</td>
+				<td>{{attribute.key}}</td>
+				<td><button class="btn btn-warning" v-on:click="editAttribute(attribute)">Edit</button><button class="btn btn-danger" v-on:click="deleteAttribute(attribute)">Delete</button></td>
+			</tr>
         </tbody>
     </table>
 </div>
 <footer th:replace="layout :: site-footer" ></footer>
 <script th:replace="layout :: vueJS"></script>
+<div th:replace="layout :: bottom-script"></div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var descriptions = /*[[${descriptions}]]*/[];
-    /*]]>*/
-</script>
-<script type="application/javascript">
+    var attributes = /*[[${attributes}]]*/[];
     new Vue({
         el: '#app',
         data: {
-            descriptions: descriptions,
+            attributes: attributes,
+            selectedAttribute: null,
+            keyFilter: "",
+            attributeKey: "",
+            attributeValues: [""],
         },
         methods:{
-
-        }
-    })
+			filter: function(key){
+				return key.includes(this.keyFilter);
+			},
+			createAttribute: function(){
+				this.attributeKey = "";
+				this.attributeValues = [""];
+			    $("#createModal").modal("show");
+			},
+			createSubmit: function(){
+			    var self = this;
+				  $.ajax({
+					 type: "POST",
+					 url: "/birds/attributes/create/",
+					 data: $("#createForm").serialize(),
+					 success: function(data)
+					 {
+						 if(data.status === 1){
+							 console.log(data);
+							 var newAttribute = {};
+							 newAttribute.id = data.content;
+							 self.attributes.push(newAttribute)
+						 }else{
+							 console.log(data);
+							 alert(data.errorMessage);
+						 }
+						 $("#createModal").modal('hide')
+					 }
+				 });
+			},
+			addValue: function(){
+			  	this.attributeValues.push("");
+			},
+			editAttribute: function(attribute){
+			    this.seletedAttribute = attribute;
+				this.attributeKey = attribute.key;
+				this.attributeValues = attribute.values.slice();
+			    $("#editModal").modal("show");
+			},
+			editSubmit: function(){
+			    console.log($("#editForm").serialize());
+				$("#editModal").modal("hide");
+			},
+			deleteAttribute: function(attribute){
+			    this.seletedAttribute = attribute;
+			    this.attributeKey = attribute.key;
+			    this.attributeValues = attribute.values.slice();
+				$("#deleteModal").modal("show");
+			},
+			deleteSubmit: function(){
+			    var self = this;
+				$.ajax({
+					type: "GET",
+					url: "/birds/attributes/delete/"+ self.seletedAttribute.id,
+					success: function(data)
+					{
+						if(data.status === 1){
+							var index = self.attributes.indexOf(self.seletedAttribute);
+							if (index > -1) {
+								self.attributes.splice(index, 1);
+							}
+						}else{
+							console.log(data);
+							alert(data.errorMessage);
+						}
+						$("#deleteModal").modal('hide')
+					}
+    			});
+			}
+		}
+	});
+	/*]]>*/
 </script>
 </body>
 </html>

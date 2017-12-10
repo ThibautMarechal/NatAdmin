@@ -10,5 +10,5 @@ import java.util.List;
 public class Description extends Identifiable
 {
     public String key;
-    public List<String> value;
+    public List<String> values;
 }

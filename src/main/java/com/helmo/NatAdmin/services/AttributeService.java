@@ -6,7 +6,7 @@ import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DescriptionService implements ICrudService<Description>
+public class AttributeService implements ICrudService<Description>
 {
     @Override
     public long create(Description toCreate)

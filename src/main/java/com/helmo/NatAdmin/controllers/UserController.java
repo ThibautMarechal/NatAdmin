@@ -68,9 +68,9 @@ public class UserController
             "\"status\":1," +
             "\"content\":" +
                 "{" +
-                "\"id\":%d" +
-                "\"fullName\": \"%s\"" +
-                "\"email\": \"%s\"" +
+                "\"id\":%d," +
+                "\"fullName\": \"%s\"," +
+                "\"email\": \"%s\"," +
                 "\"admin\": %b" +
                 "}" +
             "}", id, user.getFullName(), user.getEmail(), user.isAdmin());
