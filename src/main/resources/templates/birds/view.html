@@ -36,13 +36,16 @@
 		<li v-for="(value, key) in bird.attributes">
 			<p>{{key}} :
 				<select class="multiple-select" multiple="multiple" v-model="bird.attributes[key]">
-					<option v-for="attribute in attributes" v-if="attribute.key === key" :value="aValue">{{attribute.values}}</option>
+					<template v-for="attribute in attributes" v-if="attribute.key === key">
+						{{attribute}}:{{attribute.key}},{{key}}
+						<option v-for="attributeValue in attribute.values" :value="attributeValue">{{attributeValue}}</option>
+					</template>
 				</select>
 			</p>
 		</li>
 		<li>
 			<select id="newAttributeSelect">
-				<option v-for="attribute in attributes" v-if="bird.attributes[attribute.key] === undefined" v-for="attributeValues in attribute.value">{{attributeValues}}</option>
+				<option v-for="attribute in attributes" v-if="bird.attributes[attribute.key] === undefined">{{attribute.key}}</option>
 			</select>
 			<button class="btn btn-primary" v-on:click="addNewAttribute()">add attribute</button>
 		</li>
@@ -51,8 +54,8 @@
 <footer th:replace="layout :: site-footer" ></footer>
 <script th:replace="layout :: vueJS"></script>
 <div th:replace="layout :: bottom-script"></div>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script type="text/javascript" src="/js/selectize.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/selectize.css" />
 <script th:inline="javascript">
 	/*<![CDATA[*/
     var bird = /*[[${bird}]]*/[];
@@ -76,26 +79,15 @@
 		        var newAttriuteKey = $("#newAttributeSelect option:selected").text();
 		        this.$set(this.bird.attributes, newAttriuteKey, []);
 		    },
-		    consoleLog: function(data){
-		        console.log(data)
-		    },
-		    selectedAttribute: function(key, value){
-				return this.bird.attributes[key] !== undefined && this.bird.attributes[key].includes(value);
-		    },
-		    addSelect2: function(){
-				$(document).ready(function() {
-					$('.multiple-select').select2({
-						width: '100%',
-						dropdownAutoWidth: true,
-					});
-				});
+		    addSelectize: function(){
+				$('select').selectize({});
 		    }
 		},
 		mounted: function(){
-			this.addSelect2();
+			this.addSelectize();
 		},
 		updated: function(){
-			this.addSelect2();
+			this.addSelectize();
 		}
 	});
     /*]]>*/
