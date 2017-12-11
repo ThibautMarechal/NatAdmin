@@ -1,7 +1,7 @@
 package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.Notification;
-import com.helmo.NatAdmin.reception.CallREST;
+import com.helmo.NatAdmin.caller.CallREST;
 import com.helmo.NatAdmin.reception.RNotification;
 import com.helmo.NatAdmin.services.crudServices.IReadService;
 import com.helmo.NatAdmin.services.crudServices.IUpdateService;

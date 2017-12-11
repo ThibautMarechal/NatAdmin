@@ -1,4 +1,4 @@
-package com.helmo.NatAdmin.reception;
+package com.helmo.NatAdmin.caller;
 
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 public class CallREST {
-	private final Environment env;
+	protected final Environment env;
 	
 	public CallREST(Environment env) {
 		this.env = env;

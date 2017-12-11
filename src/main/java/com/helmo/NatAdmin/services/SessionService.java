@@ -1,7 +1,7 @@
 package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.Session;
-import com.helmo.NatAdmin.reception.CallREST;
+import com.helmo.NatAdmin.caller.CallREST;
 import com.helmo.NatAdmin.reception.RSession;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;

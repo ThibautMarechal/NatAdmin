@@ -1,7 +1,8 @@
 package com.helmo.NatAdmin.services;
 
+import com.helmo.NatAdmin.caller.UserCall;
 import com.helmo.NatAdmin.models.User;
-import com.helmo.NatAdmin.reception.CallREST;
+import com.helmo.NatAdmin.caller.CallREST;
 import com.helmo.NatAdmin.reception.RUser;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
@@ -17,12 +18,12 @@ public class UserService implements ICrudService<User> {
 	private final String CONTROLLER_NAME = "users";
 	
 	private final RestTemplate restTemplate;
-	private final CallREST caller;
+	private final UserCall caller;
 	
 	
-	public UserService(RestTemplate template, CallREST caller) {
+	public UserService(RestTemplate template, UserCall userCall) {
 		restTemplate = template;
-		this.caller = caller;
+		this.caller = userCall;
 		restTemplate.getInterceptors().add(
 			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
 		);
@@ -40,6 +41,7 @@ public class UserService implements ICrudService<User> {
 	
 	@Override
 	public User getById(long id) {
+		
 		return caller.getById(RUser.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
@@ -61,5 +63,9 @@ public class UserService implements ICrudService<User> {
 	@Override
 	public void delete(long idToDelete) {
 		caller.deleteById(RUser.class, CONTROLLER_NAME, idToDelete, restTemplate);
+	}
+	
+	public User findByEmail(String email) {
+		return caller.getByEmail(email, restTemplate).getModel();
 	}
 }
