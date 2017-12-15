@@ -1,9 +1,10 @@
 package com.helmo.NatAdmin.controllers;
 
+import com.helmo.NatAdmin.forms.BirdAttributeForm;
 import com.helmo.NatAdmin.forms.BirdForm;
 import com.helmo.NatAdmin.models.Bird;
-import com.helmo.NatAdmin.services.BirdService;
 import com.helmo.NatAdmin.services.AttributeService;
+import com.helmo.NatAdmin.services.BirdService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,14 +42,6 @@ public class BirdController {
     public String edit(@PathVariable("id")long id, Model model, @ModelAttribute BirdForm birdForm)
     {
         Bird bird = birdService.getById(id);
-        /*
-        TODO update bird
-        if(//valid){
-            birdService.update(bird);
-            model.addAttribute("bird", bird);
-            return "birds/view";
-        }
-        */
         return "birds/edit";
     }
 
@@ -77,8 +70,14 @@ public class BirdController {
                 "}" +
             "}", id, newBird.getName(), newBird.getDescription());
     }
-    @GetMapping("test")
-    public String test(){
-        return "birds/test";
+    @RequestMapping(value = "edit/{id}/attributes", consumes = MediaType.APPLICATION_JSON_VALUE, method =
+            RequestMethod.POST, produces = MediaType
+            .APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String editAttributes(@PathVariable("id")long id, @RequestBody String
+            birdAttributeFormJson,
+                                 Model model){
+        BirdAttributeForm baf = BirdAttributeForm.ParseJSON(birdAttributeFormJson);
+        return "{\"status\" : 1}";
     }
 }

@@ -1,14 +1,12 @@
 package com.helmo.NatAdmin.controllers;
 
+import com.helmo.NatAdmin.forms.AttributeForm;
 import com.helmo.NatAdmin.models.Attribute;
 import com.helmo.NatAdmin.services.AttributeService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/birds/attributes")
@@ -26,7 +24,7 @@ public class AttributeController
 
     @RequestMapping(method = RequestMethod.POST, value = "edit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String edit(Model model, @PathVariable("id")long id){
+    public String edit(Model model, @PathVariable("id")long id, @ModelAttribute AttributeForm attributeForm){
         return "{\"status\":1}";
     }
 
