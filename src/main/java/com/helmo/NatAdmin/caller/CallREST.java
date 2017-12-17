@@ -3,13 +3,11 @@ package com.helmo.NatAdmin.caller;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Component
 public class CallREST {
 	protected final Environment env;
 	

@@ -3,7 +3,9 @@ package com.helmo.NatAdmin.controllers;
 import com.helmo.NatAdmin.forms.UserForm;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.UserService;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,21 +16,29 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
 	private final UserService userService;
+	private final Environment env;
+	private final PasswordEncoder passEnc;
+	private User system;
 	
-	public UserController(UserService userService) {
+	public UserController(UserService userService, Environment env, PasswordEncoder passEnc) {
 		this.userService = userService;
+		this.env = env;
+		this.passEnc = passEnc;
+		system = new User();
+		system.setEmail(env.getProperty("rest.user.system.email"));
+		system.setPassword(passEnc.encode(env.getProperty("rest.user.system.password")));
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String list(Model model) {
-		List<User> users = userService.getAll();
+		List<User> users = userService.getAll(system);
 		model.addAttribute("users", users);
 		return "users/all";
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public String view(@PathVariable("id") Long id, Model model) {
-		User u = userService.getById(id);
+		User u = userService.getById(id, system);
 		model.addAttribute("user", u);
 		return "users/view";
 	}
@@ -37,11 +47,11 @@ public class UserController {
 	@ResponseBody
 	public String edit(@PathVariable("id") Long id, Model model, @ModelAttribute UserForm userForm) {
 		//TODO Validate user input
-		User user = userService.getById(id);
+		User user = userService.getById(id, system);
 		user.setFullName(userForm.getFullName());
 		user.setEmail(userForm.getEmail());
 		user.setAdmin(userForm.isAdmin());
-		userService.update(user);
+		userService.update(user, system);
 		return "{\"status\":1}";
 	}
 	
@@ -49,7 +59,7 @@ public class UserController {
 	@ResponseBody
 	public String delete(@PathVariable("id") Long id) {
 		//LOGIC
-		userService.delete(id);
+		userService.delete(id, system);
 		return "{\"status\":1}";
 	}
 	
@@ -62,7 +72,7 @@ public class UserController {
 		user.setEmail(userForm.getEmail());
 		user.setAdmin(userForm.isAdmin());
 		user.setPassword(userForm.getPassword());
-		long id = userService.create(user);
+		long id = userService.create(user, system);
 		return String.format(
 				"{" +
 						"\"status\":1," +

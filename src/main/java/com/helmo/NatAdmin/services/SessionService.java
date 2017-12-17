@@ -2,6 +2,7 @@ package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.Session;
 import com.helmo.NatAdmin.caller.CallREST;
+import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.reception.RSession;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
@@ -29,7 +30,7 @@ public class SessionService implements ICrudService<Session> {
 	}
 	
 	@Override
-	public long create(Session toCreate) {
+	public long create(Session toCreate, User cred) {
 		return caller.create(
 			  RSession[].class, CONTROLLER_NAME,
 			  new RSession[] {new RSession(toCreate)}, restTemplate
@@ -37,7 +38,7 @@ public class SessionService implements ICrudService<Session> {
 	}
 	
 	@Override
-	public void delete(Session toDelete) {
+	public void delete(Session toDelete, User cred) {
 		caller.delete(
 			  RSession[].class, CONTROLLER_NAME,
 			  new RSession[] {new RSession(toDelete)}, restTemplate
@@ -45,7 +46,7 @@ public class SessionService implements ICrudService<Session> {
 	}
 	
 	@Override
-	public void delete(long idToDelete) {
+	public void delete(long idToDelete, User cred) {
 		caller.deleteById(
 			  RSession.class, CONTROLLER_NAME,
 			  idToDelete, restTemplate
@@ -53,7 +54,7 @@ public class SessionService implements ICrudService<Session> {
 	}
 	
 	@Override
-	public List<Session> getAll() {
+	public List<Session> getAll(User cred) {
 		List<Session> rtn = new ArrayList<>();
 		for (RSession ses : caller.getAll(RSession[].class, CONTROLLER_NAME, restTemplate))
 			rtn.add(ses.getModel());
@@ -61,12 +62,12 @@ public class SessionService implements ICrudService<Session> {
 	}
 	
 	@Override
-	public Session getById(long id) {
+	public Session getById(long id, User cred) {
 		return caller.getById(RSession.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
 	@Override
-	public void update(Session toUpdate) {
+	public void update(Session toUpdate, User cred) {
 		caller.update(
 			  RSession[].class, CONTROLLER_NAME,
 			  new RSession[] {new RSession(toUpdate)}, restTemplate);

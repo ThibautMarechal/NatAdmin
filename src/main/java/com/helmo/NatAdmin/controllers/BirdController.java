@@ -2,8 +2,11 @@ package com.helmo.NatAdmin.controllers;
 
 import com.helmo.NatAdmin.forms.BirdForm;
 import com.helmo.NatAdmin.models.Bird;
+import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.BirdService;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +18,23 @@ import java.util.List;
 public class BirdController {
 	private final BirdService birdService;
 	
-	public BirdController(BirdService birdService) {
+	private final Environment env;
+	private final PasswordEncoder passEnc;
+	private User system;
+	
+	public BirdController(BirdService birdService, Environment env, PasswordEncoder passEnc) {
 		this.birdService = birdService;
+		this.env = env;
+		this.passEnc = passEnc;
+		system = new User();
+		system.setEmail(env.getProperty("rest.user.system.email"));
+		system.setPassword(passEnc.encode(env.getProperty("rest.user.system.password")));
+		
 	}
 	
 	@RequestMapping("")
 	public String list(Model model) {
-		List<Bird> birds = birdService.getAll();
+		List<Bird> birds = birdService.getAll(system);
 		model.addAttribute("birds", birds);
 		return "birds/all";
 	}
@@ -29,21 +42,21 @@ public class BirdController {
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 //    @GetMapping("/{id}") //Another way to do it
 	public String view(@PathVariable("id") long id, Model model) {
-		Bird bird = birdService.getById(id);
+		Bird bird = birdService.getById(id, system);
 		model.addAttribute("bird", bird);
 		return "birds/view";
 	}
 	
 	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
 	public String updateGET(@PathVariable("id") long id, Model model) {
-		Bird bird = birdService.getById(id);
+		Bird bird = birdService.getById(id, system);
 		model.addAttribute("bird", bird);
 		return "birds/edit";
 	}
 	
 	@RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
 	public String updatePOST(@PathVariable("id") long id, Model model, @ModelAttribute BirdForm birdForm) {
-		Bird bird = birdService.getById(id);
+		Bird bird = birdService.getById(id, system);
 	    /*
         TODO update bird
         if(//valid){
@@ -58,7 +71,7 @@ public class BirdController {
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String delete(@PathVariable("id")long id, Model model){
-        birdService.delete(id);
+        birdService.delete(id, system);
         return "{\"status\" : 1}";
     }
 
@@ -68,7 +81,7 @@ public class BirdController {
         Bird newBird = new Bird();
         newBird.setDescription(birdForm.getDescription());
         newBird.setName(birdForm.getName());
-        long id = birdService.create(newBird);
+        long id = birdService.create(newBird, system);
         return String.format(
             "{" +
                 "\"status\":1," +

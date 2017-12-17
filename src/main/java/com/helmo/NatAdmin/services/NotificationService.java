@@ -2,6 +2,7 @@ package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.Notification;
 import com.helmo.NatAdmin.caller.CallREST;
+import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.reception.RNotification;
 import com.helmo.NatAdmin.services.crudServices.IReadService;
 import com.helmo.NatAdmin.services.crudServices.IUpdateService;
@@ -29,7 +30,7 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 	}
 	
 	
-	public List<Notification> getAll() {
+	public List<Notification> getAll(User cred) {
 		List<Notification> rtn = new ArrayList<>();
 		for (RNotification item : caller.getAll(RNotification[].class, CONTROLLER_NAME, restTemplate))
 			rtn.add(item.getModel());
@@ -37,12 +38,12 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 	}
 	
 	@Override
-	public Notification getById(long id) {
+	public Notification getById(long id, User cred) {
 		return caller.getById(RNotification.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
 	@Override
-	public void update(Notification toUpdate) {
+	public void update(Notification toUpdate, User cred) {
 		caller.update(
 			  RNotification[].class,
 			  CONTROLLER_NAME,

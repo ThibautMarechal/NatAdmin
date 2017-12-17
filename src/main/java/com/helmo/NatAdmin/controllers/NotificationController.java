@@ -3,8 +3,11 @@ package com.helmo.NatAdmin.controllers;
 import com.helmo.NatAdmin.models.Notification;
 import com.helmo.NatAdmin.models.NotificationStatus;
 import com.helmo.NatAdmin.models.Observation;
+import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.NotificationService;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,15 +22,25 @@ import java.util.List;
 public class NotificationController {
 	
 	private final NotificationService notificationService;
+	private final Environment env;
+	private final PasswordEncoder passEnc;
+	private User system;
 	
-	public NotificationController(NotificationService notificationService) {
+	public NotificationController(NotificationService notificationService, Environment env, PasswordEncoder passEnc) {
 		this.notificationService = notificationService;
+		this.env = env;
+		this.passEnc = passEnc;
+		
+		system = new User();
+		system.setEmail(this.env.getProperty("rest.user.system.email"));
+		system.setPassword(this.passEnc.encode(this.env.getProperty("rest.user.system.password")));
+		
 	}
 	
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String list(Model model) {
-		List<Notification> notifications = notificationService.getAll();
+		List<Notification> notifications = notificationService.getAll(system);
 		model.addAttribute("notifications", notifications);
 		return "notifications/all";
 	}
@@ -40,7 +53,7 @@ public class NotificationController {
 		status.setName("ACCEPTED");
 		//TODO Receive a good model and define Notification
 		notification.setStatus(status);
-		notificationService.update(notification);
+		notificationService.update(notification, system);
 		
 		//TODO Update Observation
 		Observation obsToUpdate = notification.getObservation();
@@ -56,7 +69,7 @@ public class NotificationController {
 		status.setName("REFUSED");
 		//TODO Receive a good model and define Notification
 		notification.setStatus(status);
-		notificationService.update(notification);
+		notificationService.update(notification, system);
 	
 		//TODO Update Observation
 		Observation obsToUpdate = notification.getObservation();

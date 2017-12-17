@@ -2,6 +2,7 @@ package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.caller.CallREST;
+import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.reception.RBird;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
@@ -29,7 +30,7 @@ public class BirdService implements ICrudService<Bird> {
 	
 	
 	@Override
-	public long create(Bird toCreate) {
+	public long create(Bird toCreate, User cred) {
 		return caller.create(
 			  RBird[].class, CONTROLLER_NAME,
 			  new RBird[] {new RBird(toCreate)}, restTemplate
@@ -37,7 +38,7 @@ public class BirdService implements ICrudService<Bird> {
 	}
 	
 	@Override
-	public void delete(Bird toDelete) {
+	public void delete(Bird toDelete, User cred) {
 		caller.delete(
 			  RBird[].class, CONTROLLER_NAME,
 			  new RBird[] {new RBird(toDelete)}, restTemplate
@@ -45,7 +46,7 @@ public class BirdService implements ICrudService<Bird> {
 	}
 	
 	@Override
-	public void delete(long idToDelete) {
+	public void delete(long idToDelete, User cred) {
 		caller.deleteById(
 			  RBird.class, CONTROLLER_NAME,
 			  idToDelete, restTemplate
@@ -53,7 +54,7 @@ public class BirdService implements ICrudService<Bird> {
 	}
 	
 	@Override
-	public List<Bird> getAll() {
+	public List<Bird> getAll(User cred) {
 		List<RBird> rBirds = caller.getAll(RBird[].class, CONTROLLER_NAME, restTemplate);
 		
 		List<Bird> rtn = new ArrayList<>();
@@ -63,12 +64,12 @@ public class BirdService implements ICrudService<Bird> {
 	}
 	
 	@Override
-	public Bird getById(long id) {
+	public Bird getById(long id, User cred) {
 		return caller.getById(RBird.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
 	@Override
-	public void update(Bird toUpdate) {
+	public void update(Bird toUpdate, User cred) {
 		caller.update(
 			  RBird[].class, CONTROLLER_NAME,
 			  new RBird[] {new RBird(toUpdate)}, restTemplate

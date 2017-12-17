@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/birds/attributes")
-public class DescriptionController
+public class AttributeController
 {
     @RequestMapping("")
     public String list(Model model){
         return "birds/attributes/all";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "edit/{id}")
+//    @RequestMapping(method = RequestMethod.POST, value = "edit/{id}")
 }
