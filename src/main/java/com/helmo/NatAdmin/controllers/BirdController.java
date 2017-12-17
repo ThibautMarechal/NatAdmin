@@ -4,6 +4,7 @@ import com.helmo.NatAdmin.forms.BirdForm;
 import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.BirdService;
+import com.helmo.NatAdmin.tools.SystemProvider;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,9 +27,7 @@ public class BirdController {
 		this.birdService = birdService;
 		this.env = env;
 		this.passEnc = passEnc;
-		system = new User();
-		system.setEmail(env.getProperty("rest.user.system.email"));
-		system.setPassword(passEnc.encode(env.getProperty("rest.user.system.password")));
+		system = SystemProvider.getSystem();
 		
 	}
 	

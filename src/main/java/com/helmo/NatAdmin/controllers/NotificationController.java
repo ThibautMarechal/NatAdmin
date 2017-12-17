@@ -5,6 +5,7 @@ import com.helmo.NatAdmin.models.NotificationStatus;
 import com.helmo.NatAdmin.models.Observation;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.NotificationService;
+import com.helmo.NatAdmin.tools.SystemProvider;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,9 +32,7 @@ public class NotificationController {
 		this.env = env;
 		this.passEnc = passEnc;
 		
-		system = new User();
-		system.setEmail(this.env.getProperty("rest.user.system.email"));
-		system.setPassword(this.passEnc.encode(this.env.getProperty("rest.user.system.password")));
+		system = SystemProvider.getSystem();
 		
 	}
 	

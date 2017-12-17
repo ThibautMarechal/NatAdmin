@@ -3,6 +3,7 @@ package com.helmo.NatAdmin.controllers;
 import com.helmo.NatAdmin.forms.LoginForm;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.UserService;
+import com.helmo.NatAdmin.tools.SystemProvider;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,9 +25,7 @@ public class LoginController {
 		this.usrSrv = usrSrv;
 		this.env = env;
 		
-		systemUser = new User();
-		systemUser.setEmail(env.getProperty("rest.user.system.email"));
-		systemUser.setPassword(passEnc.encode(env.getProperty("rest.user.system.password")));
+		systemUser = SystemProvider.getSystem();
 	}
 	
 	@GetMapping
@@ -36,5 +35,10 @@ public class LoginController {
 		user.setPassword(passEnc.encode(model.getPassword()));
 		
 		User dbUser = usrSrv.findByEmail(user.getEmail(), systemUser);
+		if(dbUser.isAdmin()){
+			//OK
+		} else {
+			//NOK
+		}
 	}
 }

@@ -3,6 +3,7 @@ package com.helmo.NatAdmin.controllers;
 import com.helmo.NatAdmin.forms.SessionForm;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.SessionService;
+import com.helmo.NatAdmin.tools.SystemProvider;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,9 +24,7 @@ public class SessionController {
 		this.sessionService = sessionService;
 		this.env = env;
 		this.passEnc = passEnc;
-		system = new User();
-		system.setEmail(this.env.getProperty("rest.user.system.email"));
-		system.setPassword(this.passEnc.encode(this.env.getProperty("rest.user.system.password")));
+		system = SystemProvider.getSystem();
 		
 	}
 	
