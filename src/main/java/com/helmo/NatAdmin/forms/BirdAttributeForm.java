@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,14 +30,20 @@ public class BirdAttributeForm
         JSONParser parser = new JSONParser();
         try
         {
-            Object obj = parser.parse(source);
-            JSONObject jsonObject =  (JSONObject) obj;
+            JSONObject jsonObject =  (JSONObject)parser.parse(source);
+
+            for(Iterator iterator = jsonObject.keySet().iterator(); iterator.hasNext();) {
+                String key = (String) iterator.next();
+                List<String> values = (List<String>)jsonObject.get(key);
+                attributes.put(key, values);
+            }
         }
         catch (ParseException e)
         {
             return null;
         }
         BirdAttributeForm baf = new BirdAttributeForm();
+        baf.setAttributes(attributes);
         return baf;
     }
 }
