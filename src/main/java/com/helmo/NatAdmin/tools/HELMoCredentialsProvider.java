@@ -13,7 +13,7 @@ public class HELMoCredentialsProvider {
 		try {
 			return ServiceAccountCredentials.fromStream(
 				  new FileInputStream(
-						new ClassPathResource("/service_key.json").getFile()));
+						new ClassPathResource("admin-service-key.json").getFile()));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
