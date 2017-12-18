@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
+
 @Getter
 @Setter
 public class RNotification extends IdentifiedModel
@@ -18,9 +20,10 @@ public class RNotification extends IdentifiedModel
 	
 	private Timestamp date;
 	
-	private RNotificationStatus status;
+	@JsonProperty("status")
+	private RNotificationStatus rStatus;
 	
-	@JsonProperty("observation")
+	@JsonProperty(value = "observation")
 	private RObservation rObservation;
 	
 	public RNotification() {
@@ -30,9 +33,13 @@ public class RNotification extends IdentifiedModel
 		this.setId(not.getId());
 		this.caption = not.getCaption();
 		this.description = not.getDescription();
-		this.date = new Timestamp(not.getDate().getTime());
-		this.status = new RNotificationStatus(not.getStatus());
-		this.rObservation = new RObservation(not.getObservation());
+		this.date = (not.getDate() != null)
+			  ? new Timestamp(not.getDate().getTime())
+			  : null;
+		this.rStatus = new RNotificationStatus(not.getStatus());
+		this.rObservation = (not.getObservation() != null)
+			  ? new RObservation(not.getObservation())
+			  : null;
 	}
 	
 	@Override
@@ -42,8 +49,10 @@ public class RNotification extends IdentifiedModel
 		rtn.setCaption(this.caption);
 		rtn.setDescription(this.description);
 		rtn.setDate(this.date);
-		rtn.setStatus(this.status.getModel());
-		rtn.setObservation(this.rObservation.getModel());
+		rtn.setStatus(this.rStatus.getModel());
+		rtn.setObservation((this.rObservation != null)
+			  ? this.rObservation.getModel()
+			  : null);
 		return rtn;
 	}
 }

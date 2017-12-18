@@ -24,9 +24,6 @@ public class SessionService implements ICrudService<Session> {
 	public SessionService(RestTemplate template, CallREST caller) {
 		restTemplate = template;
 		this.caller = caller;
-		restTemplate.getInterceptors().add(
-			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
-		);
 	}
 	
 	private void setCredential(User user) {
