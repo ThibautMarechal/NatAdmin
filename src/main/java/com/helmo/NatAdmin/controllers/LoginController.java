@@ -54,8 +54,8 @@ public class LoginController {
 		return "login/login";
 	}
 	
-	@RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
-	public String index(LoginForm model) {
+	@RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.POST)
+	public String doPost(LoginForm model) {
 		User user = new User();
 		user.setEmail(model.getUsername());
 		user.setPassword(passEnc.encode(model.getPassword()));
@@ -68,6 +68,6 @@ public class LoginController {
 			//NOK
 		}
 		
-		return "index";
+		return "users/all";
 	}
 }
