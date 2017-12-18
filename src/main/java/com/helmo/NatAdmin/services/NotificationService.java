@@ -1,7 +1,7 @@
 package com.helmo.NatAdmin.services;
 
-import com.helmo.NatAdmin.models.Notification;
 import com.helmo.NatAdmin.caller.CallREST;
+import com.helmo.NatAdmin.models.Notification;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.reception.RNotification;
 import com.helmo.NatAdmin.services.crudServices.IReadService;
@@ -55,7 +55,7 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 		caller.update(
 			  RNotification[].class,
 			  CONTROLLER_NAME,
-			  new RNotification[] {new RNotification(toUpdate)},
+			  new RNotification[]{new RNotification(toUpdate)},
 			  restTemplate);
 	}
 }

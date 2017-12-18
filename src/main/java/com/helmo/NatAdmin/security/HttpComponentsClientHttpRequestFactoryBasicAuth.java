@@ -13,7 +13,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import java.net.URI;
 
 public class HttpComponentsClientHttpRequestFactoryBasicAuth
-	extends HttpComponentsClientHttpRequestFactory {
+	  extends HttpComponentsClientHttpRequestFactory {
 	
 	HttpHost host;
 	

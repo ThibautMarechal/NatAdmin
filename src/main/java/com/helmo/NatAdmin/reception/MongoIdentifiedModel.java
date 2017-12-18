@@ -5,7 +5,8 @@ import lombok.Setter;
 
 public abstract class MongoIdentifiedModel {
 	
-	@Getter @Setter
+	@Getter
+	@Setter
 	private long id;
 	
 	@Override

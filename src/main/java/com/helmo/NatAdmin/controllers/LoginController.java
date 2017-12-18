@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/login")
@@ -30,7 +29,7 @@ public class LoginController {
 		
 		systemUser = SystemProvider.getSystem();
 	}
-	
+
 //	@GetMapping
 //	public void index(LoginForm model) {
 //		User user = new User();
@@ -60,15 +59,15 @@ public class LoginController {
 		User user = new User();
 		user.setEmail(model.getUsername());
 		user.setPassword(passEnc.encode(model.getPassword()));
-
+		
 		User dbUser = usrSrv.findByEmail(user.getEmail(), systemUser);
-		if(dbUser.isAdmin()){
+		if (dbUser.isAdmin()) {
 			//OK
-
+			
 		} else {
 			//NOK
 		}
-
+		
 		return "users/all";
 	}
 }

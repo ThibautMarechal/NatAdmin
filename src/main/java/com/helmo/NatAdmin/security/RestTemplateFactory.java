@@ -9,10 +9,10 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class RestTemplateFactory
-	implements FactoryBean<RestTemplate>, InitializingBean {
+	  implements FactoryBean<RestTemplate>, InitializingBean {
 	
-	private RestTemplate restTemplate;
 	private final Environment env;
+	private RestTemplate restTemplate;
 	
 	public RestTemplateFactory(Environment env) {
 		this.env = env;
@@ -36,11 +36,11 @@ public class RestTemplateFactory
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		HttpHost host = new HttpHost(
-				env.getProperty("rest.ip"),
-				Integer.parseInt(env.getProperty("rest.port")),
-				env.getProperty("rest.protocol"));
+			  env.getProperty("rest.ip"),
+			  Integer.parseInt(env.getProperty("rest.port")),
+			  env.getProperty("rest.protocol"));
 		restTemplate = new RestTemplate(
-				new HttpComponentsClientHttpRequestFactoryBasicAuth(host)
+			  new HttpComponentsClientHttpRequestFactoryBasicAuth(host)
 		);
 	}
 }

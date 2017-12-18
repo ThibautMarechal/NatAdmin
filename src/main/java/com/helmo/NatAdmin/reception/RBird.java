@@ -10,7 +10,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class RBird extends MongoIdentifiedModel
-	implements ReceptionObject<Bird> {
+	  implements ReceptionObject<Bird> {
 	
 	private String name;
 	private String description;

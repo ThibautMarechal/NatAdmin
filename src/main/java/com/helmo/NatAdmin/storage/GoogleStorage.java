@@ -40,8 +40,8 @@ public class GoogleStorage { //TODO Work with path not strings
 		BlobInfo blobInfo = BlobInfo
 			  .newBuilder(blobId)
 			  .setContentType(mediaType)
-				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
-				.build();
+			  .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
+			  .build();
 		
 		uploadContent(path, blobInfo);
 	}

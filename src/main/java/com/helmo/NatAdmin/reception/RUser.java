@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class RUser extends IdentifiedModel
-		implements ReceptionObject<User> {
+	  implements ReceptionObject<User> {
 	
 	@NotEmpty
 	private String fullName;
@@ -45,11 +45,11 @@ public class RUser extends IdentifiedModel
 		this.password = usr.getPassword();
 		this.onlinePath = usr.getProfilePictureUrl();
 		this.rRoles = (usr.getRoles() != null)
-				? convertRRoles(usr.getRoles())
-				: new ArrayList<>();
+			  ? convertRRoles(usr.getRoles())
+			  : new ArrayList<>();
 		this.rSessions = (usr.getSessions() != null)
-				? convertRSessions(usr.getSessions())
-				: new ArrayList<>();
+			  ? convertRSessions(usr.getSessions())
+			  : new ArrayList<>();
 	}
 	
 	private List<RSession> convertRSessions(List<Session> sessions) {

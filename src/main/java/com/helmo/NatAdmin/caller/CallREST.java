@@ -40,8 +40,8 @@ public class CallREST {
 	private <T> T[] callWithMultiEntity(Class<T[]> rObject, String controllerName, T[] object, RestTemplate restTemplate, HttpMethod method) {
 		HttpEntity<T[]> entity = new HttpEntity<>(object);
 		return restTemplate.exchange(
-				env.getProperty("rest.url") + "/" + controllerName,
-				method, entity, rObject
+			  env.getProperty("rest.url") + "/" + controllerName,
+			  method, entity, rObject
 		).getBody();
 	}
 	

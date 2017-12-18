@@ -11,7 +11,8 @@ public class RNotificationStatus extends IdentifiedModel
 	
 	private String name;
 	
-	public RNotificationStatus(){}
+	public RNotificationStatus() {
+	}
 	
 	public RNotificationStatus(NotificationStatus status) {
 		this.name = status.getName();

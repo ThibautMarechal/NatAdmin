@@ -5,5 +5,5 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 public class AppConfig extends WebMvcConfigurerAdapter {
-    //TODO CONFIGURATIONS HERE
+	//TODO CONFIGURATIONS HERE
 }

@@ -1,7 +1,7 @@
 package com.helmo.NatAdmin.services;
 
-import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.caller.CallREST;
+import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.reception.RBird;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BirdService implements ICrudService<Bird> {
@@ -40,7 +38,7 @@ public class BirdService implements ICrudService<Bird> {
 		setCredential(cred);
 		return caller.create(
 			  RBird[].class, CONTROLLER_NAME,
-			  new RBird[] {new RBird(toCreate)}, restTemplate
+			  new RBird[]{new RBird(toCreate)}, restTemplate
 		)[0].getId();
 	}
 	
@@ -49,7 +47,7 @@ public class BirdService implements ICrudService<Bird> {
 		setCredential(cred);
 		caller.delete(
 			  RBird[].class, CONTROLLER_NAME,
-			  new RBird[] {new RBird(toDelete)}, restTemplate
+			  new RBird[]{new RBird(toDelete)}, restTemplate
 		);
 	}
 	
@@ -84,7 +82,7 @@ public class BirdService implements ICrudService<Bird> {
 		setCredential(cred);
 		caller.update(
 			  RBird[].class, CONTROLLER_NAME,
-			  new RBird[] {new RBird(toUpdate)}, restTemplate
+			  new RBird[]{new RBird(toUpdate)}, restTemplate
 		);
 	}
 }

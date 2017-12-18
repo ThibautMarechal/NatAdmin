@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RMediaType extends IdentifiedModel
-		implements ReceptionObject<MediaType> {
+	  implements ReceptionObject<MediaType> {
 	
 	private String name;
 	

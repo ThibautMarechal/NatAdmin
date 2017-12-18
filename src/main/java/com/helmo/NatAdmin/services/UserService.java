@@ -28,8 +28,8 @@ public class UserService implements ICrudService<User> {
 	private void setCredential(User user) {
 		restTemplate.getInterceptors().add(
 			  new BasicAuthorizationInterceptor(
-				    user.getEmail(),
-				    user.getPassword())
+					user.getEmail(),
+					user.getPassword())
 		);
 	}
 	
@@ -54,19 +54,19 @@ public class UserService implements ICrudService<User> {
 	@Override
 	public void update(User toUpdate, User cred) {
 		setCredential(cred);
-		caller.update(RUser[].class, CONTROLLER_NAME, new RUser[] {new RUser(toUpdate)}, restTemplate);
+		caller.update(RUser[].class, CONTROLLER_NAME, new RUser[]{new RUser(toUpdate)}, restTemplate);
 	}
 	
 	@Override
 	public long create(User toCreate, User cred) { //TODO Return the object itself
 		setCredential(cred);
-		return caller.create(RUser[].class, CONTROLLER_NAME, new RUser[] {new RUser(toCreate)}, restTemplate)[0].getId();
+		return caller.create(RUser[].class, CONTROLLER_NAME, new RUser[]{new RUser(toCreate)}, restTemplate)[0].getId();
 	}
 	
 	@Override
 	public void delete(User toDelete, User cred) {
 		setCredential(cred);
-		caller.delete(RUser[].class, CONTROLLER_NAME, new RUser[] {new RUser(toDelete)}, restTemplate);
+		caller.delete(RUser[].class, CONTROLLER_NAME, new RUser[]{new RUser(toDelete)}, restTemplate);
 	}
 	
 	@Override

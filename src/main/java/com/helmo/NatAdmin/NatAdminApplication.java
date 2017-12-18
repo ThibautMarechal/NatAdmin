@@ -9,12 +9,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-public class NatAdminApplication extends SpringBootServletInitializer
-{
-
+public class NatAdminApplication extends SpringBootServletInitializer {
+	
 	public static void main(String[] args) {
 		SpringApplication.run(NatAdminApplication.class, args);
 	}
+	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(NatAdminApplication.class);

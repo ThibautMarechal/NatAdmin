@@ -69,7 +69,7 @@ public class NotificationController {
 		//TODO Receive a good model and define Notification
 		notification.setStatus(status);
 		notificationService.update(notification, system);
-	
+		
 		//TODO Update Observation
 		Observation obsToUpdate = notification.getObservation();
 		obsToUpdate.setValid(false);

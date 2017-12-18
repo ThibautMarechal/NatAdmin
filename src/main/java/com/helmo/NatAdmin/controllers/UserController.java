@@ -73,15 +73,15 @@ public class UserController {
 		user.setPassword(userForm.getPassword());
 		long id = userService.create(user, system);
 		return String.format(
-				"{" +
-						"\"status\":1," +
-						"\"content\":" +
-						"{" +
-						"\"id\":%d" +
-						"\"fullName\": \"%s\"" +
-						"\"email\": \"%s\"" +
-						"\"admin\": %b" +
-						"}" +
-						"}", id, user.getFullName(), user.getEmail(), user.isAdmin());
+			  "{" +
+					"\"status\":1," +
+					"\"content\":" +
+					"{" +
+					"\"id\":%d" +
+					"\"fullName\": \"%s\"" +
+					"\"email\": \"%s\"" +
+					"\"admin\": %b" +
+					"}" +
+					"}", id, user.getFullName(), user.getEmail(), user.isAdmin());
 	}
 }

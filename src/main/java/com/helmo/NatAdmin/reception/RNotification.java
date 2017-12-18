@@ -2,7 +2,6 @@ package com.helmo.NatAdmin.reception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.helmo.NatAdmin.models.Notification;
-import com.helmo.NatAdmin.models.NotificationStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +10,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class RNotification extends IdentifiedModel
-		implements ReceptionObject<Notification> {
+	  implements ReceptionObject<Notification> {
 	
 	private String caption;
 	

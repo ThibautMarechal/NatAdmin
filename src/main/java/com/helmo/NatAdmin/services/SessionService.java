@@ -1,7 +1,7 @@
 package com.helmo.NatAdmin.services;
 
-import com.helmo.NatAdmin.models.Session;
 import com.helmo.NatAdmin.caller.CallREST;
+import com.helmo.NatAdmin.models.Session;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.reception.RSession;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
@@ -42,7 +42,7 @@ public class SessionService implements ICrudService<Session> {
 		setCredential(cred);
 		return caller.create(
 			  RSession[].class, CONTROLLER_NAME,
-			  new RSession[] {new RSession(toCreate)}, restTemplate
+			  new RSession[]{new RSession(toCreate)}, restTemplate
 		)[0].getId();
 	}
 	
@@ -51,7 +51,7 @@ public class SessionService implements ICrudService<Session> {
 		setCredential(cred);
 		caller.delete(
 			  RSession[].class, CONTROLLER_NAME,
-			  new RSession[] {new RSession(toDelete)}, restTemplate
+			  new RSession[]{new RSession(toDelete)}, restTemplate
 		);
 	}
 	
@@ -84,6 +84,6 @@ public class SessionService implements ICrudService<Session> {
 		setCredential(cred);
 		caller.update(
 			  RSession[].class, CONTROLLER_NAME,
-			  new RSession[] {new RSession(toUpdate)}, restTemplate);
+			  new RSession[]{new RSession(toUpdate)}, restTemplate);
 	}
 }

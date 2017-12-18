@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @JsonIgnoreProperties("RUser")
 public class RSession extends IdentifiedModel
-		implements ReceptionObject<Session> {
+	  implements ReceptionObject<Session> {
 	
 	private String name;
 	
@@ -47,7 +47,7 @@ public class RSession extends IdentifiedModel
 	
 	private List<RObservation> convertRObservations(List<Observation> observations) {
 		List<RObservation> rtn = new ArrayList<>();
-		for(Observation obs : observations)
+		for (Observation obs : observations)
 			rtn.add(new RObservation(obs));
 		return rtn;
 	}
@@ -62,8 +62,8 @@ public class RSession extends IdentifiedModel
 		rtn.setStart(this.dateStart);
 		rtn.setEnd(this.dateEnd);
 		rtn.setUser((rUser != null)
-				? rUser.getModel()
-				: null);
+			  ? rUser.getModel()
+			  : null);
 		rtn.setObservations(getObservations());
 		
 		return rtn;
