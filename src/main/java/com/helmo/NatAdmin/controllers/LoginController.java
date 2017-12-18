@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpSession;
-
 @Controller
 @RequestMapping("/login")
 public class LoginController {
@@ -47,13 +45,13 @@ public class LoginController {
 //	}
 	
 	@GetMapping
-	public void index(Model model, String error, String logout) {
+	public String index(Model model, String error, String logout) {
 		if (error != null)
 			model.addAttribute("error", "Your email and password is invalid.");
 		
 		if (logout != null)
 			model.addAttribute("message", "You have been logged out successfully.");
-		
+		return "login/login";
 	}
 	
 	@RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
@@ -70,6 +68,6 @@ public class LoginController {
 			//NOK
 		}
 		
-		return "welcome";
+		return "index";
 	}
 }

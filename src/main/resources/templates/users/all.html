@@ -154,7 +154,7 @@ new Vue({
   el: '#app',
   data: {
     users: users,
-    selectedUser: users[0],
+    selectedUser: null,
     fullNameFilter: "",
     emailFilter: ""
   },
@@ -208,7 +208,6 @@ new Vue({
       },
       createSubmit: function(){
           var self = this;
-          console.log("createSubmit");
           $.ajax({
 			 type: "POST",
 			 url: "/users/create/",

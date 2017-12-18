@@ -1,21 +1,22 @@
 package com.helmo.NatAdmin.services;
 
-import com.helmo.NatAdmin.models.Description;
+import com.helmo.NatAdmin.models.Attribute;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AttributeService implements ICrudService<Description> {
+@Service
+public class AttributeService implements ICrudService<Attribute> {
 	@Override
-	public long create(Description toCreate, User cred) {
+	public long create(Attribute toCreate, User cred) {
 		//TODO
 		return 1;
 	}
 	
 	@Override
-	public void delete(Description toDelete, User cred) {
+	public void delete(Attribute toDelete, User cred) {
 		//TODO
 	}
 	
@@ -25,7 +26,7 @@ public class AttributeService implements ICrudService<Description> {
 	}
 	
 	@Override
-	public List<Description> getAll(User cred) {
+	public List<Attribute> getAll(User cred) {
 //        List<Description> attributes = new ArrayList<>();
 //        for (int i = 0; i < 10; i++)
 //        {
@@ -36,7 +37,7 @@ public class AttributeService implements ICrudService<Description> {
 	}
 	
 	@Override
-	public Description getById(long id, User cred) {
+	public Attribute getById(long id, User cred) {
 //        Description description = new Description();
 //        description.setKey("colors #"+id);
 //        List<String> colors = new ArrayList<>();
@@ -55,7 +56,7 @@ public class AttributeService implements ICrudService<Description> {
 	}
 	
 	@Override
-	public void update(Description toUpdate, User cred) {
+	public void update(Attribute toUpdate, User cred) {
 		//TODO
 	}
 }
