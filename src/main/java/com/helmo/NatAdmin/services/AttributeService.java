@@ -1,62 +1,77 @@
 package com.helmo.NatAdmin.services;
 
+import com.helmo.NatAdmin.caller.CallREST;
 import com.helmo.NatAdmin.models.Attribute;
 import com.helmo.NatAdmin.models.User;
+import com.helmo.NatAdmin.reception.RAttribute;
+import com.helmo.NatAdmin.reception.RUser;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
+import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class AttributeService implements ICrudService<Attribute> {
+	
+	private final String CONTROLLER_NAME = "users";
+	
+	private final RestTemplate restTemplate;
+	private final CallREST caller;
+	
+	public AttributeService(RestTemplate restTemplate, CallREST caller) {
+		this.restTemplate = restTemplate;
+		this.caller = caller;
+	}
+	
+	private void setCredential(User user) {
+		restTemplate.getInterceptors().add(
+			  new BasicAuthorizationInterceptor(
+					user.getEmail(),
+					user.getPassword())
+		);
+	}
+	
 	@Override
 	public long create(Attribute toCreate, User cred) {
-		//TODO
-		return 1;
+		setCredential(cred);
+		return caller.create(RAttribute[].class, CONTROLLER_NAME, new RAttribute[] {new RAttribute(toCreate)}, restTemplate)[0].getId();
 	}
 	
 	@Override
 	public void delete(Attribute toDelete, User cred) {
-		//TODO
+		setCredential(cred);
+		caller.delete(RAttribute[].class, CONTROLLER_NAME, new RAttribute[] {new RAttribute(toDelete)}, restTemplate);
 	}
 	
 	@Override
 	public void delete(long idToDelete, User cred) {
-		//TODO
+		setCredential(cred);
+		caller.deleteById(RAttribute.class, CONTROLLER_NAME, idToDelete, restTemplate);
 	}
 	
 	@Override
 	public List<Attribute> getAll(User cred) {
-//        List<Description> attributes = new ArrayList<>();
-//        for (int i = 0; i < 10; i++)
-//        {
-//            attributes.add(getById(i));
-//        }
-//        return attributes;
-		return null;
+		setCredential(cred);
+        List<RAttribute> rAttributes = caller.getAll(RAttribute[].class, CONTROLLER_NAME, restTemplate);
+		
+		List<Attribute> rtn = new ArrayList<>();
+		for (RAttribute item : rAttributes)
+			rtn.add(item.getModel());
+		return rtn;
 	}
 	
 	@Override
 	public Attribute getById(long id, User cred) {
-//        Description description = new Description();
-//        description.setKey("colors #"+id);
-//        List<String> colors = new ArrayList<>();
-//        colors.add("blue #"+id);
-//        colors.add("red #"+id);
-//        colors.add("green #"+id);
-//        colors.add("yellow #"+id);
-//        colors.add("orange #"+id);
-//        colors.add("purple #"+id);
-//        colors.add("white #"+id);
-//        colors.add("black #"+id);
-//        description.setValues(colors);
-//        return description;
-		
-		return null;
+		setCredential(cred);
+          return caller.getById(RAttribute.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
 	@Override
 	public void update(Attribute toUpdate, User cred) {
-		//TODO
+		setCredential(cred);
+		caller.update(RAttribute[].class, CONTROLLER_NAME, new RAttribute[] {new RAttribute(toUpdate)}, restTemplate);
 	}
 }
