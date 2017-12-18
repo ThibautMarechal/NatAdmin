@@ -6,29 +6,7 @@
 <body>
 <header th:include="layout :: site-header" ></header>
 <div class="container-fluid" id="app">
-	<div class="container-fluid" id="app">
-		<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal" aria-labelledby="deleteModal" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Delete session</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<p>Id: {{selectedSession.id}}</p>
-						<p>Name : {{selectedSession.name}}</p>
-						<p>Description:<br/> {{selectedSession.description}}</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" v-on:click="deleteSubmit" data-dismiss="modal">Delete</button>
-						<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+
 	<table class="table table-hover table-responsive-sm">
 		<caption>List of sessions</caption>
 		<thead>
@@ -42,9 +20,9 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td><input type="text" v-model="dateFilter" placeholder="Date filter"/></td>
-				<td><input type="text" v-model="locationFilter" placeholder="Location filter"/></td>
-				<td><input type="text" v-model="userFilter" placeholder="user filter"/></td>
+				<td><input type="text" v-model="dateFilter" placeholder="Full Name filter"/></td>
+				<td><input type="text" v-model="locationFilter" placeholder="Email filter"/></td>
+				<td><input type="text" v-model="userFilter" placeholder="Email filter"/></td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -58,8 +36,9 @@
 				<td>{{session.user.fullName}}</td>
 				<td>{{observationSize(session)}}</td>
 				<td>
-					<a class="btn btn-primary" :href="'/sessions/' +session.id">view</a>
-					<button class="btn btn-primary" v-on:click="deleteSession(session)">delete</button>
+					<a class="btn" :href="'/sessions/' +session.id">view</a>
+					<button class="btn" v-on:click="editSession(session)">edit</button>
+					<button class="btn" v-on:click="deleteSession(session)">delete</button>
 				</td>
 			</tr>
 		</tbody>
@@ -86,30 +65,6 @@ new Vue({
 	},
 	observationSize : function(session){
 	    return session.observations.length;
-	},
-	deleteSession: function(session){
-		this.selectedSession = session;
-		$("#deleteModal").modal('show');
-	},
-	deleteSubmit: function(){
-		var self = this;
-		$.ajax({
-			type: "GET",
-			url: "/birds/delete/"+ this.selectedSession.id,
-			success: function(data)
-			{
-				console.log(data);
-				if(data.status === 1){
-					var index = self.sessions.indexOf(self.selectedSession);
-					if (index > -1) {
-						self.sessions.splice(index, 1);
-					}
-				}else{
-					alert(data.messageError);
-				}
-				$("#deleteModal").modal('hide');
-			}
-		});
 	}
   }
 })

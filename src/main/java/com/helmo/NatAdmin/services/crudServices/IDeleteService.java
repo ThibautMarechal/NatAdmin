@@ -1,8 +1,9 @@
 package com.helmo.NatAdmin.services.crudServices;
 
-import com.helmo.NatAdmin.models.Identifiable;
+import com.helmo.NatAdmin.models.IdentifiedModel;
+import com.helmo.NatAdmin.models.User;
 
-public interface IDeleteService<T extends Identifiable> {
-    void delete(T toDelete);
-    void delete(long idToDelete);
+public interface IDeleteService<T extends IdentifiedModel> {
+    void delete(T toDelete, User cred);
+    void delete(long idToDelete, User cred);
 }

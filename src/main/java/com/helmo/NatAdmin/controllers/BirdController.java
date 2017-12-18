@@ -3,9 +3,12 @@ package com.helmo.NatAdmin.controllers;
 import com.helmo.NatAdmin.forms.BirdAttributeForm;
 import com.helmo.NatAdmin.forms.BirdForm;
 import com.helmo.NatAdmin.models.Bird;
-import com.helmo.NatAdmin.services.AttributeService;
+import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.BirdService;
+import com.helmo.NatAdmin.tools.SystemProvider;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +51,7 @@ public class BirdController {
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String delete(@PathVariable("id")long id, Model model){
-        birdService.delete(id);
+        birdService.delete(id, system);
         return "{\"status\" : 1}";
     }
 
@@ -58,7 +61,7 @@ public class BirdController {
         Bird newBird = new Bird();
         newBird.setDescription(birdForm.getDescription());
         newBird.setName(birdForm.getName());
-        long id = birdService.create(newBird);
+        long id = birdService.create(newBird, system);
         return String.format(
             "{" +
                 "\"status\":1," +

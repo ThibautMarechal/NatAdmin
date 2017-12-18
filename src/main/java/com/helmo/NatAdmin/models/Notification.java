@@ -3,12 +3,14 @@ package com.helmo.NatAdmin.models;
 
 import java.util.Date;
 
-public class Notification extends Identifiable
+@Getter
+@Setter
+public class Notification extends IdentifiedModel
 {
     private String caption;
     private String description;
     private Date date;
-    private boolean status;
+    private NotificationStatus status;
     private Observation observation;
 
     public String getCaption() {

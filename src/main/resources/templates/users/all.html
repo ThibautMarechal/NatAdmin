@@ -60,23 +60,23 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="fullName">Full Name</label>
-						<input type="text" class="form-control" name="fullName" placeholder="Full Name" v-model="fullName"/>
+						<input type="text" class="form-control" name="fullName" placeholder="Full Name" v-model="selectedUser.fullName"/>
 					</div>
 					<div class="form-group">
 						<label for="email">Email</label>
-						<input type="email" class="form-control" name="email" placeholder="sample@domain.com" v-model="email"/>
+						<input type="email" class="form-control" name="email" placeholder="sample@domain.com" v-model="selectedUser.email"/>
 					</div>
 					<div class="form-group">
 						<label for="admin">Admin</label>
-						<input type="checkbox" class="form-check-input" name="admin" v-model="admin"/>
+						<input type="checkbox" class="form-check-input" name="admin" v-model="selectedUser.admin"/>
 					</div>
 					<div class="form-group">
-						<label for="password">New password</label>
-						<input type="password" class="form-control" name="password" v-model="password"/>
+						<label for="password">Password</label>
+						<input type="password" class="form-control" name="password"/>
 					</div>
 					<div class="form-group">
-						<label for="confirmedPassword">Confirm new password</label>
-						<input type="password" class="form-control" name="confirmedPassword" v-model="passwordConfirmed"/>
+						<label for="confirmedPassword">Confirm Password</label>
+						<input type="password" class="form-control" name="confirmedPassword"/>
 					</div>
 				</div>
 				<div v-if="password !== passwordConfirmed" class="alert alert-danger" role="alert">
@@ -101,7 +101,7 @@
 			</div>
 			<div class="modal-body">
 				<p>Full Name : {{selectedUser.fullName}}</p>
-				<p>Email: {{selectedUser.email}}</p>
+				<p>Email: {{selectedUser.fullName}}</p>
 				<p>Admin: {{selectedUser.admin}}</p>
 			</div>
 			<div class="modal-footer">
@@ -122,11 +122,11 @@
 				<th scope="col">...</th>
 			</tr>
 			<tr>
-				<th></th>
-				<th><input type="text" v-model="fullNameFilter" placeholder="Full Name filter"/></th>
-				<th><input type="text" v-model="emailFilter" placeholder="Email filter"/></th>
-				<th></th>
-				<th></th>
+				<td></td>
+				<td><input type="text" v-model="fullNameFilter" placeholder="Full Name filter"/></td>
+				<td><input type="text" v-model="emailFilter" placeholder="Email filter"/></td>
+				<td></td>
+				<td></td>
 			</tr>
 		</thead>
 		<tbody>
@@ -137,9 +137,8 @@
 				<td>{{user.email}}</td>
 				<td>{{user.admin}}</td>
 				<td>
-					<a class="btn btn-primary" :href="'/users/' + user.id">view</a>
-					<button class="btn btn-primary" v-on:click="editUser(user)">edit</button>
-					<button class="btn btn-primary" v-on:click="deleteUser(user)">delete</button>
+					<button class="btn" v-on:click="editUser(user)">edit</button>
+					<button class="btn" v-on:click="deleteUser(user)">delete</button>
 				</td>
 			</tr>
 		</tbody>
@@ -157,12 +156,7 @@ new Vue({
     users: users,
     selectedUser: null,
     fullNameFilter: "",
-    emailFilter: "",
-    password: "",
-	passwordConfirmed: "",
-	fullName: "",
-	email: "",
-	admin: false,
+    emailFilter: ""
   },
   methods:{
       filter: function(user){
@@ -170,9 +164,6 @@ new Vue({
       },
       editUser: function(user){
           this.selectedUser = user;
-          this.fullName = user.fullName;
-          this.email = user.email;
-          this.admin = user.admin;
           $("#editModal").modal('show')
       },
       deleteUser: function(user){
@@ -183,10 +174,9 @@ new Vue({
           $("#createModal").modal('show')
       },
       editSubmit: function(){
-          var self = this;
           $.ajax({
 			 type: "POST",
-			 url: "/users/edit/"+ self.selectedUser.id,
+			 url: "/users/edit/"+ this.selectedUser.id,
 			 data: $("#editForm").serialize(),
 			 success: function(data)
 			 {
@@ -195,7 +185,6 @@ new Vue({
 					self.selectedUser.email = self.email;
 					self.selectedUser.admin = self.admin;
 				 }else{
-			         console.log(data);
 					 alert(data.errorMessage);
 				 }
 				 $("#editModal").modal('hide')
@@ -203,19 +192,14 @@ new Vue({
 		   });
       },
       deleteSubmit: function(){
-          var self = this;
           $.ajax({
 			 type: "GET",
-			 url: "/users/delete/"+ self.selectedUser.id,
+			 url: "/users/delete/"+ this.selectedUser.id,
 			 success: function(data)
 				 {
 				     if(data.status === 1){
-				         var index = self.users.indexOf(self.selectedUser);
-							if (index > -1) {
-								self.users.splice(index, 1);
-							}
+				         //TODO handle response positive response
 				     }else{
-				         console.log(data);
 				         alert(data.errorMessage);
 				     }
 					 $("#deleteModal").modal('hide')
@@ -239,7 +223,6 @@ new Vue({
 				     newUser.admin = data.content.admin;
 					 self.users.push(newUser)
 				 }else{
-				     console.log(data);
 					 alert(data.errorMessage);
 				 }
 				 $("#createModal").modal('hide')

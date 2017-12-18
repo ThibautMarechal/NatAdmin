@@ -3,7 +3,9 @@ package com.helmo.NatAdmin.models;
 import java.util.List;
 import java.util.Map;
 
-public class Bird  extends Identifiable{
+@Getter
+@Setter
+public class Bird  extends IdentifiedModel {
     private String name;
     private String description;
     private Map<String, List<String>> attributes;

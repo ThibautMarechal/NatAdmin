@@ -127,14 +127,14 @@
 		</thead>
 		<tbody>
 
-			<tr v-for="user in users" v-if="filter(user)">
-				<td scope="row">{{user.id}}</td>
-				<td>{{user.fullName}}</td>
-				<td>{{user.email}}</td>
-				<td>{{user.admin}}</td>
+			<tr v-for="RUser in users" v-if="filter(RUser)">
+				<td scope="row">{{RUser.id}}</td>
+				<td>{{RUser.fullName}}</td>
+				<td>{{RUser.email}}</td>
+				<td>{{RUser.admin}}</td>
 				<td>
-					<button class="btn" v-on:click="editUser(user)">edit</button>
-					<button class="btn" v-on:click="deleteUser(user)">delete</button>
+					<button class="btn" v-on:click="editUser(RUser)">edit</button>
+					<button class="btn" v-on:click="deleteUser(RUser)">delete</button>
 				</td>
 			</tr>
 		</tbody>
@@ -155,18 +155,18 @@ new Vue({
     emailFilter: ""
   },
   methods:{
-      filter: function(user){
+      filter: function(RUser){
           return user.fullName.includes(this.fullNameFilter) && user.email.includes(this.emailFilter);
       },
-      editUser: function(user){
+      editUser: function(RUser){
           this.selectedUser = user;
           $("#editModal").modal('show')
       },
-      deleteUser: function(user){
+      deleteUser: function(RUser){
           this.selectedUser = user;
           $("#deleteModal").modal('show')
       },
-      createUser: function(user){
+      createUser: function(RUser){
           $("#createModal").modal('show')
       },
       editSubmit: function(){
