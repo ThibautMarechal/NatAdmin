@@ -12,7 +12,7 @@ public class SystemProvider {
 		PasswordEncoder passEnc = new BCryptPasswordEncoder();
 		User rtn = new User();
 		rtn.setEmail("system@nat.be");
-		rtn.setPassword(passEnc.encode("systemsystem"));
+		rtn.setPassword(passEnc.encode("rootroot"));
 		return rtn;
 	}
 }
