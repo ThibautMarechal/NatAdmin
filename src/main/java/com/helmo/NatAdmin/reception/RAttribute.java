@@ -12,14 +12,14 @@ public class RAttribute extends MongoIdentifiedModel
 	  implements ReceptionObject<Attribute> {
 	
 	private String name;
-	private List<Object> values;
+	private List<String> values;
 	
 	public RAttribute() {
 	}
 	
 	public RAttribute(Attribute attribute) {
 		this.setId(attribute.getId());
-		this.name = attribute.getName();
+		this.name = attribute.getKey();
 		this.values = attribute.getValues();
 	}
 	
@@ -27,7 +27,7 @@ public class RAttribute extends MongoIdentifiedModel
 	public Attribute getModel() {
 		Attribute rtn = new Attribute();
 		rtn.setId(this.getId());
-		rtn.setName(this.name);
+		rtn.setKey(this.name);
 		rtn.setValues(this.values);
 		return rtn;
 	}

@@ -4,11 +4,10 @@ import com.helmo.NatAdmin.forms.BirdAttributeForm;
 import com.helmo.NatAdmin.forms.BirdForm;
 import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.models.User;
+import com.helmo.NatAdmin.services.AttributeService;
 import com.helmo.NatAdmin.services.BirdService;
 import com.helmo.NatAdmin.tools.SystemProvider;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,33 +17,35 @@ import java.util.List;
 @Controller
 @RequestMapping("birds")
 public class BirdController {
-    private BirdService birdService;
-    private AttributeService attributeService;
+    private final BirdService birdService;
+    private final AttributeService attributeService;
+    private User system;
 
-    public BirdController() {
-        this.birdService = new BirdService();
-        attributeService = new AttributeService();
+    public BirdController(BirdService birdService, AttributeService attributeService) {
+        this.birdService = birdService;
+        this.attributeService = attributeService;
+        this.system = SystemProvider.getSystem();
     }
 
     @RequestMapping("")
     public String list(Model model){
-        List<Bird> birds = birdService.getAll();
+        List<Bird> birds = birdService.getAll(system);
         model.addAttribute("birds", birds);
         return "birds/all";
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public String view(@PathVariable("id")long id, Model model){
-        Bird bird = birdService.getById(id);
+        Bird bird = birdService.getById(id,system);
         model.addAttribute("bird", bird);
-        model.addAttribute("attributes", attributeService.getAll());
+        model.addAttribute("attributes", attributeService.getAll(system));
         return "birds/view";
     }
 
     @RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
     public String edit(@PathVariable("id")long id, Model model, @ModelAttribute BirdForm birdForm)
     {
-        Bird bird = birdService.getById(id);
+        Bird bird = birdService.getById(id,system);
         return "birds/edit";
     }
 
