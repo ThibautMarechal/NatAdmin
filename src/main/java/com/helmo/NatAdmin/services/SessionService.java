@@ -29,8 +29,17 @@ public class SessionService implements ICrudService<Session> {
 		);
 	}
 	
+	private void setCredential(User user) {
+		restTemplate.getInterceptors().add(
+			  new BasicAuthorizationInterceptor(
+					user.getEmail(),
+					user.getPassword())
+		);
+	}
+	
 	@Override
 	public long create(Session toCreate, User cred) {
+		setCredential(cred);
 		return caller.create(
 			  RSession[].class, CONTROLLER_NAME,
 			  new RSession[] {new RSession(toCreate)}, restTemplate
@@ -39,6 +48,7 @@ public class SessionService implements ICrudService<Session> {
 	
 	@Override
 	public void delete(Session toDelete, User cred) {
+		setCredential(cred);
 		caller.delete(
 			  RSession[].class, CONTROLLER_NAME,
 			  new RSession[] {new RSession(toDelete)}, restTemplate
@@ -47,6 +57,7 @@ public class SessionService implements ICrudService<Session> {
 	
 	@Override
 	public void delete(long idToDelete, User cred) {
+		setCredential(cred);
 		caller.deleteById(
 			  RSession.class, CONTROLLER_NAME,
 			  idToDelete, restTemplate
@@ -55,6 +66,7 @@ public class SessionService implements ICrudService<Session> {
 	
 	@Override
 	public List<Session> getAll(User cred) {
+		setCredential(cred);
 		List<Session> rtn = new ArrayList<>();
 		for (RSession ses : caller.getAll(RSession[].class, CONTROLLER_NAME, restTemplate))
 			rtn.add(ses.getModel());
@@ -63,11 +75,13 @@ public class SessionService implements ICrudService<Session> {
 	
 	@Override
 	public Session getById(long id, User cred) {
+		setCredential(cred);
 		return caller.getById(RSession.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
 	@Override
 	public void update(Session toUpdate, User cred) {
+		setCredential(cred);
 		caller.update(
 			  RSession[].class, CONTROLLER_NAME,
 			  new RSession[] {new RSession(toUpdate)}, restTemplate);

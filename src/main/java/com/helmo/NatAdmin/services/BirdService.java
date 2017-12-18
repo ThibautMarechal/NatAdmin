@@ -25,14 +25,19 @@ public class BirdService implements ICrudService<Bird> {
 	public BirdService(RestTemplate restTemplate, CallREST caller) {
 		this.restTemplate = restTemplate;
 		this.caller = caller;
+	}
+	
+	private void setCredential(User user) {
 		restTemplate.getInterceptors().add(
-			  new BasicAuthorizationInterceptor("admin@nat.be", "adminadmin")
+			  new BasicAuthorizationInterceptor(
+					user.getEmail(),
+					user.getPassword())
 		);
 	}
 	
-	
 	@Override
 	public long create(Bird toCreate, User cred) {
+		setCredential(cred);
 		return caller.create(
 			  RBird[].class, CONTROLLER_NAME,
 			  new RBird[] {new RBird(toCreate)}, restTemplate
@@ -41,6 +46,7 @@ public class BirdService implements ICrudService<Bird> {
 	
 	@Override
 	public void delete(Bird toDelete, User cred) {
+		setCredential(cred);
 		caller.delete(
 			  RBird[].class, CONTROLLER_NAME,
 			  new RBird[] {new RBird(toDelete)}, restTemplate
@@ -49,6 +55,7 @@ public class BirdService implements ICrudService<Bird> {
 	
 	@Override
 	public void delete(long idToDelete, User cred) {
+		setCredential(cred);
 		caller.deleteById(
 			  RBird.class, CONTROLLER_NAME,
 			  idToDelete, restTemplate
@@ -57,6 +64,7 @@ public class BirdService implements ICrudService<Bird> {
 	
 	@Override
 	public List<Bird> getAll(User cred) {
+		setCredential(cred);
 		List<RBird> rBirds = caller.getAll(RBird[].class, CONTROLLER_NAME, restTemplate);
 		
 		List<Bird> rtn = new ArrayList<>();
@@ -67,11 +75,13 @@ public class BirdService implements ICrudService<Bird> {
 	
 	@Override
 	public Bird getById(long id, User cred) {
+		setCredential(cred);
 		return caller.getById(RBird.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
 	@Override
 	public void update(Bird toUpdate, User cred) {
+		setCredential(cred);
 		caller.update(
 			  RBird[].class, CONTROLLER_NAME,
 			  new RBird[] {new RBird(toUpdate)}, restTemplate

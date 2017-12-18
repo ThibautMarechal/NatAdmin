@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class AttributeService implements ICrudService<Attribute> {
 	
-	private final String CONTROLLER_NAME = "users";
+	private final String CONTROLLER_NAME = "attributes";
 	
 	private final RestTemplate restTemplate;
 	private final CallREST caller;
@@ -66,7 +66,7 @@ public class AttributeService implements ICrudService<Attribute> {
 	@Override
 	public Attribute getById(long id, User cred) {
 		setCredential(cred);
-          return caller.getById(RAttribute.class, CONTROLLER_NAME, id, restTemplate).getModel();
+		return caller.getById(RAttribute.class, CONTROLLER_NAME, id, restTemplate).getModel();
 	}
 	
 	@Override
