@@ -5,11 +5,12 @@
 </head>
 <body>
 <header th:replace="layout::site-header" ></header>
-<form action="/login">
-	<input type="text" name="user"/>
+<form action="/login" method="POST">
+	<input type="text" name="username"/>
 	<input type="password" name="password"/>
 	<input type="submit"/>
 </form>
 <footer th:replace="layout::site-footer" ></footer>
 </body>
 </html>
+

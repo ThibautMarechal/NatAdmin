@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -54,7 +55,7 @@ public class LoginController {
 		return "login/login";
 	}
 	
-	@RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.POST)
+	@PostMapping
 	public String doPost(LoginForm model) {
 		User user = new User();
 		user.setEmail(model.getUsername());
@@ -63,11 +64,11 @@ public class LoginController {
 		User dbUser = usrSrv.findByEmail(user.getEmail(), systemUser);
 		if(dbUser.isAdmin()){
 			//OK
-			
+
 		} else {
 			//NOK
 		}
-		
+
 		return "users/all";
 	}
 }
