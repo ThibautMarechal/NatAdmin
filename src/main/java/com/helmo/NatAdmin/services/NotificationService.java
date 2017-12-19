@@ -27,11 +27,11 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 	}
 	
 	private void setCredential(User user) {
-		restTemplate.getInterceptors().add(
-			  new BasicAuthorizationInterceptor(
-					user.getEmail(),
-					user.getPassword())
-		);
+		BasicAuthorizationInterceptor auth = new BasicAuthorizationInterceptor(
+			  user.getEmail(),
+			  user.getPassword());
+		if(!restTemplate.getInterceptors().contains(auth))
+			restTemplate.getInterceptors().add(auth);
 	}
 	
 	
