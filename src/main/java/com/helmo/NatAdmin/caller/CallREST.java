@@ -34,6 +34,7 @@ public class CallREST {
 	}
 	
 	public <T> T[] update(Class<T[]> rObject, String controllerName, T[] object, RestTemplate restTemplate) {
+//		restTemplate.postForEntity(env.getProperty("rest.url") + "/" + controllerName, object, rObject);
 		return callWithMultiEntity(rObject, controllerName, object, restTemplate, HttpMethod.PUT);
 	}
 	
