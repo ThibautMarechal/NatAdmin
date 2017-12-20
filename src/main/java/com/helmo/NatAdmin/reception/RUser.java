@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -87,6 +88,9 @@ public class RUser extends IdentifiedModel
 	}
 	
 	public List<Session> getSessions() {
+		if (rSessions == null) {
+			return Collections.emptyList();
+		}
 		List<Session> output = new ArrayList<>();
 		for (RSession item : rSessions)
 			output.add(item.getModel());

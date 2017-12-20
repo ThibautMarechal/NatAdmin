@@ -1,6 +1,7 @@
 package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.caller.CallREST;
+import com.helmo.NatAdmin.caller.ObservationCaller;
 import com.helmo.NatAdmin.models.Observation;
 import com.helmo.NatAdmin.models.Session;
 import com.helmo.NatAdmin.models.User;
@@ -21,28 +22,26 @@ public class ObservationService implements IUpdateService<Observation>, IReadSer
 	
 	private final String CONTROLLER_NAME = "observations";
 	
-	private final RestTemplate restTemplate;
-	private final CallREST caller;
+	private final ObservationCaller caller;
 	
 	
-	public ObservationService(RestTemplate template, CallREST caller) {
-		restTemplate = template;
+	public ObservationService(ObservationCaller caller) {
 		this.caller = caller;
 	}
 	
 	private void setCredential(User user) {
-		restTemplate.getInterceptors().add(
-			  new BasicAuthorizationInterceptor(
-					user.getEmail(),
-					user.getPassword())
-		);
+//		restTemplate.getInterceptors().add(
+//			  new BasicAuthorizationInterceptor(
+//					user.getEmail(),
+//					user.getPassword())
+//		);
 	}
 	
 	@Override
 	public List<Observation> getAll(User cred) {
 		setCredential(cred);
 		List<Observation> rtn = new ArrayList<>();
-		for (RObservation obs : caller.getAll(RObservation[].class, CONTROLLER_NAME, restTemplate))
+		for (RObservation obs : caller.getAll(RObservation[].class, CONTROLLER_NAME))
 			rtn.add(obs.getModel());
 		return rtn;
 	}
@@ -50,7 +49,7 @@ public class ObservationService implements IUpdateService<Observation>, IReadSer
 	@Override
 	public Observation getById(long id, User cred) {
 		setCredential(cred);
-		return  caller.getById(RObservation.class, CONTROLLER_NAME, id, restTemplate).getModel();
+		return  caller.getById(RObservation.class, CONTROLLER_NAME, id).getModel();
 	}
 	
 	@Override
@@ -58,6 +57,11 @@ public class ObservationService implements IUpdateService<Observation>, IReadSer
 		setCredential(cred);
 		caller.update(
 			  RObservation[].class, CONTROLLER_NAME,
-			  new RObservation[]{new RObservation(toUpdate)}, restTemplate);
+			  new RObservation[]{new RObservation(toUpdate)});
 	}
+	
+	public void validate(long id) {
+		caller.validate(id);
+	}
+	
 }

@@ -58,9 +58,10 @@ public class NotificationController {
 		notificationService.update(notification, system);
 		
 		//TODO Update Observation
-		Observation obsToUpdate = obsSrv.getById(idObs, system);
-		obsToUpdate.setValid(true);
-		obsSrv.update(obsToUpdate, system);
+//		Observation obsToUpdate = obsSrv.getById(idObs, system);
+//		obsToUpdate.setValid(true);
+//		obsSrv.update(obsToUpdate, system);
+		obsSrv.validate(idObs);
 		return "{\"status\":1}";
 	}
 	

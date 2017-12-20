@@ -54,20 +54,20 @@ public class LoginController {
 		return "login/login";
 	}
 	
-	@PostMapping
-	public String doPost(LoginForm model) {
-		User user = new User();
-		user.setEmail(model.getUsername());
-		user.setPassword(passEnc.encode(model.getPassword()));
-		
-		User dbUser = usrSrv.findByEmail(user.getEmail(), systemUser);
-		if (dbUser.isAdmin()) {
-			//OK
-			
-		} else {
-			//NOK
-		}
-		
-		return "users/all";
-	}
+//	@PostMapping
+//	public String doPost(LoginForm model) {
+//		User user = new User();
+//		user.setEmail(model.getUsername());
+//		user.setPassword(passEnc.encode(model.getPassword()));
+//
+//		User dbUser = usrSrv.findByEmail(user.getEmail(), systemUser);
+//		if (dbUser.isAdmin()) {
+//			//OK
+//
+//		} else {
+//			//NOK
+//		}
+//
+//		return "users/all";
+//	}
 }
