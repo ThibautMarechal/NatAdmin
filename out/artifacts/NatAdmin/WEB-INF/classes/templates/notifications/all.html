@@ -15,7 +15,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" v-if="selectedNotification">
 					<p>{{selectedNotification.date}}</p>
 					<p>{{selectedNotification.caption}}</p>
 					<p>{{selectedNotification.description}}</p>
@@ -62,7 +62,7 @@ new Vue({
 	el: '#app',
 	data: {
 		notifications: notifications,
-		selectedNotification: notifications[0]
+		selectedNotification: null
 	},
 	methods:{
 		handleNotification: function(notification){
@@ -70,24 +70,32 @@ new Vue({
 			$("#notificationModal").modal('show');
 		},
 		acceptNotification: function(){
+		    var self = this;
 		    $.ajax({
 				 type: "GET",
-				 url: "/notifications/accept/"+ this.selectedNotification.id,
+				 url: "/notifications/accept/"+ self.selectedNotification.id,
 				 success: function(data)
 				 {
-					 console.log(data);
-					 //TODO handle response
+					 if(data.status === 1){
+						 //TODO handle response positive response
+					 }else{
+						 alert(data.errorMessage);
+					 }
 				 }
 			 });
 		},
 		refuseNotification: function(){
+		    var self = this;
 			$.ajax({
 				 type: "GET",
-				 url: "/notifications/refuse/"+ this.selectedNotification.id,
+				 url: "/notifications/refuse/"+ self.selectedNotification.id,
 				 success: function(data)
 				 {
-					 console.log(data);
-					 //TODO handle response
+				     if(data.status === 1){
+						 //TODO handle response positive response
+					 }else{
+						 alert(data.errorMessage);
+					 }
 				 }
 			 });
 		}
