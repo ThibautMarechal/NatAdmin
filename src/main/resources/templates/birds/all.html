@@ -15,7 +15,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" v-if="selectedBird">
 					<p>Id: {{selectedBird.id}}</p>
 					<p>Name : {{selectedBird.name}}</p>
 					<p>Description:<br/> {{selectedBird.description}}</p>
@@ -94,7 +94,7 @@
         el: '#app',
         data: {
             birds: birds,
-            selectedBird: birds[0],
+            selectedBird: null,
             nameFilter: "",
             newBirdName: "",
             newBirdDescription: ""
@@ -108,7 +108,6 @@
 			},
 			deleteSubmit: function(){
 			    var self = this;
-			    console.log("/birds/delete/"+ this.selectedBird.id);
 				$.ajax({
 					type: "GET",
 					url: "/birds/delete/"+ self.selectedBird.id,
@@ -146,7 +145,7 @@
 						    newBird.id = data.content.id;
 						    newBird.name = data.content.name;
 						    newBird.description = data.content.description
-						    this.birds.push(newBird);
+						    self.birds.push(newBird);
 						}else{
 							console.log(data);
 						    alert(data.messageError);

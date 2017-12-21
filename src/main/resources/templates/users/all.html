@@ -57,7 +57,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" v-if="selectedUser">
 					<div class="form-group">
 						<label for="fullName">Full Name</label>
 						<input type="text" class="form-control" name="fullName" placeholder="Full Name" v-model="selectedUser.fullName"/>
@@ -99,7 +99,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" v-if="selectedUser">
 				<p>Full Name : {{selectedUser.fullName}}</p>
 				<p>Email: {{selectedUser.fullName}}</p>
 				<p>Admin: {{selectedUser.admin}}</p>
@@ -154,7 +154,7 @@ new Vue({
   el: '#app',
   data: {
     users: users,
-    selectedUser: users[0],
+    selectedUser: null,
     fullNameFilter: "",
     emailFilter: ""
   },
