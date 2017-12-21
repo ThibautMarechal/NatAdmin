@@ -10,7 +10,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class RBird extends MongoIdentifiedModel
-	implements ReceptionObject<Bird> {
+	  implements ReceptionObject<Bird> {
 	
 	private String name;
 	private String description;
@@ -42,6 +42,7 @@ public class RBird extends MongoIdentifiedModel
 	@Override
 	public Bird getModel() {
 		Bird rtn = new Bird();
+		rtn.setId(this.getId());
 		rtn.setName(this.name);
 		rtn.setDescription(this.description);
 		return rtn;

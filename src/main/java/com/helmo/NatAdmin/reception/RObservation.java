@@ -53,6 +53,7 @@ public class RObservation extends IdentifiedModel
 	@Override
 	public Observation getModel() {
 		Observation rtn = new Observation();
+		rtn.setId(this.getId());
 		rtn.setLatitude(this.latitude);
 		rtn.setLongitude(this.longitude);
 		rtn.setDate(this.dateTime);

@@ -9,13 +9,14 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
 @Setter
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class RUser extends IdentifiedModel
-		implements ReceptionObject<User> {
+	  implements ReceptionObject<User> {
 	
 	@NotEmpty
 	private String fullName;
@@ -45,11 +46,11 @@ public class RUser extends IdentifiedModel
 		this.password = usr.getPassword();
 		this.onlinePath = usr.getProfilePictureUrl();
 		this.rRoles = (usr.getRoles() != null)
-				? convertRRoles(usr.getRoles())
-				: new ArrayList<>();
+			  ? convertRRoles(usr.getRoles())
+			  : new ArrayList<>();
 		this.rSessions = (usr.getSessions() != null)
-				? convertRSessions(usr.getSessions())
-				: new ArrayList<>();
+			  ? convertRSessions(usr.getSessions())
+			  : new ArrayList<>();
 	}
 	
 	private List<RSession> convertRSessions(List<Session> sessions) {
@@ -87,6 +88,9 @@ public class RUser extends IdentifiedModel
 	}
 	
 	public List<Session> getSessions() {
+		if (rSessions == null) {
+			return Collections.emptyList();
+		}
 		List<Session> output = new ArrayList<>();
 		for (RSession item : rSessions)
 			output.add(item.getModel());

@@ -6,6 +6,7 @@ import com.helmo.NatAdmin.models.User;
 import java.util.List;
 
 public interface IReadService<T extends IdentifiedModel> {
-    List<T> getAll(User cred);
-    T getById(long id, User cred);
+	List<T> getAll(User cred);
+	
+	T getById(long id, User cred);
 }

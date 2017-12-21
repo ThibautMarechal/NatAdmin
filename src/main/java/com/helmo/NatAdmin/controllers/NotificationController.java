@@ -5,6 +5,7 @@ import com.helmo.NatAdmin.models.NotificationStatus;
 import com.helmo.NatAdmin.models.Observation;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.NotificationService;
+import com.helmo.NatAdmin.services.ObservationService;
 import com.helmo.NatAdmin.tools.SystemProvider;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
@@ -23,15 +24,12 @@ import java.util.List;
 public class NotificationController {
 	
 	private final NotificationService notificationService;
-	private final Environment env;
-	private final PasswordEncoder passEnc;
+	private final ObservationService obsSrv;
 	private User system;
 	
-	public NotificationController(NotificationService notificationService, Environment env, PasswordEncoder passEnc) {
+	public NotificationController(NotificationService notificationService, ObservationService obsSrv) {
 		this.notificationService = notificationService;
-		this.env = env;
-		this.passEnc = passEnc;
-		
+		this.obsSrv = obsSrv;
 		system = SystemProvider.getSystem();
 		
 	}
@@ -46,17 +44,24 @@ public class NotificationController {
 	
 	@RequestMapping(value = "accept/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String accept(@PathVariable("id") long id, Model model) {
-		Notification notification = new Notification();
+	public String accept(@PathVariable("id") long id, Notification model) {
+		Notification notification = notificationService.getById(id, system);
+	
 		NotificationStatus status = new NotificationStatus();
 		status.setName("ACCEPTED");
-		//TODO Receive a good model and define Notification
+		
+		long idObs = notification.getObservation().getId();
+		
 		notification.setStatus(status);
+		notification.setId(model.getId());
+		notification.setObservation(null);
 		notificationService.update(notification, system);
 		
 		//TODO Update Observation
-		Observation obsToUpdate = notification.getObservation();
-		obsToUpdate.setValid(true);
+//		Observation obsToUpdate = obsSrv.getById(idObs, system);
+//		obsToUpdate.setValid(true);
+//		obsSrv.update(obsToUpdate, system);
+		obsSrv.validate(idObs);
 		return "{\"status\":1}";
 	}
 	
@@ -69,7 +74,7 @@ public class NotificationController {
 		//TODO Receive a good model and define Notification
 		notification.setStatus(status);
 		notificationService.update(notification, system);
-	
+		
 		//TODO Update Observation
 		Observation obsToUpdate = notification.getObservation();
 		obsToUpdate.setValid(false);

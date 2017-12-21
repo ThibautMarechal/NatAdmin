@@ -8,11 +8,10 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class Notification extends IdentifiedModel
-{
-    private String caption;
-    private String description;
-    private Date date;
-    private NotificationStatus status;
-    private Observation observation;
+public class Notification extends IdentifiedModel {
+	private String caption;
+	private String description;
+	private Date date;
+	private NotificationStatus status;
+	private Observation observation;
 }

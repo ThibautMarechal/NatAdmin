@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class RComment extends IdentifiedModel
-		implements ReceptionObject<Comment> {
+	  implements ReceptionObject<Comment> {
 	
 	private String commentary;
 	private Timestamp date;
