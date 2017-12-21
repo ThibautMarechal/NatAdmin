@@ -17,13 +17,11 @@ public class SessionController {
 	private final SessionService sessionService;
 	
 	private final Environment env;
-	private final PasswordEncoder passEnc;
 	private User system;
 	
-	public SessionController(SessionService sessionService, Environment env, PasswordEncoder passEnc) {
+	public SessionController(SessionService sessionService, Environment env) {
 		this.sessionService = sessionService;
 		this.env = env;
-		this.passEnc = passEnc;
 		system = SystemProvider.getSystem();
 		
 	}
