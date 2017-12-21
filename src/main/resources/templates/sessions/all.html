@@ -33,7 +33,7 @@
 				<td scope="row">{{session.id}}</td>
 				<td>{{session.start}}</td>
 				<td>{{session.location}}</td>
-				<td>{{session.user.fullName}}</td>
+				<td>session.user.fullName</td>
 				<td>{{observationSize(session)}}</td>
 				<td>
 					<a class="btn" :href="'/sessions/' +session.id">view</a>
@@ -54,14 +54,14 @@ new Vue({
   el: '#app',
   data: {
     sessions: sessions,
-    selectedSession: sessions[0],
+    selectedSession: null,
     dateFilter: "",
     locationFilter: "",
     userFilter: ""
   },
   methods:{
 	filter: function(session){
-	    return session.start.includes(this.dateFilter) && session.location.includes(this.locationFilter)  && session.user.fullName.includes(this.userFilter)
+	    return session.start.includes(this.dateFilter) && session.location.includes(this.locationFilter) && session.user.fullName.includes(this.userFilter)
 	},
 	observationSize : function(session){
 	    return session.observations.length;
