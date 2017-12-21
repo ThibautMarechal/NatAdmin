@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth, PasswordEncoder pass) throws Exception {
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(new AuthenticationProvider() {
 			@Override
 			public Authentication authenticate(Authentication authentication) throws AuthenticationException {

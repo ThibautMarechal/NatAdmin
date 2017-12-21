@@ -18,13 +18,11 @@ import java.util.List;
 public class UserController {
 	private final UserService userService;
 	private final Environment env;
-	private final PasswordEncoder passEnc;
 	private User system;
 	
-	public UserController(UserService userService, Environment env, PasswordEncoder passEnc) {
+	public UserController(UserService userService, Environment env) {
 		this.userService = userService;
 		this.env = env;
-		this.passEnc = passEnc;
 		system = SystemProvider.getSystem();
 	}
 	

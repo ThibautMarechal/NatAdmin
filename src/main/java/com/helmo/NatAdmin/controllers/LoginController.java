@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/login")
 public class LoginController {
 	
-	private final PasswordEncoder passEnc;
 	private final UserService usrSrv;
 	private final Environment env;
 	
 	private User systemUser;
 	
-	public LoginController(PasswordEncoder passEnc, UserService usrSrv, Environment env) {
-		this.passEnc = passEnc;
+	public LoginController(UserService usrSrv, Environment env) {
 		this.usrSrv = usrSrv;
 		this.env = env;
 		

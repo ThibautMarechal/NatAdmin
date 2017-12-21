@@ -19,9 +19,4 @@ public class NatAdminApplication extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(NatAdminApplication.class);
 	}
-	
-	@Bean
-	public PasswordEncoder encode() {
-		return new BCryptPasswordEncoder();
-	}
 }
