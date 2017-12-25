@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				User user;
 				try {
 					user = userService.findByEmail(authentication.getName(), password);
-					if(!user.isAdmin())
+					if (!user.isAdmin())
 						throw new BadCredentialsException("Vous n'etes pas un administrateur");
 				} catch (Exception e) {
 					throw new BadCredentialsException(e.getMessage(), e);
