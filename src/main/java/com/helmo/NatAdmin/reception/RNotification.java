@@ -7,8 +7,6 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 
-import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
-
 @Getter
 @Setter
 public class RNotification extends IdentifiedModel

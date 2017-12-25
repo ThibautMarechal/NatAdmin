@@ -2,14 +2,9 @@ package com.helmo.NatAdmin.controllers;
 
 import com.helmo.NatAdmin.models.Notification;
 import com.helmo.NatAdmin.models.NotificationStatus;
-import com.helmo.NatAdmin.models.Observation;
-import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.NotificationService;
 import com.helmo.NatAdmin.services.ObservationService;
-import com.helmo.NatAdmin.tools.SystemProvider;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,19 +20,17 @@ public class NotificationController {
 	
 	private final NotificationService notificationService;
 	private final ObservationService obsSrv;
-	private User system;
 	
 	public NotificationController(NotificationService notificationService, ObservationService obsSrv) {
 		this.notificationService = notificationService;
 		this.obsSrv = obsSrv;
-		system = SystemProvider.getSystem();
 		
 	}
 	
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String list(Model model) {
-		List<Notification> notifications = notificationService.getAll(system);
+		List<Notification> notifications = notificationService.getAll();
 		model.addAttribute("notifications", notifications);
 		return "notifications/all";
 	}
@@ -45,39 +38,28 @@ public class NotificationController {
 	@RequestMapping(value = "accept/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String accept(@PathVariable("id") long id, Notification model) {
-		Notification notification = notificationService.getById(id, system);
-	
-		NotificationStatus status = new NotificationStatus();
-		status.setName("ACCEPTED");
-		
-		long idObs = notification.getObservation().getId();
-		
-		notification.setStatus(status);
-		notification.setId(model.getId());
-		notification.setObservation(null);
-		notificationService.update(notification, system);
-		
+		Notification notification = changeNotificationStatus(new NotificationStatus("ACCEPTED"), id);
 		//TODO Update Observation
-//		Observation obsToUpdate = obsSrv.getById(idObs, system);
-//		obsToUpdate.setValid(true);
-//		obsSrv.update(obsToUpdate, system);
-		obsSrv.validate(idObs);
+		obsSrv.validate(notification.getObservation().getId());
 		return "{\"status\":1}";
 	}
 	
 	@RequestMapping(value = "refuse/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String refuse(@PathVariable("id") long id, Model model) {
-		Notification notification = new Notification();
-		NotificationStatus status = new NotificationStatus();
-		status.setName("REFUSED");
-		//TODO Receive a good model and define Notification
-		notification.setStatus(status);
-		notificationService.update(notification, system);
-		
+	public String refuse(@PathVariable("id") long id, Notification model) {
+		Notification notification = changeNotificationStatus(new NotificationStatus("REFUSED"), id);
 		//TODO Update Observation
-		Observation obsToUpdate = notification.getObservation();
-		obsToUpdate.setValid(false);
+		obsSrv.refused(notification.getObservation().getId());
 		return "{\"status\":1}";
+	}
+	
+	private Notification changeNotificationStatus(NotificationStatus status, long id) {
+		Notification notification = notificationService.getById(id);
+		
+		notification.setStatus(status);
+		notification.setId(id);
+		notification.setObservation(null);
+		notificationService.update(notification);
+		return notification;
 	}
 }

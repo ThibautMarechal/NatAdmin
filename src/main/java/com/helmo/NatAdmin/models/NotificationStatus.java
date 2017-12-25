@@ -8,4 +8,11 @@ import lombok.Setter;
 public class NotificationStatus {
 	
 	private String name;
+	
+	public NotificationStatus() {
+	}
+	
+	public NotificationStatus(String name) {
+		this.name = name;
+	}
 }

@@ -2,13 +2,10 @@ package com.helmo.NatAdmin.services;
 
 import com.helmo.NatAdmin.caller.CallREST;
 import com.helmo.NatAdmin.models.Session;
-import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.reception.RSession;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +22,8 @@ public class SessionService implements ICrudService<Session> {
 		this.caller = caller;
 	}
 	
-	private void setCredential(User user) {
-//		restTemplate.getInterceptors().add(
-//			  new BasicAuthorizationInterceptor(
-//					user.getEmail(),
-//					user.getPassword())
-//		);
-	}
-	
 	@Override
-	public long create(Session toCreate, User cred) {
-		setCredential(cred);
+	public long create(Session toCreate) {
 		return caller.create(
 			  RSession[].class, CONTROLLER_NAME,
 			  new RSession[]{new RSession(toCreate)}
@@ -43,8 +31,7 @@ public class SessionService implements ICrudService<Session> {
 	}
 	
 	@Override
-	public void delete(Session toDelete, User cred) {
-		setCredential(cred);
+	public void delete(Session toDelete) {
 		caller.delete(
 			  RSession[].class, CONTROLLER_NAME,
 			  new RSession[]{new RSession(toDelete)}
@@ -52,8 +39,7 @@ public class SessionService implements ICrudService<Session> {
 	}
 	
 	@Override
-	public void delete(long idToDelete, User cred) {
-		setCredential(cred);
+	public void delete(long idToDelete) {
 		caller.deleteById(
 			  RSession.class, CONTROLLER_NAME,
 			  idToDelete
@@ -61,23 +47,20 @@ public class SessionService implements ICrudService<Session> {
 	}
 	
 	@Override
-	public List<Session> getAll(User cred) {
-		setCredential(cred);
+	public List<Session> getAll() {
 		List<Session> rtn = new ArrayList<>();
-		for (RSession ses : caller.getAll(RSession[].class, CONTROLLER_NAME))
-			rtn.add(ses.getModel());
+		caller.getAll(RSession[].class, CONTROLLER_NAME)
+			  .forEach(s -> rtn.add(s.getModel()));
 		return rtn;
 	}
 	
 	@Override
-	public Session getById(long id, User cred) {
-		setCredential(cred);
+	public Session getById(long id) {
 		return caller.getById(RSession.class, CONTROLLER_NAME, id).getModel();
 	}
 	
 	@Override
-	public void update(Session toUpdate, User cred) {
-		setCredential(cred);
+	public void update(Session toUpdate) {
 		caller.update(
 			  RSession[].class, CONTROLLER_NAME,
 			  new RSession[]{new RSession(toUpdate)});

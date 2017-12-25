@@ -4,10 +4,7 @@ import com.helmo.NatAdmin.caller.UserCall;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.reception.RUser;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
-import com.helmo.NatAdmin.tools.SystemProvider;
-import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,53 +21,36 @@ public class UserService implements ICrudService<User> {
 		this.caller = userCall;
 	}
 	
-	private void setCredential(User user) {
-//		restTemplate.getInterceptors().add(
-//			  new BasicAuthorizationInterceptor(
-//					user.getEmail(),
-//					user.getPassword())
-//		);
-	}
-	
 	@Override
-	public List<User> getAll(User cred) {
-		setCredential(cred);
-		
-		List<RUser> rUsers = caller.getAll(RUser[].class, CONTROLLER_NAME);
-		
+	public List<User> getAll() {
 		List<User> rtn = new ArrayList<>();
-		for (RUser item : rUsers)
+		for (RUser item : caller.getAll(RUser[].class, CONTROLLER_NAME))
 			rtn.add(item.getModel());
 		return rtn;
 	}
 	
 	@Override
-	public User getById(long id, User cred) {
-		setCredential(cred);
+	public User getById(long id) {
 		return caller.getById(RUser.class, CONTROLLER_NAME, id).getModel();
 	}
 	
 	@Override
-	public void update(User toUpdate, User cred) {
-		setCredential(cred);
+	public void update(User toUpdate) {
 		caller.update(RUser[].class, CONTROLLER_NAME, new RUser[]{new RUser(toUpdate)});
 	}
 	
 	@Override
-	public long create(User toCreate, User cred) { //TODO Return the object itself
-		setCredential(cred);
+	public long create(User toCreate) { //TODO Return the object itself
 		return caller.create(RUser[].class, CONTROLLER_NAME, new RUser[]{new RUser(toCreate)})[0].getId();
 	}
 	
 	@Override
-	public void delete(User toDelete, User cred) {
-		setCredential(cred);
+	public void delete(User toDelete) {
 		caller.delete(RUser[].class, CONTROLLER_NAME, new RUser[]{new RUser(toDelete)});
 	}
 	
 	@Override
-	public void delete(long idToDelete, User cred) {
-		setCredential(cred);
+	public void delete(long idToDelete) {
 		caller.deleteById(RUser.class, CONTROLLER_NAME, idToDelete);
 	}
 	

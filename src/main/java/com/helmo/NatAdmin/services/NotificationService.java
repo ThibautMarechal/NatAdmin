@@ -7,9 +7,7 @@ import com.helmo.NatAdmin.reception.RNotification;
 import com.helmo.NatAdmin.services.crudServices.IReadService;
 import com.helmo.NatAdmin.services.crudServices.IUpdateService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 	private final CallREST caller;
 	
 	public NotificationService(@Qualifier("callREST") CallREST caller) {
-
+		
 		this.caller = caller;
 	}
 	
@@ -38,8 +36,7 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 	}
 	
 	
-	public List<Notification> getAll(User cred) {
-		setCredential(cred);
+	public List<Notification> getAll() {
 		List<Notification> rtn = new ArrayList<>();
 		for (RNotification item : caller.getAll(RNotification[].class, CONTROLLER_NAME))
 			rtn.add(item.getModel());
@@ -47,14 +44,12 @@ public class NotificationService implements IReadService<Notification>, IUpdateS
 	}
 	
 	@Override
-	public Notification getById(long id, User cred) {
-		setCredential(cred);
+	public Notification getById(long id) {
 		return caller.getById(RNotification.class, CONTROLLER_NAME, id).getModel();
 	}
 	
 	@Override
-	public void update(Notification toUpdate, User cred) {
-		setCredential(cred);
+	public void update(Notification toUpdate) {
 		caller.update(
 			  RNotification[].class,
 			  CONTROLLER_NAME,
