@@ -14,6 +14,8 @@ import java.util.List;
 public class AttributeService implements ICrudService<Attribute> {
 	
 	private final String CONTROLLER_NAME = "attributes";
+	private final Class<RAttribute> CLASS = RAttribute.class;
+	private final Class<RAttribute[]> CLASS_TAB = RAttribute[].class;
 	
 	private final CallREST caller;
 	
@@ -23,25 +25,23 @@ public class AttributeService implements ICrudService<Attribute> {
 	
 	@Override
 	public long create(Attribute toCreate) {
-		return caller.create(RAttribute[].class, CONTROLLER_NAME, new RAttribute[]{new RAttribute(toCreate)})[0].getId();
+		return caller.create(CLASS_TAB, CONTROLLER_NAME, new RAttribute[]{new RAttribute(toCreate)})[0].getId();
 	}
 	
 	@Override
 	public void delete(Attribute toDelete) {
-		caller.delete(RAttribute[].class, CONTROLLER_NAME, new RAttribute[]{new RAttribute(toDelete)});
+		caller.delete(CLASS_TAB, CONTROLLER_NAME, new RAttribute[]{new RAttribute(toDelete)});
 	}
 	
 	@Override
 	public void delete(long idToDelete) {
-		caller.deleteById(RAttribute.class, CONTROLLER_NAME, idToDelete);
+		caller.deleteById(CLASS, CONTROLLER_NAME, idToDelete);
 	}
 	
 	@Override
 	public List<Attribute> getAll() {
-		List<RAttribute> rAttributes = caller.getAll(RAttribute[].class, CONTROLLER_NAME);
-		
 		List<Attribute> rtn = new ArrayList<>();
-		rAttributes.forEach(
+		caller.getAll(CLASS_TAB, CONTROLLER_NAME).forEach(
 			  a -> rtn.add(a.getModel())
 		);
 		return rtn;
@@ -49,11 +49,21 @@ public class AttributeService implements ICrudService<Attribute> {
 	
 	@Override
 	public Attribute getById(long id) {
-		return caller.getById(RAttribute.class, CONTROLLER_NAME, id).getModel();
+		return caller.getById(CLASS, CONTROLLER_NAME, id).getModel();
+	}
+	
+	@Override
+	public List<Attribute> getRange(long one, long two) {
+		List<Attribute> rtn = new ArrayList<>();
+		caller.getRange(CLASS_TAB, CONTROLLER_NAME, one, two)
+			  .forEach(
+					u -> rtn.add(u.getModel())
+			  );
+		return rtn;
 	}
 	
 	@Override
 	public void update(Attribute toUpdate) {
-		caller.update(RAttribute[].class, CONTROLLER_NAME, new RAttribute[]{new RAttribute(toUpdate)});
+		caller.update(CLASS_TAB, CONTROLLER_NAME, new RAttribute[]{new RAttribute(toUpdate)});
 	}
 }

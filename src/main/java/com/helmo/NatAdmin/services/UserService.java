@@ -3,6 +3,7 @@ package com.helmo.NatAdmin.services;
 import com.helmo.NatAdmin.caller.UserCall;
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.reception.RUser;
+import com.helmo.NatAdmin.reception.ReceptionObject;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class UserService implements ICrudService<User> {
 	private final String CONTROLLER_NAME = "users";
 	
 	private final UserCall caller;
+	private final Class<RUser> CLASS = RUser.class;
+	private final Class<RUser[]> CLASS_TAB = RUser[].class;
 	
 	
 	public UserService(UserCall userCall) {
@@ -24,34 +27,46 @@ public class UserService implements ICrudService<User> {
 	@Override
 	public List<User> getAll() {
 		List<User> rtn = new ArrayList<>();
-		for (RUser item : caller.getAll(RUser[].class, CONTROLLER_NAME))
-			rtn.add(item.getModel());
+		caller.getAll(CLASS_TAB, CONTROLLER_NAME)
+			  .forEach(
+			  	  u -> rtn.add(u.getModel())
+			  );
 		return rtn;
 	}
 	
 	@Override
 	public User getById(long id) {
-		return caller.getById(RUser.class, CONTROLLER_NAME, id).getModel();
+		return caller.getById(CLASS, CONTROLLER_NAME, id).getModel();
+	}
+	
+	@Override
+	public List<User> getRange(long one, long two) {
+		List<User> rtn = new ArrayList<>();
+		caller.getRange(CLASS_TAB, CONTROLLER_NAME, one, two)
+			  .forEach(
+					u -> rtn.add(u.getModel())
+			  );
+		return rtn;
 	}
 	
 	@Override
 	public void update(User toUpdate) {
-		caller.update(RUser[].class, CONTROLLER_NAME, new RUser[]{new RUser(toUpdate)});
+		caller.update(CLASS_TAB, CONTROLLER_NAME, new RUser[]{new RUser(toUpdate)});
 	}
 	
 	@Override
 	public long create(User toCreate) { //TODO Return the object itself
-		return caller.create(RUser[].class, CONTROLLER_NAME, new RUser[]{new RUser(toCreate)})[0].getId();
+		return caller.create(CLASS_TAB, CONTROLLER_NAME, new RUser[]{new RUser(toCreate)})[0].getId();
 	}
 	
 	@Override
 	public void delete(User toDelete) {
-		caller.delete(RUser[].class, CONTROLLER_NAME, new RUser[]{new RUser(toDelete)});
+		caller.delete(CLASS_TAB, CONTROLLER_NAME, new RUser[]{new RUser(toDelete)});
 	}
 	
 	@Override
 	public void delete(long idToDelete) {
-		caller.deleteById(RUser.class, CONTROLLER_NAME, idToDelete);
+		caller.deleteById(CLASS, CONTROLLER_NAME, idToDelete);
 	}
 	
 	public User findByEmail(String email, String credentials) {

@@ -42,20 +42,24 @@ public class CallREST {
 		);
 	}
 	
+	public <T extends ReceptionObject> List<T> getRange(Class<T[]> receptionObject, String controllerName, long one, long two) {
+		return Arrays.asList(
+			  createRestTemplate().getForObject(
+				    env.getProperty("rest.url") + "/" + controllerName + "/" + one + "/" + two,
+					receptionObject));
+	}
+	
 	public <T extends ReceptionObject> T[] create(Class<T[]> rObject, String controllerName, T[] object) {
 		return createRestTemplate().postForObject(
 			  env.getProperty("rest.url") + "/" + controllerName,
 			  object, rObject);
-//		return callWithMultiEntity(rObject, controllerName, object, HttpMethod.POST);
 	}
 	
 	public <T extends ReceptionObject> void update(Class<T[]> rObject, String controllerName, T[] object) {
-//		new RestTemplate.postForEntity(env.getProperty("rest.url") + "/" + controllerName, object, rObject);
 		createRestTemplate().put(
 			  env.getProperty("rest.url") + "/" + controllerName,
 			  object
 		);
-//		return callWithMultiEntity(rObject, controllerName, object, HttpMethod.PUT);
 	}
 	
 	public <T extends ReceptionObject> void delete(Class<T[]> rObject, String controllerName, T[] object) {

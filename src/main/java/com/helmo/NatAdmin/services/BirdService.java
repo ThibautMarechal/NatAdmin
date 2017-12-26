@@ -14,6 +14,8 @@ import java.util.List;
 public class BirdService implements ICrudService<Bird> {
 	
 	private final String CONTROLLER_NAME = "birds";
+	private final Class<RBird> CLASS = RBird.class;
+	private final Class<RBird[]> CLASS_TAB = RBird[].class;
 	
 	private final CallREST caller;
 	
@@ -25,7 +27,7 @@ public class BirdService implements ICrudService<Bird> {
 	@Override
 	public long create(Bird toCreate) {
 		return caller.create(
-			  RBird[].class, CONTROLLER_NAME,
+			  CLASS_TAB, CONTROLLER_NAME,
 			  new RBird[]{new RBird(toCreate)}
 		)[0].getId();
 	}
@@ -33,7 +35,7 @@ public class BirdService implements ICrudService<Bird> {
 	@Override
 	public void delete(Bird toDelete) {
 		caller.delete(
-			  RBird[].class, CONTROLLER_NAME,
+			  CLASS_TAB, CONTROLLER_NAME,
 			  new RBird[]{new RBird(toDelete)}
 		);
 	}
@@ -41,14 +43,14 @@ public class BirdService implements ICrudService<Bird> {
 	@Override
 	public void delete(long idToDelete) {
 		caller.deleteById(
-			  RBird.class, CONTROLLER_NAME,
+			  CLASS, CONTROLLER_NAME,
 			  idToDelete
 		);
 	}
 	
 	@Override
 	public List<Bird> getAll() {
-		List<RBird> rBirds = caller.getAll(RBird[].class, CONTROLLER_NAME);
+		List<RBird> rBirds = caller.getAll(CLASS_TAB, CONTROLLER_NAME);
 		
 		List<Bird> rtn = new ArrayList<>();
 		for (RBird item : rBirds)
@@ -58,13 +60,23 @@ public class BirdService implements ICrudService<Bird> {
 	
 	@Override
 	public Bird getById(long id) {
-		return caller.getById(RBird.class, CONTROLLER_NAME, id).getModel();
+		return caller.getById(CLASS, CONTROLLER_NAME, id).getModel();
+	}
+	
+	@Override
+	public List<Bird> getRange(long one, long two) {
+		List<Bird> rtn = new ArrayList<>();
+		caller.getRange(CLASS_TAB, CONTROLLER_NAME, one, two)
+			  .forEach(
+					u -> rtn.add(u.getModel())
+			  );
+		return rtn;
 	}
 	
 	@Override
 	public void update(Bird toUpdate) {
 		caller.update(
-			  RBird[].class, CONTROLLER_NAME,
+			  CLASS_TAB, CONTROLLER_NAME,
 			  new RBird[]{new RBird(toUpdate)}
 		);
 	}
