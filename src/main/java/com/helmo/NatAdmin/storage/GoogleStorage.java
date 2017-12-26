@@ -24,7 +24,7 @@ public class GoogleStorage { //TODO Work with path not strings
 			  .setCredentials(HELMoCredentialsProvider.getCredential())
 			  .build()
 			  .getService();
-		bucketName = "nat-test";
+		bucketName = "natagora-grimar";
 	}
 	
 	public void uploadPicture(Path path, Path onlinePath, String ext) throws IOException {

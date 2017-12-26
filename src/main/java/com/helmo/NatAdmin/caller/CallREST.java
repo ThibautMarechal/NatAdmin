@@ -1,5 +1,6 @@
 package com.helmo.NatAdmin.caller;
 
+import com.helmo.NatAdmin.reception.ReceptionObject;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -27,28 +28,28 @@ public class CallREST {
 		return restTemplate;
 	}
 	
-	public <T> List<T> getAll(Class<T[]> receptionObject, String controllerName) {
+	public <T extends ReceptionObject> List<T> getAll(Class<T[]> receptionObject, String controllerName) {
 		return Arrays.asList(
 			  createRestTemplate().getForObject(
 					env.getProperty("rest.url") + "/" + controllerName,
 					receptionObject));
 	}
 	
-	public <T> T getById(Class<T> receptionObject, String controllerName, long id) {
+	public <T extends ReceptionObject> T getById(Class<T> receptionObject, String controllerName, long id) {
 		return createRestTemplate().getForObject(
 			  env.getProperty("rest.url") + "/" + controllerName + "/" + id,
 			  receptionObject
 		);
 	}
 	
-	public <T> T[] create(Class<T[]> rObject, String controllerName, T[] object) {
+	public <T extends ReceptionObject> T[] create(Class<T[]> rObject, String controllerName, T[] object) {
 		return createRestTemplate().postForObject(
 			  env.getProperty("rest.url") + "/" + controllerName,
 			  object, rObject);
 //		return callWithMultiEntity(rObject, controllerName, object, HttpMethod.POST);
 	}
 	
-	public <T> void update(Class<T[]> rObject, String controllerName, T[] object) {
+	public <T extends ReceptionObject> void update(Class<T[]> rObject, String controllerName, T[] object) {
 //		new RestTemplate.postForEntity(env.getProperty("rest.url") + "/" + controllerName, object, rObject);
 		createRestTemplate().put(
 			  env.getProperty("rest.url") + "/" + controllerName,
@@ -57,7 +58,7 @@ public class CallREST {
 //		return callWithMultiEntity(rObject, controllerName, object, HttpMethod.PUT);
 	}
 	
-	public <T> void delete(Class<T[]> rObject, String controllerName, T[] object) {
+	public <T extends ReceptionObject> void delete(Class<T[]> rObject, String controllerName, T[] object) {
 		HttpEntity<T[]> entity = new HttpEntity<>(object);
 		createRestTemplate().exchange(
 			  env.getProperty("rest.url") + "/" + controllerName,
@@ -65,7 +66,7 @@ public class CallREST {
 		);
 	}
 	
-	public <T> void deleteById(Class<T> rObject, String controllerName, long id) {
+	public <T extends ReceptionObject> void deleteById(Class<T> rObject, String controllerName, long id) {
 		createRestTemplate().delete(
 			  env.getProperty("rest.url") + "/" + controllerName + "/" + id
 		);
