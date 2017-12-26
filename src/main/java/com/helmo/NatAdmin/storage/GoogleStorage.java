@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 @Component
 public class GoogleStorage { //TODO Work with path not strings
@@ -25,15 +25,6 @@ public class GoogleStorage { //TODO Work with path not strings
 			  .build()
 			  .getService();
 		bucketName = "nat-test";
-	}
-	
-	private Blob createBlob(Path path) {
-		Blob blob = storage.get(BlobId.of(bucketName, path.toString().replace("\\", "/")));
-		if (blob == null) {
-			System.out.println("No such object");
-			return null;
-		}
-		return blob;
 	}
 	
 	public void uploadPicture(Path path, Path onlinePath, String ext) throws IOException {
@@ -56,7 +47,7 @@ public class GoogleStorage { //TODO Work with path not strings
 		BlobInfo blobInfo = BlobInfo
 			  .newBuilder(blobId)
 			  .setContentType(mediaType)
-			  .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
+			  .setAcl(new ArrayList<>(Collections.singletonList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
 			  .build();
 		
 		uploadContent(path, blobInfo);

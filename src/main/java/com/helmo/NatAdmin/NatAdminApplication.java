@@ -6,14 +6,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class NatAdminApplication extends SpringBootServletInitializer {
+public class NatAdminApplication {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(NatAdminApplication.class, args);
 	}
 	
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(NatAdminApplication.class);
-	}
 }
