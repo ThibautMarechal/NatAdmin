@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	private final UserService userService;
 	
 	public WebSecurityConfig(UserService userService) {
@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+		http  .csrf().disable()
 			  .authorizeRequests()
 			  .antMatchers("/resources/**").permitAll()
 			  .anyRequest().authenticated()

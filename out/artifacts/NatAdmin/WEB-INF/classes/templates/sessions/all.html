@@ -1,10 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head th:include="layout :: site-head">
+    <title>Sessions</title>
 </head>
 <body>
+<header th:include="layout :: site-header" ></header>
+<div class="container-fluid" id="app">
 
+	<table class="table table-hover table-responsive-sm">
+		<caption>List of sessions</caption>
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Date</th>
+				<th scope="col">Location</th>
+				<th scope="col">User</th>
+				<th scope="col">Observations</th>
+				<th scope="col">...</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="text" v-model="dateFilter" placeholder="Full Name filter"/></td>
+				<td><input type="text" v-model="locationFilter" placeholder="Email filter"/></td>
+				<td><input type="text" v-model="userFilter" placeholder="Email filter"/></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr v-for="session in sessions" v-if="filter(session)">
+				<td scope="row">{{session.id}}</td>
+				<td>{{session.start}}</td>
+				<td>{{session.location}}</td>
+				<td>session.user.fullName</td>
+				<td>{{observationSize(session)}}</td>
+				<td>
+					<a class="btn" :href="'/sessions/' +session.id">view</a>
+					<button class="btn" v-on:click="editSession(session)">edit</button>
+					<button class="btn" v-on:click="deleteSession(session)">delete</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<footer th:replace="layout :: site-footer" ></footer>
+<script th:replace="layout :: vueJS"></script>
+<div th:replace="layout :: bottom-script"></div>
+<script th:inline="javascript" type="application/javascript">
+/*<![CDATA[*/
+var sessions = /*[[${sessions}]]*/[];
+new Vue({
+  el: '#app',
+  data: {
+    sessions: sessions,
+    selectedSession: null,
+    dateFilter: "",
+    locationFilter: "",
+    userFilter: ""
+  },
+  methods:{
+	filter: function(session){
+	    return session.start.includes(this.dateFilter) && session.location.includes(this.locationFilter) && session.user.fullName.includes(this.userFilter)
+	},
+	observationSize : function(session){
+	    return session.observations.length;
+	}
+  }
+})
+/*]]>*/
+</script>
 </body>
 </html>
