@@ -12,7 +12,7 @@ public class UserForm {
 	@Pattern(regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/")
 	private String email;
 	@NotNull
-	private boolean isAdmin;
+	private boolean admin;
 	@Size(min = 8, max = 50)
 	private String password;
 	@Size(min = 8, max = 50)
@@ -51,11 +51,11 @@ public class UserForm {
 		this.passwordConfirmed = passwordConfirmed;
 	}
 	
-	public boolean isAdmin() {
-		return isAdmin;
+	public boolean getAdmin() {
+		return this.admin;
 	}
 	
 	public void setAdmin(boolean admin) {
-		isAdmin = admin;
+		this.admin = admin;
 	}
 }

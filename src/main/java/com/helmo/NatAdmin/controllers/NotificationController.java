@@ -7,9 +7,7 @@ import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.NotificationService;
 import com.helmo.NatAdmin.services.ObservationService;
 import com.helmo.NatAdmin.tools.SystemProvider;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,9 +56,9 @@ public class NotificationController {
 		notificationService.update(notification, system);
 		
 		//TODO Update Observation
-//		Observation obsToUpdate = obsSrv.getById(idObs, system);
-//		obsToUpdate.setValid(true);
-//		obsSrv.update(obsToUpdate, system);
+		//Observation obsToUpdate = obsSrv.getById(idObs, system);
+		//obsToUpdate.setValid(true);
+ 		//obsSrv.update(obsToUpdate, system);
 		obsSrv.validate(idObs);
 		return "{\"status\":1}";
 	}
@@ -68,10 +66,9 @@ public class NotificationController {
 	@RequestMapping(value = "refuse/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String refuse(@PathVariable("id") long id, Model model) {
-		Notification notification = new Notification();
+		Notification notification = notificationService.getById(id, system);
 		NotificationStatus status = new NotificationStatus();
 		status.setName("REFUSED");
-		//TODO Receive a good model and define Notification
 		notification.setStatus(status);
 		notificationService.update(notification, system);
 		

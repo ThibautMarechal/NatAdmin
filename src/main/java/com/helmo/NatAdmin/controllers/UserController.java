@@ -6,7 +6,6 @@ import com.helmo.NatAdmin.services.UserService;
 import com.helmo.NatAdmin.tools.SystemProvider;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +46,7 @@ public class UserController {
 		User user = userService.getById(id, system);
 		user.setFullName(userForm.getFullName());
 		user.setEmail(userForm.getEmail());
-		user.setAdmin(userForm.isAdmin());
+		user.setAdmin(userForm.getAdmin());
 		userService.update(user, system);
 		return "{\"status\":1}";
 	}
@@ -63,11 +62,10 @@ public class UserController {
 	@RequestMapping(value = "create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String create(Model model, @ModelAttribute UserForm userForm) {
-		//TODO Validate user input
 		User user = new User();
 		user.setFullName(userForm.getFullName());
 		user.setEmail(userForm.getEmail());
-		user.setAdmin(userForm.isAdmin());
+		user.setAdmin(userForm.getAdmin());
 		user.setPassword(userForm.getPassword());
 		long id = userService.create(user, system);
 		return String.format(
@@ -75,9 +73,9 @@ public class UserController {
 					"\"status\":1," +
 					"\"content\":" +
 					"{" +
-					"\"id\":%d" +
-					"\"fullName\": \"%s\"" +
-					"\"email\": \"%s\"" +
+					"\"id\":%d," +
+					"\"fullName\": \"%s\"," +
+					"\"email\": \"%s\"," +
 					"\"admin\": %b" +
 					"}" +
 					"}", id, user.getFullName(), user.getEmail(), user.isAdmin());
