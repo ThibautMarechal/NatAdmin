@@ -17,5 +17,5 @@ public class Observation extends IdentifiedModel {
 	private Bird bird;
 	private String mediaType;
 	private String mediaPath;
-	
+	private String publicLink;
 }

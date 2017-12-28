@@ -37,29 +37,29 @@ public class NotificationController {
 	
 	@RequestMapping(value = "accept/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String accept(@PathVariable("id") long id, Notification model) {
-		Notification notification = changeNotificationStatus(new NotificationStatus("ACCEPTED"), id);
-		//TODO Update Observation
-		obsSrv.validate(notification.getObservation().getId());
+	public String accept(@PathVariable("id") long id, Model model) {
+		changeNotificationStatus(new NotificationStatus("ACCEPTED"), id);
 		return "{\"status\":1}";
 	}
 	
 	@RequestMapping(value = "refuse/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String refuse(@PathVariable("id") long id, Notification model) {
-		Notification notification = changeNotificationStatus(new NotificationStatus("REFUSED"), id);
-		//TODO Update Observation
-		obsSrv.refused(notification.getObservation().getId());
+	public String refuse(@PathVariable("id") long id, Model model) {
+		changeNotificationStatus(new NotificationStatus("REFUSED"), id);
 		return "{\"status\":1}";
 	}
 	
 	private Notification changeNotificationStatus(NotificationStatus status, long id) {
 		Notification notification = notificationService.getById(id);
-		
 		notification.setStatus(status);
-		notification.setId(id);
+		long obsId = notification.getObservation().getId();
 		notification.setObservation(null);
 		notificationService.update(notification);
+		if(status.getName().equals("ACCEPTED")){
+			obsSrv.validate(obsId);
+		}else{
+			obsSrv.refused(obsId);
+		}
 		return notification;
 	}
 }

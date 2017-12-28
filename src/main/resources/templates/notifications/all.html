@@ -19,7 +19,7 @@
 					<p>{{dateFormat(selectedNotification.date)}}</p>
 					<p>{{selectedNotification.caption}}</p>
 					<p>{{selectedNotification.description}}</p>
-					<p><a :href="selectedNotification.observation.mediaPath">{{selectedNotification.observation.mediaPath}}</a></p>
+					<p><a :href="selectedNotification.observation.publicLink">{{selectedNotification.observation.mediaPath}}</a></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="acceptNotification">Accept</button>
