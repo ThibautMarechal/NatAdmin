@@ -157,7 +157,7 @@
 					success: function(data)
 					{
 						if(data.status === 1){
-
+							window.refresh();
 						}else{
 							console.log(data);
 							alert(data.messageError);

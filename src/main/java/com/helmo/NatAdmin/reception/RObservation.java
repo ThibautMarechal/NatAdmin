@@ -13,7 +13,8 @@ import java.sql.Timestamp;
 @Setter
 public class RObservation extends IdentifiedModel
 	  implements ReceptionObject<Observation> {
-	
+
+	private String publicLink;
 	private String latitude;
 	private String longitude;
 	private Timestamp dateTime;
@@ -45,6 +46,7 @@ public class RObservation extends IdentifiedModel
 		this.nbrObs = obs.getNumberOfBird();
 		this.validation = obs.isValid();
 		this.onlinePath = obs.getMediaPath();
+		this.publicLink = obs.getPublicLink();
 		this.birdId = obs.getBird().getId();
 		this.rBird = new RBird(obs.getBird());
 		this.rMediaType = new RMediaType(obs.getMediaType());
@@ -60,6 +62,7 @@ public class RObservation extends IdentifiedModel
 		rtn.setNumberOfBird(this.nbrObs);
 		rtn.setValid(this.validation);
 		rtn.setMediaPath(this.onlinePath);
+		rtn.setPublicLink(this.publicLink);
 		rtn.setBird(
 			  (rBird != null)
 					? rBird.getModel()
