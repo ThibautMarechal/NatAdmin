@@ -43,8 +43,8 @@ public class UserController {
 		User user = userService.getById(id);
 		user.setFullName(userForm.getFullName());
 		user.setEmail(userForm.getEmail());
-		user.setAdmin(userForm.isAdmin());
-		userService.update(user);
+		user.setAdmin(userForm.getAdmin());
+		userService.update(user, system);
 		return "{\"status\":1}";
 	}
 	
@@ -58,11 +58,10 @@ public class UserController {
 	@RequestMapping(value = "create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String create(Model model, @ModelAttribute UserForm userForm) {
-		//TODO Validate user input
 		User user = new User();
 		user.setFullName(userForm.getFullName());
 		user.setEmail(userForm.getEmail());
-		user.setAdmin(userForm.isAdmin());
+		user.setAdmin(userForm.getAdmin());
 		user.setPassword(userForm.getPassword());
 		long id = userService.create(user);
 		return String.format(
@@ -70,9 +69,9 @@ public class UserController {
 					"\"status\":1," +
 					"\"content\":" +
 					"{" +
-					"\"id\":%d" +
-					"\"fullName\": \"%s\"" +
-					"\"email\": \"%s\"" +
+					"\"id\":%d," +
+					"\"fullName\": \"%s\"," +
+					"\"email\": \"%s\"," +
 					"\"admin\": %b" +
 					"}" +
 					"}", id, user.getFullName(), user.getEmail(), user.isAdmin());
