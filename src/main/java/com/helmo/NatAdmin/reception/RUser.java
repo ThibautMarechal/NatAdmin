@@ -28,6 +28,8 @@ public class RUser extends IdentifiedModel
 	
 	private String onlinePath;
 	
+	private String publicLink;
+	
 	@JsonProperty("roles")
 	private List<RRole> rRoles;
 	@JsonProperty("sessions")

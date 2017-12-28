@@ -13,6 +13,7 @@ public class Bird extends IdentifiedModel {
 	private String description;
 	private Map<String, List<String>> attributes;
 	private List<String> pictures;
+	private List<String> publicLink;
 	
 	public String getName() {
 		return name;
@@ -44,5 +45,13 @@ public class Bird extends IdentifiedModel {
 	
 	public void setPictures(List<String> pictures) {
 		this.pictures = pictures;
+	}
+	
+	public List<String> getPublicLink() {
+		return publicLink;
+	}
+	
+	public void setPublicLink(List<String> publicLink) {
+		this.publicLink = publicLink;
 	}
 }
