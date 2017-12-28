@@ -44,7 +44,7 @@ public class UserController {
 		user.setFullName(userForm.getFullName());
 		user.setEmail(userForm.getEmail());
 		user.setAdmin(userForm.getAdmin());
-		userService.update(user, system);
+		userService.update(user);
 		return "{\"status\":1}";
 	}
 	
