@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -36,17 +35,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http  .csrf().disable()
 			  .authorizeRequests()
 			  .antMatchers("/resources/**").permitAll()
-				  .anyRequest().authenticated()
-				  .and()
-				  .formLogin()
-		.and().logout().permitAll();
-//			  .loginPage("/login")
-//				  .permitAll()
-//				  .and()
-//			  .logout()
-//			    .permitAll();
+			  .anyRequest().authenticated()
+			  .and()
+			  .formLogin()
+			  .and()
+			  .logout()
+			  .permitAll();
 	}
-
+	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(new AuthenticationProvider() {
@@ -60,6 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				User user;
 				try {
 					user = userService.findByEmail(authentication.getName(), password);
+					if (!user.isAdmin())
+						throw new BadCredentialsException("Vous n'etes pas un administrateur");
 				} catch (Exception e) {
 					throw new BadCredentialsException(e.getMessage(), e);
 				}
@@ -67,9 +65,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					@Override
 					public Collection<? extends GrantedAuthority> getAuthorities() {
 						return user.getRoles().stream()
-								.map(Role::getName)
-								.map(SimpleGrantedAuthority::new)
-								.collect(Collectors.toList());
+							  .map(Role::getName)
+							  .map(SimpleGrantedAuthority::new)
+							  .collect(Collectors.toList());
 					}
 					
 					@Override

@@ -12,6 +12,7 @@ public class User extends IdentifiedModel {
 	private String email;
 	private boolean isAdmin;
 	private String profilePictureUrl;
+	private String publicLink;
 	private String password;
 	
 	private List<Role> roles;

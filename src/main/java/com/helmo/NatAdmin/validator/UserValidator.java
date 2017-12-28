@@ -2,7 +2,6 @@ package com.helmo.NatAdmin.validator;
 
 import com.helmo.NatAdmin.models.User;
 import com.helmo.NatAdmin.services.UserService;
-import com.helmo.NatAdmin.tools.SystemProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

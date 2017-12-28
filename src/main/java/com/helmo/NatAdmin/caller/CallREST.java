@@ -1,5 +1,6 @@
 package com.helmo.NatAdmin.caller;
 
+import com.helmo.NatAdmin.reception.ReceptionObject;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -19,7 +20,7 @@ public class CallREST {
 		this.env = env;
 	}
 	
-	protected RestTemplate createRestTemplate() {
+	RestTemplate createRestTemplate() { //Package-Private scope
 		RestTemplate restTemplate = new RestTemplate();
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		String password = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
@@ -27,45 +28,51 @@ public class CallREST {
 		return restTemplate;
 	}
 	
-	public <T> List<T> getAll(Class<T[]> receptionObject, String controllerName) {
-		return Arrays.asList(createRestTemplate().exchange(
-			  env.getProperty("rest.url") + "/" + controllerName,
-			  HttpMethod.GET, null, receptionObject
-		).getBody());
+	public <T extends ReceptionObject> List<T> getAll(Class<T[]> receptionObject, String controllerName) {
+		return Arrays.asList(
+			  createRestTemplate().getForObject(
+					env.getProperty("rest.url") + "/" + controllerName,
+					receptionObject));
 	}
 	
-	public <T> T getById(Class<T> receptionObject, String controllerName, long id) {
-		return createRestTemplate().exchange(
+	public <T extends ReceptionObject> T getById(Class<T> receptionObject, String controllerName, long id) {
+		return createRestTemplate().getForObject(
 			  env.getProperty("rest.url") + "/" + controllerName + "/" + id,
-			  HttpMethod.GET, null, receptionObject
-		).getBody();
+			  receptionObject
+		);
 	}
 	
-	public <T> T[] create(Class<T[]> rObject, String controllerName, T[] object) {
-		return callWithMultiEntity(rObject, controllerName, object, HttpMethod.POST);
+	public <T extends ReceptionObject> List<T> getRange(Class<T[]> receptionObject, String controllerName, long one, long two) {
+		return Arrays.asList(
+			  createRestTemplate().getForObject(
+				    env.getProperty("rest.url") + "/" + controllerName + "/" + one + "/" + two,
+					receptionObject));
 	}
 	
-	public <T> T[] update(Class<T[]> rObject, String controllerName, T[] object) {
-//		new RestTemplate.postForEntity(env.getProperty("rest.url") + "/" + controllerName, object, rObject);
-		return callWithMultiEntity(rObject, controllerName, object, HttpMethod.PUT);
+	public <T extends ReceptionObject> T[] create(Class<T[]> rObject, String controllerName, T[] object) {
+		return createRestTemplate().postForObject(
+			  env.getProperty("rest.url") + "/" + controllerName,
+			  object, rObject);
 	}
 	
-	private <T> T[] callWithMultiEntity(Class<T[]> rObject, String controllerName, T[] object, HttpMethod method) {
+	public <T extends ReceptionObject> void update(Class<T[]> rObject, String controllerName, T[] object) {
+		createRestTemplate().put(
+			  env.getProperty("rest.url") + "/" + controllerName,
+			  object
+		);
+	}
+	
+	public <T extends ReceptionObject> void delete(Class<T[]> rObject, String controllerName, T[] object) {
 		HttpEntity<T[]> entity = new HttpEntity<>(object);
-		return createRestTemplate().exchange(
+		createRestTemplate().exchange(
 			  env.getProperty("rest.url") + "/" + controllerName,
-			  method, entity, rObject
-		).getBody();
+			  HttpMethod.DELETE, entity, rObject
+		);
 	}
 	
-	public <T> T[] delete(Class<T[]> rObject, String controllerName, T[] object) {
-		return callWithMultiEntity(rObject, controllerName, object, HttpMethod.DELETE);
-	}
-	
-	public <T> T deleteById(Class<T> rObject, String controllerName, long id) {
-		return createRestTemplate().exchange(
-			  env.getProperty("rest.url") + "/" + controllerName + "/" + id,
-			  HttpMethod.DELETE, null, rObject
-		).getBody();
+	public <T extends ReceptionObject> void deleteById(Class<T> rObject, String controllerName, long id) {
+		createRestTemplate().delete(
+			  env.getProperty("rest.url") + "/" + controllerName + "/" + id
+		);
 	}
 }

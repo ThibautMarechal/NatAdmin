@@ -1,6 +1,5 @@
 package com.helmo.NatAdmin.storage;
 
-import com.google.cloud.ReadChannel;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.*;
 import com.helmo.NatAdmin.tools.HELMoCredentialsProvider;
@@ -12,9 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collections;
 
 @Component
 public class GoogleStorage { //TODO Work with path not strings
@@ -27,7 +24,7 @@ public class GoogleStorage { //TODO Work with path not strings
 			  .setCredentials(HELMoCredentialsProvider.getCredential())
 			  .build()
 			  .getService();
-		bucketName = "nat-test";
+		bucketName = "natagora-grimar";
 	}
 	
 	public void uploadPicture(Path path, Path onlinePath, String ext) throws IOException {
@@ -35,12 +32,22 @@ public class GoogleStorage { //TODO Work with path not strings
 		uploadMedia(path, onlinePath, "image/" + ext);
 	}
 	
+	public void uploadVideoMP4(Path path, Path onlinePath) throws IOException {
+		if (isASubfolder(onlinePath)) uploadFolder(onlinePath);
+		uploadMedia(path, onlinePath, "video/mp4");
+	}
+	
+	public void uploadAudioMP3(Path path, Path onlinePath) throws IOException {
+		if (isASubfolder(onlinePath)) uploadFolder(onlinePath);
+		uploadMedia(path, onlinePath, "audio/mpeg");
+	}
+	
 	private void uploadMedia(Path path, Path onlinePath, String mediaType) throws IOException {
 		BlobId blobId = BlobId.of(bucketName, onlinePath.toString().replace("\\", "/"));
 		BlobInfo blobInfo = BlobInfo
 			  .newBuilder(blobId)
 			  .setContentType(mediaType)
-			  .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
+			  .setAcl(new ArrayList<>(Collections.singletonList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
 			  .build();
 		
 		uploadContent(path, blobInfo);
@@ -77,48 +84,5 @@ public class GoogleStorage { //TODO Work with path not strings
 	
 	private boolean isASubfolder(Path path) {
 		return path.startsWith("\\");
-	}
-	
-	private byte[] getMedia(Path onlinePath) throws IOException {
-		Blob blob = storage.get(BlobId.of(bucketName, onlinePath.toString().replace("\\", "/")));
-		if (blob == null) {
-			System.out.println("No such object");
-			return new byte[0];
-		}
-		
-		byte[] rtn;
-		
-		if (blob.getSize() < 1_000_000) {
-			// Blob is small read all its content in one request
-			return blob.getContent();
-		} else {
-			// When Blob size is big or unknown use the blob's channel reader.
-			try (ReadChannel reader = blob.reader()) {
-				List<Byte> content = new LinkedList<>();
-				ByteBuffer bytes = ByteBuffer.allocate(64 * 1024);
-				while (reader.read(bytes) > 0) {
-					bytes.flip();
-					for (byte tmp : bytes.array())
-						content.add(tmp);
-					bytes.clear();
-				}
-				rtn = new byte[content.size()];
-				for (int i = 0; i < rtn.length; i++)
-					rtn[i] = content.get(i);
-			}
-		}
-		return rtn;
-	}
-	
-	public boolean deleteMedia(Path onlinePath) {
-		return storage.delete(BlobId.of(bucketName, onlinePath.toString()));
-	}
-	
-	public boolean exist(Path onlinePath) {
-		try {
-			return getMedia(onlinePath).length == 0;
-		} catch (IOException ex) {
-			return false;
-		}
 	}
 }

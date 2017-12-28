@@ -11,8 +11,15 @@ public class ObservationCaller extends CallREST {
 	
 	public void validate(long id) {
 		createRestTemplate().put(
-				env.getProperty("rest.url") + "/validate/" + id,
-				null
+			  env.getProperty("rest.url") + "/validate/" + id,
+			  null
+		);
+	}
+	
+	public void refused(long id) {
+		createRestTemplate().put(
+			  env.getProperty("rest.url") + "/refused/" + id,
+			  null
 		);
 	}
 }

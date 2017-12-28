@@ -8,5 +8,7 @@ public class SessionForm {
 	@Size(min = 1, max = 50)
 	private String name;
 	
-	
+	public String getName() {
+		return name;
+	}
 }
