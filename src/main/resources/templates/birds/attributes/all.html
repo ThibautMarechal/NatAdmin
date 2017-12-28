@@ -21,7 +21,7 @@
 						</div>
 						<p>Values :</p>
 						<div class="form-group" v-for="(value, i) in attributeValues">
-							<input type="text" class="form-control" name="value[]" placeholder="value" v-model="attributeValues[i]"/>
+							<input type="text" class="form-control" name="values" placeholder="value" v-model="attributeValues[i]"/>
 						</div>
 						<button type="button" class="btn btn-primary" v-on:click="addValue">add value</button>
     				</div>
@@ -133,23 +133,32 @@
 			    $("#createModal").modal("show");
 			},
 			createSubmit: function(){
+			    for(var i = this.attributeValues.length - 1; i >= 0; i--){
+					if(!this.attributeValues[i]){
+						this.attributeValues.splice(i,1);
+					}
+				}
 			    var self = this;
 				  $.ajax({
 					 type: "POST",
 					 url: "/birds/attributes/create/",
+					 dataType: 'json',
 					 data: $("#createForm").serialize(),
 					 success: function(data)
 					 {
 						 if(data.status === 1){
-							 console.log(data);
-							 var newAttribute = {};
-							 newAttribute.id = data.content;
+							 var newAttribute = data.content;
+							 self.attributeKey = "";
+                             self.attributeValues = [""];
 							 self.attributes.push(newAttribute)
 						 }else{
-							 console.log(data);
+							 console.log("error", data);
 							 alert(data.errorMessage);
 						 }
 						 $("#createModal").modal('hide')
+					 },
+					 error: function(request, status, error){
+					     console.log(request, status, error);
 					 }
 				 });
 			},
@@ -163,7 +172,11 @@
 			    $("#editModal").modal("show");
 			},
 			editSubmit: function(){
-			    console.log($('#editForm').serialize());
+			    for(var i = this.attributeValues.length - 1; i >= 0; i--){
+			        if(!this.attributeValues[i]){
+					    this.attributeValues.splice(i,1);
+					}
+			    }
 			    var self = this;
                 $.ajax({
                     type: "POST",

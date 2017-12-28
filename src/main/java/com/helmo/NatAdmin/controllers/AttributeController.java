@@ -42,16 +42,22 @@ public class AttributeController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "create", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String create(Model model) { //TODO Gni ?
-		long id = attributeService.create(new Attribute());
-		return String.format(
-			  "{" +
-					"\"status\":1," +
-					"\"content\":" +
-					"{" +
-					"\"id\":%d," +
-					"\"key\": \"%s\"" +
-					"}" +
-					"}", id);
+	public String create(Model model, @ModelAttribute AttributeForm attributeForm) {
+		Attribute newAttribute = new Attribute();
+		newAttribute.setKey(attributeForm.getKey());
+		newAttribute.setValues(attributeForm.getValues());
+		long id = attributeService.create(newAttribute);
+		StringBuilder returnString = new StringBuilder("{\"status\":1,\"content\":{\"id\":" +id + ",\"key\": \"" +
+				attributeForm
+				.getKey() + "\",\"values\": [");
+		for (int i = 0; i < attributeForm.getValues().size(); i++)
+		{
+			returnString.append("\"").append(attributeForm.getValues().get(i)).append("\"");
+			if(i != attributeForm.getValues().size() -1){
+				returnString.append(",");
+			}
+		}
+		returnString.append("]}}");
+		return returnString.toString();
 	}
 }
