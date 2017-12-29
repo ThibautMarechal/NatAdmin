@@ -48,7 +48,7 @@ public class BirdController {
 			  ? birdForm.getDescription()
 			  : bird.getDescription());
 		birdService.update(bird);
-		return "birds/edit";
+		return "{\"status\" : 1}";
 	}
 	
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
