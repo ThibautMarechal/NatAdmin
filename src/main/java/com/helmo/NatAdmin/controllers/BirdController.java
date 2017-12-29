@@ -2,7 +2,6 @@ package com.helmo.NatAdmin.controllers;
 
 import com.helmo.NatAdmin.forms.BirdAttributeForm;
 import com.helmo.NatAdmin.forms.BirdForm;
-import com.helmo.NatAdmin.models.Attribute;
 import com.helmo.NatAdmin.models.Bird;
 import com.helmo.NatAdmin.services.AttributeService;
 import com.helmo.NatAdmin.services.BirdService;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("birds")
@@ -79,19 +77,16 @@ public class BirdController {
 					"}", id, newBird.getName(), newBird.getDescription());
 	}
 	
-	@RequestMapping(value = "edit/{id}/attributes", consumes = MediaType.APPLICATION_JSON_VALUE, method =
+	@RequestMapping(value = "edit/{id}/attributes", method =
 		  RequestMethod.POST, produces = MediaType
 		  .APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String editAttributes(@PathVariable("id") long id, @RequestBody String //TODO Gni ?
 		  birdAttributeFormJson, Model model) {
 		BirdAttributeForm baf = BirdAttributeForm.ParseJSON(birdAttributeFormJson);
-		
-		Attribute attribute = attributeService.getById(id);
-		Map.Entry<String, List<String>> entry = baf.getAttributes().entrySet().iterator().next();
-		attribute.setKey(entry.getKey());
-		attribute.setValues(entry.getValue());
-		attributeService.update(attribute);
+		Bird b = birdService.getById(id);
+		b.setAttributes(baf != null ? baf.getAttributes() : null);
+		birdService.update(b);
 		return "{\"status\" : 1}";
 	}
 }

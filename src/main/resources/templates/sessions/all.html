@@ -20,9 +20,9 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td><input type="text" v-model="dateFilter" placeholder="Full Name filter"/></td>
-				<td><input type="text" v-model="locationFilter" placeholder="Email filter"/></td>
-				<td><input type="text" v-model="userFilter" placeholder="Email filter"/></td>
+				<td></td>
+				<td></td>
+				<td><input type="text" v-model="userFilter" placeholder="User filter"/></td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -31,14 +31,14 @@
 
 			<tr v-for="session in sessions" v-if="filter(session)">
 				<td scope="row">{{session.id}}</td>
-				<td>{{session.start}}</td>
+				<td>{{dateFormat(session.start)}}</td>
 				<td>{{session.location}}</td>
-				<td>session.user.fullName</td>
+				<td><a :href="'/users/'+session.user.id">{{session.user.fullName}}</a></td>
 				<td>{{observationSize(session)}}</td>
 				<td>
-					<a class="btn" :href="'/sessions/' +session.id">view</a>
-					<button class="btn" v-on:click="editSession(session)">edit</button>
-					<button class="btn" v-on:click="deleteSession(session)">delete</button>
+					<a class="btn btn-info" :href="'/sessions/' +session.id">view</a>
+					<button class="btn btn-warning" v-on:click="editSession(session)">edit</button>
+					<button class="btn btn-danger" v-on:click="deleteSession(session)">delete</button>
 				</td>
 			</tr>
 		</tbody>
@@ -65,6 +65,9 @@ new Vue({
 	},
 	observationSize : function(session){
 	    return session.observations.length;
+	},
+	dateFormat: function(date){
+		return moment(String(date)).format('DD/MM/YYYY hh') + 'h';
 	}
   }
 })
