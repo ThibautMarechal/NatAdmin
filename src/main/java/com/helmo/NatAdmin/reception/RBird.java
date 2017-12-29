@@ -17,7 +17,7 @@ public class RBird extends MongoIdentifiedModel
 	
 	private List<String> picture;
 	private List<String> publicLinks;
-	private Map<String, List<Object>> data;
+	private Map<String, List<String>> data;
 	
 	public RBird() {
 	}
@@ -26,10 +26,12 @@ public class RBird extends MongoIdentifiedModel
 		this.setId(bird.getId());
 		this.name = bird.getName();
 		this.description = bird.getDescription();
+		this.picture = bird.getPictures();
 		this.publicLinks = bird.getPublicLink();
+		this.data = bird.getAttributes();
 	}
 	
-	public List<Object> get(String key) {
+	public List<String> get(String key) {
 		return data.get(key);
 	}
 	
@@ -48,6 +50,8 @@ public class RBird extends MongoIdentifiedModel
 		rtn.setName(this.name);
 		rtn.setDescription(this.description);
 		rtn.setPublicLink(this.publicLinks);
+		rtn.setPictures(this.picture);
+		rtn.setAttributes(this.data);
 		return rtn;
 	}
 }
