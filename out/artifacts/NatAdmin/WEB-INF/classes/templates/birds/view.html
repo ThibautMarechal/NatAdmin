@@ -25,7 +25,7 @@
 						</div>
 						<div class="form-group">
 							<label for="fullName">Bird name</label>
-							<input type="text" class="form-control" name="descriptionx" placeholder="Full Name" v-model="newDescription"/>
+							<input type="text" class="form-control" name="description" placeholder="Full Name" v-model="newDescription"/>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -63,21 +63,15 @@
 	<button class="btn btn-danger" v-on:click="deleteBird">Delete</button>
 	<form id="attributesForm">
 		<ul>
-			<li v-for="(value, key) in bird.attributes">
-				<p>{{key}} :
-					<select class="multiple-select" multiple="multiple" v-model="bird.attributes[key]" name="key">
-						<template v-for="attribute in attributes" v-if="attribute.key === key">
-							<option v-for="attributeValue in attribute.values" :value="attributeValue">{{attributeValue}}</option>
-						</template>
+			<li v-for="attribute in attributes">
+				<p>{{attribute.key}} :
+					<select class="multiple-select" multiple="multiple" v-model="bird.attributes[attribute.key]" name="key">
+						<option v-for="value in attribute.values" :value="value">{{value}}</option>
 					</select>
 				</p>
 			</li>
 		</ul>
 	</form>
-	<select id="newAttributeSelect">
-		<option v-for="attribute in attributes" v-if="bird.attributes[attribute.key] === undefined">{{attribute.key}}</option>
-	</select>
-	<button class="btn btn-primary" v-on:click="addNewAttribute()">add attribute</button>
 	<button class="btn btn-primary" v-on:click="saveChanges()">Save changes</button>
 	<div class="row">
 		
@@ -98,6 +92,12 @@
 			newName: bird.name,
 			newDescription: bird.description
 		},
+		created: function(){
+		    console.log("created");
+		  if(bird.attributes === null){
+		      bird.attributes = {};
+		  }
+		},
 		methods:{
 		    editBird: function(){
 				$('#editModal').modal('show');
@@ -106,7 +106,7 @@
 				var self = this;
 				$.ajax({
 					type: "POST",
-					url: "/birds/attributes/edit/"+ self.bird.id,
+					url: "/birds/edit/"+ self.bird.id,
 					data: $('#editForm').serialize(),
 					success: function(data)
 					{
@@ -157,7 +157,7 @@
 					success: function(data)
 					{
 						if(data.status === 1){
-
+							window.refresh();
 						}else{
 							console.log(data);
 							alert(data.messageError);

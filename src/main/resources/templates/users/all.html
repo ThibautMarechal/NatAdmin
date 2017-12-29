@@ -140,6 +140,7 @@
 				<td>{{user.email}}</td>
 				<td>{{user.admin}}</td>
 				<td>
+					<a :href="'/users/'+ user.id" class="btn btn-primary">view</a>
 					<button class="btn btn-warning" v-on:click="editUser(user)">edit</button>
 					<button class="btn btn-danger" v-on:click="deleteUser(user)">delete</button>
 				</td>

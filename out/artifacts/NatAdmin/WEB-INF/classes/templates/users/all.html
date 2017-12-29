@@ -26,9 +26,9 @@
 						<label for="email">Email</label>
 						<input type="email" class="form-control" name="email" placeholder="sample@domain.com"/>
 					</div>
-					<div class="form-group">
-						<label for="admin">Admin</label>
-						<input type="checkbox" class="form-check-input" name="admin"/>
+					<div class="form-check-label">
+						<label for="admin">
+						<input type="checkbox" class="form-check-input" name="admin"/>Admin</label>
 					</div>
 					<div class="form-group">
 						<label for="password">Password</label>
@@ -38,6 +38,9 @@
 						<label for="confirmedPassword">Confirm Password</label>
 						<input type="password" class="form-control" name="confirmedPassword"/>
 					</div>
+				</div>
+				<div v-if="password !== confirmedPassword" class="alert alert-danger" role="alert">
+					  Passwords doesnt match
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" v-on:click="createSubmit">Create</button>
@@ -60,15 +63,15 @@
 				<div class="modal-body" v-if="selectedUser">
 					<div class="form-group">
 						<label for="fullName">Full Name</label>
-						<input type="text" class="form-control" name="fullName" placeholder="Full Name" v-model="selectedUser.fullName"/>
+						<input type="text" class="form-control" name="fullName" placeholder="Full Name" v-model="selectedUserName"/>
 					</div>
 					<div class="form-group">
 						<label for="email">Email</label>
-						<input type="email" class="form-control" name="email" placeholder="sample@domain.com" v-model="selectedUser.email"/>
+						<input type="email" class="form-control" name="email" placeholder="sample@domain.com" v-model="selectedUserEmail"/>
 					</div>
-					<div class="form-group">
-						<label for="admin">Admin</label>
-						<input type="checkbox" class="form-check-input" name="admin" v-model="selectedUser.admin"/>
+					<div class="form-check-label">
+						<label for="admin">
+						<input type="checkbox" class="form-check-input" name="admin" v-model="selectedUserAdmin"/>Admin</label>
 					</div>
 					<div class="form-group">
 						<label for="password">Password</label>
@@ -79,9 +82,9 @@
 						<input type="password" class="form-control" name="confirmedPassword"/>
 					</div>
 				</div>
-				<div v-if="password !== passwordConfirmed" class="alert alert-danger" role="alert">
-                                      Passwords doesnt match
-                                    </div>
+				<div v-if="password !== confirmedPassword" class="alert alert-danger" role="alert">
+					  Passwords doesnt match
+				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" v-on:click="editSubmit">Edit</button>
 					<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
@@ -101,7 +104,7 @@
 			</div>
 			<div class="modal-body" v-if="selectedUser">
 				<p>Full Name : {{selectedUser.fullName}}</p>
-				<p>Email: {{selectedUser.fullName}}</p>
+				<p>Email: {{selectedUser.email}}</p>
 				<p>Admin: {{selectedUser.admin}}</p>
 			</div>
 			<div class="modal-footer">
@@ -137,8 +140,9 @@
 				<td>{{user.email}}</td>
 				<td>{{user.admin}}</td>
 				<td>
-					<button class="btn" v-on:click="editUser(user)">edit</button>
-					<button class="btn" v-on:click="deleteUser(user)">delete</button>
+					<a :href="'/users/'+ user.id" class="btn btn-primary">view</a>
+					<button class="btn btn-warning" v-on:click="editUser(user)">edit</button>
+					<button class="btn btn-danger" v-on:click="deleteUser(user)">delete</button>
 				</td>
 			</tr>
 		</tbody>
@@ -155,8 +159,13 @@ new Vue({
   data: {
     users: users,
     selectedUser: null,
+    selectedUserEmail: "",
+    selectedUserName: "",
+    selectedUserAdmin: "",
     fullNameFilter: "",
-    emailFilter: ""
+    emailFilter: "",
+    password: "",
+    confirmedPassword: ""
   },
   methods:{
       filter: function(user){
@@ -164,6 +173,9 @@ new Vue({
       },
       editUser: function(user){
           this.selectedUser = user;
+          this.selectedUserName = user.fullName;
+          this.selectedUserEmail = user.email;
+          this.selectedUserAdmin = user.admin;
           $("#editModal").modal('show')
       },
       deleteUser: function(user){
@@ -174,16 +186,22 @@ new Vue({
           $("#createModal").modal('show')
       },
       editSubmit: function(){
+          if(this.password !== this.confirmedPassword){
+              return;
+          }
+          var self = this;
           $.ajax({
 			 type: "POST",
-			 url: "/users/edit/"+ this.selectedUser.id,
+			 url: "/users/edit/"+ self.selectedUser.id,
 			 data: $("#editForm").serialize(),
 			 success: function(data)
 			 {
 			     if(data.status === 1){
-					self.selectedUser.fullName = self.fullName;
-					self.selectedUser.email = self.email;
-					self.selectedUser.admin = self.admin;
+					self.selectedUser.fullName = self.selectedUserName;
+					self.selectedUser.email = self.selectedUserEmail;
+					self.selectedUser.admin = self.selectedUserAdmin;
+					self.password = "";
+					self.confirmedPassword = "";
 				 }else{
 					 alert(data.errorMessage);
 				 }
@@ -192,13 +210,17 @@ new Vue({
 		   });
       },
       deleteSubmit: function(){
+          var self = this;
           $.ajax({
 			 type: "GET",
-			 url: "/users/delete/"+ this.selectedUser.id,
+			 url: "/users/delete/"+ self.selectedUser.id,
 			 success: function(data)
 				 {
 				     if(data.status === 1){
-				         //TODO handle response positive response
+				         var userIndex = self.users.map(function(u) {
+                                      return u.id;
+								}).indexOf(self.selectedUser.id);
+				         self.users.splice(userIndex, 1);
 				     }else{
 				         alert(data.errorMessage);
 				     }
