@@ -103,7 +103,10 @@
 			<tr v-for="attribute in attributes" v-if="filter(attribute.key)">
 				<td>{{attribute.id}}</td>
 				<td>{{attribute.key}}</td>
-				<td><button class="btn btn-warning" v-on:click="editAttribute(attribute)">Edit</button><button class="btn btn-danger" v-on:click="deleteAttribute(attribute)">Delete</button></td>
+				<td>
+					<button class="btn btn-warning" v-on:click="editAttribute(attribute)">Edit</button>
+					<button class="btn btn-danger" v-on:click="deleteAttribute(attribute)">Delete</button>
+				</td>
 			</tr>
         </tbody>
     </table>
