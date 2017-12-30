@@ -30,7 +30,7 @@ public class SessionController {
 	
 	@RequestMapping("{id}")
 	public String getSingle(Model model, @PathVariable("id") long id) {
-		model.addAttribute("MySession", sessionService.getById(id));
+		model.addAttribute("mySession", sessionService.getById(id));
 		return "sessions/view";
 	}
 	
@@ -42,7 +42,7 @@ public class SessionController {
 		return "{\"status\": 1}";
 	}
 	
-	@RequestMapping(value = "delete/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String delete(Model model, @PathVariable("id") long id) {
 		sessionService.delete(id);
 		return "{\"status\": 1}";

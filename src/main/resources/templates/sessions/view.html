@@ -1,17 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout :: site-head">
-    <title th:text="${user.fullName}">View Post</title>
+    <title th:text="${user.fullName}">View Session</title>
 </head>
-
 <body>
-
 <header th:replace="layout :: site-header" ></header>
-<main>
-<!--TODO USER EDIT FORM MODAL-->
-<!--TODO DISPLAY USER INFO-->
-<!--TODO DISPLAY SESSIONS-->
-</main>
+<div class="container-fluid" id="app">
+	<button onclick="window.history.back()" class="btn btn-info">Back</button>
+	<button v-on:click="deleteSession()" class="btn btn-danger">Delete</button>
+	<h3>Session by <a :href="'users/' + session.user.id">{{session.user.fullName}}</a></h3>
+	<p>Name by user : {{session.name}}</p>
+	<p>Started at : {{dateFormat(session.start)}}</p>
+	<p>Ended at : {{dateFormat(session.end)}}</p>
+	<p>Location : {{session.longitude}} - {{session.latitude}}</p>
+	<table class="table table-hover table-responsive-sm">
+    		<caption>List of observation</caption>
+    		<thead>
+    			<tr>
+    				<th scope="col">Date</th>
+    				<th scope="col">Location</th>
+    				<th scope="col">Bird</th>
+    				<th scope="col">Media Type</th>
+    				<th scope="col">...</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr v-for="observation in session.observations">
+    				<td>{{dateFormat(observation.date)}}</td>
+    				<td>{{observation.longitude}} - {{observation.latitude}}</td>
+    				<td>{{observation.bird.name}}</td>
+    				<td>{{observation.mediaType}}</td>
+    				<td>
+    					<button class="btn btn-info" v-on:click="viewObservation(observation)">view</button>
+    					<button class="btn btn-danger" v-on:click="deleteObservation(observation)">Delete</button>
+    				</td>
+    			</tr>
+    		</tbody>
+    	</table>
+</div>
 <footer th:replace="layout :: site-footer" ></footer>
+<script th:replace="layout :: vueJS"></script>
+<div th:replace="layout :: bottom-script"></div>
+<script th:inline="javascript" type="application/javascript">
+var session = /*[[${mySession}]]*/;
+new Vue({
+	el: "#app",
+	data:{
+	    session: session
+	},
+	methods:{
+	    dateFormat: function(date){
+			return moment(String(date)).format('DD/MM/YYYY hh') + 'h';
+		},
+		viewObservation: function(obs){
+
+		},
+		deleteObservation: function(obs){
+
+		},
+		deleteSession: function(){
+
+		}
+
+	}
+});
+</script>
 </body>
 </html>

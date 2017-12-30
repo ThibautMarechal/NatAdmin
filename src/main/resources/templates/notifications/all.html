@@ -41,7 +41,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="notification in notifications" v-on:click="handleNotification(notification)">
+			<tr v-for="notification in notifications" v-on:click="handleNotification(notification)" v-bind:class="statusClass(notification)">
 				<td>{{notification.id}}</td>
 				<td>{{dateFormat(notification.date)}}</td>
 				<td>{{notification.caption}}</td>
@@ -76,7 +76,7 @@ new Vue({
 				 success: function(data)
 				 {
 					 if(data.status === 1){
-						 //TODO handle response positive response
+						 self.selectedNotification.status.name = "ACCEPTED";
 					 }else{
 						 alert(data.errorMessage);
 					 }
@@ -91,7 +91,7 @@ new Vue({
 				 success: function(data)
 				 {
 				     if(data.status === 1){
-						 //TODO handle response positive response
+						 self.selectedNotification.status.name = "REFUSED";
 					 }else{
 						 alert(data.errorMessage);
 					 }
@@ -100,6 +100,17 @@ new Vue({
 		},
 		dateFormat: function(date){
 		    return moment(String(date)).format('DD/MM/YYYY')
+		},
+		statusClass: function(notification){
+		    if(notification.status.name === "REFUSED"){
+		        return "table-danger";
+		    }
+		    if(notification.status.name === "ACCEPTED"){
+				return "table-success"
+		    }
+		    if(notification.status.name === "PENDING"){
+				return "table-warning"
+		    }
 		}
 	}
 })
