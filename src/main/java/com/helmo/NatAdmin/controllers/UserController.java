@@ -2,6 +2,7 @@ package com.helmo.NatAdmin.controllers;
 
 import com.helmo.NatAdmin.forms.UserForm;
 import com.helmo.NatAdmin.models.User;
+import com.helmo.NatAdmin.services.SessionService;
 import com.helmo.NatAdmin.services.UserService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
@@ -10,14 +11,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("users")
 public class UserController {
 	private final UserService userService;
+	private final SessionService sessService;
 	private final Environment env;
 	
-	public UserController(UserService userService, Environment env) {
+	public UserController(UserService userService, SessionService sessService, Environment env) {
+		this.sessService = sessService;
 		this.userService = userService;
 		this.env = env;
 	}
@@ -32,6 +36,7 @@ public class UserController {
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public String view(@PathVariable("id") Long id, Model model) {
 		User u = userService.getById(id);
+		u.setSessions(sessService.getAll().stream().filter(s -> s.getUser().getId() == u.getId()).collect(Collectors.toList()));
 		model.addAttribute("user", u);
 		return "users/view";
 	}
