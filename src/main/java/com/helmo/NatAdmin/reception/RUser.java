@@ -77,6 +77,7 @@ public class RUser extends IdentifiedModel
 		output.setEmail(this.email);
 		output.setAdmin(this.admin);
 		output.setProfilePictureUrl(this.onlinePath);
+		output.setPublicLink(this.publicLink);
 		output.setRoles(getRoles());
 		output.setSessions(getSessions());
 		return output;

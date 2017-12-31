@@ -26,7 +26,6 @@ public class ObservationController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "delete/{id}")
 	public String delete(Model model, @PathVariable("id") long id) {
-		
 		obsSrv.delete(id);
 		return "{\"status\" : 1}";
 	}
