@@ -4,6 +4,7 @@ import com.helmo.NatAdmin.models.Bird;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class RBird extends MongoIdentifiedModel
 		this.name = bird.getName();
 		this.description = bird.getDescription();
 		this.picture = bird.getPictures();
-		this.publicLinks = bird.getPublicLink();
+		this.publicLinks = bird.getPublicLinks();
 		this.data = bird.getAttributes();
 	}
 	
@@ -49,8 +50,8 @@ public class RBird extends MongoIdentifiedModel
 		rtn.setId(this.getId());
 		rtn.setName(this.name);
 		rtn.setDescription(this.description);
-		rtn.setPublicLink(this.publicLinks);
-		rtn.setPictures(this.picture);
+		rtn.setPublicLinks(this.publicLinks == null ? new ArrayList<>() : this.publicLinks);
+		rtn.setPictures(this.picture == null ? new ArrayList<>() : this.picture);
 		rtn.setAttributes(this.data);
 		return rtn;
 	}

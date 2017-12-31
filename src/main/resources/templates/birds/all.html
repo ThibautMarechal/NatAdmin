@@ -76,7 +76,7 @@
             <td>{{bird.id}}</td>
             <td>{{bird.name}}</td>
             <td>
-            	<a class="btn btn-primary" :href="'birds/'+bird.id">view</a>
+            	<a class="btn btn-primary" :href="'/birds/'+bird.id">view</a>
             	<button class="btn btn-danger" v-on:click="deleteBird(bird)">delete</button>
 			</td>
         </tr>
