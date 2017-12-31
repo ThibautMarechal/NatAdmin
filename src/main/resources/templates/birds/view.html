@@ -74,7 +74,12 @@
 	</form>
 	<button class="btn btn-primary" v-on:click="saveChanges()">Save changes</button>
 	<div class="row">
-		
+		<img v-for="link in bird.publicLinks" :src="link" alt="" class="img-thumbnail" style="height:150px"/>
+	</div>
+	<div class="row">
+		<form method="POST" enctype="multipart/form-data" :action="'/birds/pictures/' + bird.id">
+			New Picture:<input type="file" name="file"/><input type="submit" value="Upload" class="btn btn-primary"/>
+		</form>
 	</div>
 </main>
 <footer th:replace="layout :: site-footer" ></footer>

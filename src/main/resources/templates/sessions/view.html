@@ -6,6 +6,23 @@
 <body>
 <header th:replace="layout :: site-header" ></header>
 <div class="container-fluid" id="app">
+<div class="modal fade" tabindex="-1" role="dialog" id="viewModal" aria-labelledby="viewModal" aria-hidden="true">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">view sessions</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" v-if="selectedObs">
+				<p>Date: {{dateFormat(selectedObs.end)}}</p>
+				<p>User: <a :href="'/users/'+session.user.id">{{session.user.fullName}}</a></p>
+				<p>Observations:</p>{{selectedObs.number}}x {{selectedObs.bird.name}} <template v-if="selectedObs.publickLink">-> <a :href="selectedObs.publickLink">Media link</a></template>
+			</div>
+		</div>
+	</div>
+</div>
 	<button onclick="window.history.back()" class="btn btn-info">Back</button>
 	<button v-on:click="deleteSession()" class="btn btn-danger">Delete</button>
 	<h3>Session by <a :href="'users/' + session.user.id">{{session.user.fullName}}</a></h3>
@@ -46,20 +63,34 @@ var session = /*[[${mySession}]]*/;
 new Vue({
 	el: "#app",
 	data:{
-	    session: session
+	    session: session,
+	    selectedObs : null
 	},
 	methods:{
 	    dateFormat: function(date){
 			return moment(String(date)).format('DD/MM/YYYY hh') + 'h';
 		},
 		viewObservation: function(obs){
-
+	        this.selectedObs = obs;
+			$("#viewModal").modal("show")
 		},
 		deleteObservation: function(obs){
-
+			alert("not implement");
 		},
 		deleteSession: function(){
-
+			var self = this;
+			   $.ajax({
+				 type: "GET",
+				 url: "/sessions/delete/"+ self.session.id,
+				 success: function(data)
+					 {
+						 if(data.status === 1){
+							 winbdow.history.back();
+						 }else{
+							 alert(data.errorMessage);
+						 }
+					 }
+			   });
 		}
 
 	}
