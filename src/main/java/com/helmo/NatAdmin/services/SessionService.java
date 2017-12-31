@@ -1,78 +1,80 @@
 package com.helmo.NatAdmin.services;
 
-import com.helmo.NatAdmin.models.Observation;
+import com.helmo.NatAdmin.caller.CallREST;
 import com.helmo.NatAdmin.models.Session;
+import com.helmo.NatAdmin.reception.RSession;
 import com.helmo.NatAdmin.services.crudServices.ICrudService;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class SessionService implements ICrudService<Session>
-{
-    @Override
-    public long create(Session toCreate)
-    {
-        //TODO
-        return 1;
-    }
-
-    @Override
-    public void delete(Session toDelete)
-    {
-        //TODO
-    }
-
-    @Override
-    public void delete(long idToDelete)
-    {
-        //TODO
-    }
-
-    @Override
-    public List<Session> getAll()
-    {
-        List<Session> sessions = new ArrayList<>();
-        for (int i = 0; i < 10; i++)
-        {
-            sessions.add(getById(i));
-        }
-        return sessions;
-    }
-
-    @Override
-    public Session getById(long id)
-    {
-        Session s = new Session();
-        s.setId(id);
-        s.setEnd(Date.from(Instant.now()));
-        s.setStart(Date.from(Instant.now()));
-        s.setLatitude("Latitude #" +id);
-        s.setLongitude("Longitude #" +id);
-        s.setName("Name #" + id);
-        s.setUser(new UserService().getById(id));
-        List<Observation> obs = new ArrayList<>();
-        for (int i = 0; i < 10; i++)
-        {
-            Observation o = new Observation();
-            o.setId(i);
-            o.setMediaPath("Path #" + i);
-            o.setBird(new BirdService().getById(i));
-            o.setDate(Date.from(Instant.now()));
-            o.setLatitude("Latitude #"+i);
-            o.setLongitude("Longitude #"+i);
-            o.setMediaType("Type #"+i);
-            o.setValid(true);
-            obs.add(o);
-        }
-        s.setObservations(obs);
-        return s;
-    }
-
-    @Override
-    public void update(Session toUpdate)
-    {
-
-    }
+@Service
+public class SessionService implements ICrudService<Session> {
+	
+	private final String CONTROLLER_NAME = "sessions";
+	private final Class<RSession> CLASS = RSession.class;
+	private final Class<RSession[]> CLASS_TAB = RSession[].class;
+	
+	private final CallREST caller;
+	
+	
+	public SessionService(@Qualifier("callREST") CallREST caller) {
+		this.caller = caller;
+	}
+	
+	@Override
+	public long create(Session toCreate) {
+		return caller.create(
+			  CLASS_TAB, CONTROLLER_NAME,
+			  new RSession[]{new RSession(toCreate)}
+		)[0].getId();
+	}
+	
+	@Override
+	public void delete(Session toDelete) {
+		caller.delete(
+			  CLASS_TAB, CONTROLLER_NAME,
+			  new RSession[]{new RSession(toDelete)}
+		);
+	}
+	
+	@Override
+	public void delete(long idToDelete) {
+		caller.deleteById(
+			  CLASS, CONTROLLER_NAME,
+			  idToDelete
+		);
+	}
+	
+	@Override
+	public List<Session> getAll() {
+		List<Session> rtn = new ArrayList<>();
+		caller.getAll(CLASS_TAB, CONTROLLER_NAME)
+			  .forEach(s -> rtn.add(s.getModel()));
+		return rtn;
+	}
+	
+	@Override
+	public Session getById(long id) {
+		return caller.getById(CLASS, CONTROLLER_NAME, id).getModel();
+	}
+	
+	@Override
+	public List<Session> getRange(long one, long two) {
+		List<Session> rtn = new ArrayList<>();
+		caller.getRange(CLASS_TAB, CONTROLLER_NAME, one, two)
+			  .forEach(
+					u -> rtn.add(u.getModel())
+			  );
+		return rtn;
+	}
+	
+	@Override
+	public void update(Session toUpdate) {
+		caller.update(
+			  CLASS_TAB, CONTROLLER_NAME,
+			  new RSession[]{new RSession(toUpdate)});
+	}
 }

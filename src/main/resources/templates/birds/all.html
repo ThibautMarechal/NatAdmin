@@ -15,7 +15,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" v-if="selectedBird">
 					<p>Id: {{selectedBird.id}}</p>
 					<p>Name : {{selectedBird.name}}</p>
 					<p>Description:<br/> {{selectedBird.description}}</p>
@@ -76,7 +76,7 @@
             <td>{{bird.id}}</td>
             <td>{{bird.name}}</td>
             <td>
-            	<a class="btn btn-primary" :href="'birds/'+bird.id">view</a>
+            	<a class="btn btn-primary" :href="'/birds/'+bird.id">view</a>
             	<button class="btn btn-danger" v-on:click="deleteBird(bird)">delete</button>
 			</td>
         </tr>
@@ -89,12 +89,12 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     var birds = /*[[${birds}]]*/[];
-    /*]]>*/
+
     new Vue({
         el: '#app',
         data: {
             birds: birds,
-            selectedBird: birds[0],
+            selectedBird: null,
             nameFilter: "",
             newBirdName: "",
             newBirdDescription: ""
@@ -113,13 +113,13 @@
 					url: "/birds/delete/"+ self.selectedBird.id,
 				 	success: function(data)
 					{
+						console.log(data);
 						if(data.status === 1){
 							var index = self.birds.indexOf(self.selectedBird);
 							if (index > -1) {
 								self.birds.splice(index, 1);
 							}
 						}else{
-							console.log(data);
 						    alert(data.messageError);
 						}
                         $("#deleteModal").modal('hide');
@@ -144,8 +144,8 @@
 						    var newBird = {};
 						    newBird.id = data.content.id;
 						    newBird.name = data.content.name;
-						    newBird.description = data.content.description
-						    this.birds.push(newBird);
+						    newBird.description = data.content.description;
+						    self.birds.push(newBird);
 						}else{
 							console.log(data);
 						    alert(data.messageError);
@@ -156,6 +156,7 @@
 			}
         }
     })
+	/*]]>*/
 </script>
 </body>
 </html>

@@ -1,20 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout::site-head">
-    <title>NatAdmin</title>
+    <title>Welcome to Spring MVC Blog</title>
 </head>
 <body>
 <header th:replace="layout::site-header" ></header>
-<div class="container-fluid" id="app">
-
-</div>
-<footer th:replace="layout :: site-footer" ></footer>
-<script th:replace="layout :: vueJS"></script>
-<div th:replace="layout :: bottom-script"></div>
-<script th:inline="javascript" type="application/javascript">
-/*<![CDATA[*/
-
-/*]]>*/
-</script>
+<div th:replace="layout::site-body" ></div>
+<footer th:replace="layout::site-footer" ></footer>
 </body>
 </html>

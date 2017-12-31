@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout::site-head">
-    <title>NatAdmin - User</title>
+<head th:replace="layout :: site-head">
+    <title th:text="${user.fullName}">View Post</title>
 </head>
+
 <body>
-<header th:replace="layout::site-header" ></header>
+
+<header th:replace="layout :: site-header" ></header>
 <div class="container-fluid" id="app">
 <div class="modal fade" tabindex="-1" role="dialog" id="editModal" aria-labelledby="editModal" aria-hidden="true">
   	<div class="modal-dialog" role="document">
@@ -19,27 +21,27 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="fullName">Full Name</label>
-						<input type="text" class="form-control" name="fullName" placeholder="Full Name" v-model="fullName"/>
+						<input type="text" class="form-control" name="fullName" placeholder="Full Name" v-model="newFullName"/>
 					</div>
 					<div class="form-group">
 						<label for="email">Email</label>
-						<input type="email" class="form-control" name="email" placeholder="sample@domain.com" v-model="	email"/>
+						<input type="email" class="form-control" name="email" placeholder="sample@domain.com" v-model="newEmail"/>
+					</div>
+					<div class="form-check-label">
+						<label for="admin">
+						<input type="checkbox" class="form-check-input" name="admin" v-model="newAdmin"/>Admin</label>
 					</div>
 					<div class="form-group">
-						<label for="admin">Admin</label>
-						<input type="checkbox" class="form-check-input" name="admin" v-model="admin"/>
-					</div>
-					<div class="form-group">
-						<label for="password">New password</label>
+						<label for="password">Password</label>
 						<input type="password" class="form-control" name="password" v-model="password"/>
 					</div>
 					<div class="form-group">
-						<label for="confirmedPassword">Confirm new Password</label>
-						<input type="password" class="form-control" name="confirmedPassword" v-model="passwordConfirmed"/>
+						<label for="confirmedPassword">Confirm Password</label>
+						<input type="password" class="form-control" name="confirmedPassword"  v-model="confirmedPassword"/>
 					</div>
-					<div v-if="password !== passwordConfirmed" class="alert alert-danger" role="alert">
-                      	Passwords doesnt match!
-                    </div>
+				</div>
+				<div v-if="password !== confirmedPassword" class="alert alert-danger" role="alert">
+					  Passwords doesnt match
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" v-on:click="editSubmit">Edit</button>
@@ -64,98 +66,116 @@
 				<p>Admin: {{user.admin}}</p>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" v-on:click="deleteSubmit">Delete</button>
+				<input type="submit" value="Delete" class="btn btn-danger" v-on:click="deleteSubmit"/>
 				<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
 			</div>
 		</div>
 	</div>
 </div>
-	<img :src="user.profilePictureUrl"/>
-	<h2>{{user.fullName}}</h2>
-	<h2>{{user.email}}</h2>
-	<button type="button" class="btn btn-primary" v-on:click="editUser">Edit</button>
-	<button type="button" class="btn btn-warning" v-on:click="deleteUser">Delete</button>
+	<button class="btn btn-info" onclick="window.history.back()">Back</button>
+	<button class="btn btn-warning" v-on:click="editUser">Edit</button>
+	<button class="btn btn-danger" v-on:click="deleteUser">Delete</button>
+	<img :src="user.publicLink" style="float: left; max-width: 25vw"/>
+	<p>{{user.fullName}}</p>
+	<p>{{user.email}}</p>
+	<p>Admin : {{user.admin}}</p>
 	<table class="table table-hover table-responsive-sm">
-		<caption>Sessions</caption>
-		<thead>
-			<tr>
-				<th>Location</th>
-				<th></th>
-				<th>...</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-for="session in user.sessions">
-				<td>{{session.location}}</td>
-				<td>{{session.informations}}</td>
-				<td><a :href="'/sessions/' + user.session.id">view</a></td>
-			</tr>
-		</tbody>
-	</table>
+    		<caption>List of sessions</caption>
+    		<thead>
+    			<tr>
+    				<th scope="col">#</th>
+    				<th scope="col">Date</th>
+    				<th scope="col">Location</th>
+    				<th scope="col">Observations</th>
+    				<th scope="col">...</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+
+    			<tr v-for="session in user.sessions">
+    				<td scope="row">{{session.id}}</td>
+    				<td>{{dateFormat(session.start)}}</td>
+    				<td>{{session.location}}</td>
+    				<td>{{observationSize(session)}}</td>
+    				<td>
+    					<a class="btn btn-info" :href="'/sessions/' +session.id">view</a>
+    				</td>
+    			</tr>
+    		</tbody>
+    	</table>
 </div>
 <footer th:replace="layout :: site-footer" ></footer>
 <script th:replace="layout :: vueJS"></script>
 <div th:replace="layout :: bottom-script"></div>
 <script th:inline="javascript" type="application/javascript">
 /*<![CDATA[*/
-var user = /*[[${user}]]*/;
-new Vue({
-	el: '#app',
-	data: {
-		user: user,
-		pictureUrl: user.pictureUrl,
-		fullName: user.fullName,
-		email: user.email,
-		admin: user.admin,
-		password: "",
-		passwordConfirmed: ""
-	},
-	methods: {
-		editUser: function(){
-			$("#editModal").modal('show')
-		},
-		editSubmit: function(){
-		    var self = this;
-		    $.ajax({
-				type: "POST",
-				url: "/users/edit/"+ this.user.id,
-				data: $("#editForm").serialize(),
-				success: function(data){
-					if(data.status === 1){
-						self.user.fullName = self.fullName;
-						self.user.email = self.email;
-						self.user.admin = self.admin;
-					}else{
-						console.log(data);
-						alert(data.errorMessage);
-					}
-					$("#editModal").modal('hide')
-				}
-			});
-		},
-		deleteUser: function(){
-$			("#deleteModal").modal('show')
-		},
-		deleteSubmit: function(){
-			 var self = this;
-			  $.ajax({
-				 type: "GET",
-				 url: "/users/delete/"+ self.user.id,
-				 success: function(data)
-					 {
-						 if(data.status === 1){
-						     window.location = "/users/";
-						 }else{
-							 console.log(data);
-							 alert(data.errorMessage);
-						 }
-						 $("#deleteModal").modal('hide')
-					 }
-			   });
-		}
-	}
-});
-/*]]>*/
+	var user = /*[[${user}]]*/
+	new Vue({
+      el: '#app',
+      data: {
+        user: user,
+        newEmail: user.email,
+        newFullName: user.fullName,
+        newAdmin: user.admin,
+        password: "",
+        confirmedPassword: ""
+      },
+      methods:{
+          editUser: function(){
+              $("#editModal").modal('show')
+          },
+          deleteUser: function(){
+              $("#deleteModal").modal('show')
+          },
+          editSubmit: function(){
+              if(this.password !== this.confirmedPassword){
+                  return;
+              }
+              var self = this;
+              console.log(self.user.id);
+              $.ajax({
+    			 type: "POST",
+    			 url: "/users/edit/"+ self.user.id,
+    			 data: $("#editForm").serialize(),
+    			 success: function(data)
+    			 {
+    			     if(data.status === 1){
+    					self.user.fullName = self.newFullName;
+    					self.user.email = self.newEmail;
+    					self.user.admin = self.newAdmin;
+    					self.password = "";
+    					self.confirmedPassword = "";
+    				 }else{
+    					 alert(data.errorMessage);
+    				 }
+    				 $("#editModal").modal('hide')
+    			 }
+    		   });
+          },
+          deleteSubmit: function(){
+              var self = this;
+              $.ajax({
+    			 type: "GET",
+    			 url: "/users/delete/"+ self.user.id,
+    			 success: function(data)
+    				 {
+    				     if(data.status === 1){
+    				        window.history.back();
+    				     }else{
+    				         alert(data.errorMessage);
+    				     }
+    				 }
+    		   });
+          },
+          observationSize : function(session){
+          	    return session.observations.length;
+          	},
+          	dateFormat: function(date){
+            		return moment(String(date)).format('DD/MM/YYYY hh') + 'h';
+            	},
+      }
+    })
+    /*]]>*/
 </script>
 </body>
 </html>

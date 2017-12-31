@@ -6,53 +6,157 @@
 <body>
 <header th:include="layout :: site-header" ></header>
 <div class="container-fluid" id="app">
-    <table>
-        <caption>List of birds</caption>
+	<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal" aria-labelledby="deleteModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Delete bird</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" v-if="selectedBird">
+					<p>Id: {{selectedBird.id}}</p>
+					<p>Name : {{selectedBird.name}}</p>
+					<p>Description:<br/> {{selectedBird.description}}</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" v-on:click="deleteSubmit" data-dismiss="modal">Delete</button>
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" tabindex="-1" role="dialog" id="createModal" aria-labelledby="createModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Delete bird</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="createForm">
+						<div class="form-group">
+							<label for="fullName">Name</label>
+							<input type="text" class="form-control" name="name" placeholder="Bird's name" v-model="newBirdName"/>
+						</div>
+						<div class="form-group">
+							<label for="description">Description</label>
+							<textarea class="form-control" name="description" placeholder="Brid's description" v-model="newBirdDescription"></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" v-on:click="createSubmit" data-dismiss="modal">Create</button>
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="btn btn-primary" v-on:click="createBird">Add bird</button>
+   <table class="table table-hover table-responsive-sm">
+   		<caption>List of birds</caption>
         <thead>
         <tr>
             <td></td>
-            <td><input type="text"/></td>
-            <td><input type="text"/></td>
-            <td><input type="text"/></td>
+            <td><input type="text" v-model="nameFilter" placeholder="filter"/></td>
             <td></td>
         </tr>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
-            <th scope="col">Heigth</th>
-            <th scope="col">Description</th>
             <th scope="col">...</th>
         </tr>
         </thead>
         <tbody>
 
-        <tr v-for="bird in birds">
+        <tr v-for="bird in birds" v-if="filter(bird)">
             <td>{{bird.id}}</td>
             <td>{{bird.name}}</td>
-            <td>{{bird.averageHeigth}}</td>
-            <td>{{bird.description}}</td>
-            <td></td>
+            <td>
+            	<a class="btn btn-primary" :href="'birds/'+bird.id">view</a>
+            	<button class="btn btn-danger" v-on:click="deleteBird(bird)">delete</button>
+			</td>
         </tr>
         </tbody>
     </table>
 </div>
 <footer th:replace="layout :: site-footer" ></footer>
 <script th:replace="layout :: vueJS"></script>
+<div th:replace="layout :: bottom-script"></div>
 <script th:inline="javascript">
     /*<![CDATA[*/
     var birds = /*[[${birds}]]*/[];
-    /*]]>*/
-</script>
-<script type="application/javascript">
+
     new Vue({
         el: '#app',
         data: {
             birds: birds,
+            selectedBird: null,
+            nameFilter: "",
+            newBirdName: "",
+            newBirdDescription: ""
         },
         methods:{
-
+			filter: function(bird){
+			    return bird.name.includes(this.nameFilter);
+			},
+			createBird: function(){
+				$('#createModal').modal('show');
+			},
+			deleteSubmit: function(){
+			    var self = this;
+				$.ajax({
+					type: "GET",
+					url: "/birds/delete/"+ self.selectedBird.id,
+				 	success: function(data)
+					{
+						console.log(data);
+						if(data.status === 1){
+							var index = self.birds.indexOf(self.selectedBird);
+							if (index > -1) {
+								self.birds.splice(index, 1);
+							}
+						}else{
+						    alert(data.messageError);
+						}
+                        $("#deleteModal").modal('hide');
+				 	}
+			   	});
+				this.newBirdName = "";
+				this.newBirdDescription = "";
+			},
+			deleteBird: function(bird){
+				this.selectedBird = bird;
+				$("#deleteModal").modal('show');
+			},
+			createSubmit: function(){
+			    var self = this;
+				$.ajax({
+					type: "POST",
+					url: "/birds/create/",
+					data: $("#createForm").serialize(),
+				 	success: function(data)
+					{
+						if(data.status === 1){
+						    var newBird = {};
+						    newBird.id = data.content.id;
+						    newBird.name = data.content.name;
+						    newBird.description = data.content.description;
+						    self.birds.push(newBird);
+						}else{
+							console.log(data);
+						    alert(data.messageError);
+						}
+                        $("#createModal").modal('hide');
+				 	}
+			   	});
+			}
         }
     })
+	/*]]>*/
 </script>
 </body>
 </html>

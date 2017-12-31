@@ -382,7 +382,7 @@ var config = ({
   ignoredElements: [],
 
   /**
-   * Custom user key aliases for v-on
+   * Custom RUser key aliases for v-on
    */
   keyCodes: Object.create(null),
 
@@ -2075,7 +2075,7 @@ function simpleNormalizeChildren (children) {
 }
 
 // 2. When the children contains constructs that always generated nested Arrays,
-// e.g. <template>, <slot>, v-for, or when the children is provided by user
+// e.g. <template>, <slot>, v-for, or when the children is provided by RUser
 // with hand-written render functions / JSX. In such cases a full normalization
 // is needed to cater to all possible types of children values.
 function normalizeChildren (children) {
@@ -2645,8 +2645,8 @@ function mountComponent (
     updateComponent = function () {
       var name = vm._name;
       var id = vm._uid;
-      var startTag = "vue-perf-start:" + id;
-      var endTag = "vue-perf-end:" + id;
+      var startTag = "vue-perf-dateStart:" + id;
+      var endTag = "vue-perf-dateEnd:" + id;
 
       mark(startTag);
       var vnode = vm._render();
@@ -2834,8 +2834,8 @@ function flushSchedulerQueue () {
   // This ensures that:
   // 1. Components are updated from parent to child. (because parent is always
   //    created before the child)
-  // 2. A component's user watchers are run before its render watcher (because
-  //    user watchers are created before the render watcher)
+  // 2. A component's RUser watchers are run before its render watcher (because
+  //    RUser watchers are created before the render watcher)
   // 3. If a component is destroyed during a parent component's watcher run,
   //    its watchers can be skipped.
   queue.sort(function (a, b) { return a.id - b.id; });
@@ -3421,7 +3421,7 @@ function initMethods (vm, methods) {
       if ((key in vm) && isReserved(key)) {
         warn(
           "Method \"" + key + "\" conflicts with an existing Vue instance method. " +
-          "Avoid defining component methods that start with _ or $."
+          "Avoid defining component methods that dateStart with _ or $."
         );
       }
     }
@@ -4300,7 +4300,7 @@ function initRender (vm) {
   // internal version is used by render functions compiled from templates
   vm._c = function (a, b, c, d) { return createElement(vm, a, b, c, d, false); };
   // normalization is always applied for the public version, used in
-  // user-written render functions.
+  // RUser-written render functions.
   vm.$createElement = function (a, b, c, d) { return createElement(vm, a, b, c, d, true); };
 
   // $attrs & $listeners are exposed for easier HOC creation.
@@ -4400,8 +4400,8 @@ function initMixin (Vue) {
     var startTag, endTag;
     /* istanbul ignore if */
     if ("development" !== 'production' && config.performance && mark) {
-      startTag = "vue-perf-start:" + (vm._uid);
-      endTag = "vue-perf-end:" + (vm._uid);
+      startTag = "vue-perf-dateStart:" + (vm._uid);
+      endTag = "vue-perf-dateEnd:" + (vm._uid);
       mark(startTag);
     }
 
@@ -4597,7 +4597,7 @@ function initExtend (Vue) {
         warn(
           'Invalid component name: "' + name + '". Component names ' +
           'can only contain alphanumeric characters and the hyphen, ' +
-          'and must start with a letter.'
+          'and must dateStart with a letter.'
         );
       }
     }
@@ -5901,7 +5901,7 @@ function createPatchFunction (backend) {
               // e.g. for directives that uses the "inserted" hook.
               var insert = ancestor.data.hook.insert;
               if (insert.merged) {
-                // start at index 1 to avoid re-invoking component mounted hook
+                // dateStart at index 1 to avoid re-invoking component mounted hook
                 for (var i$2 = 1; i$2 < insert.fns.length; i$2++) {
                   insert.fns[i$2]();
                 }
@@ -6058,7 +6058,7 @@ function updateAttrs (oldVnode, vnode) {
   var elm = vnode.elm;
   var oldAttrs = oldVnode.data.attrs || {};
   var attrs = vnode.data.attrs || {};
-  // clone observed objects, as the user probably wants to mutate it
+  // clone observed objects, as the RUser probably wants to mutate it
   if (isDef(attrs.__ob__)) {
     attrs = vnode.data.attrs = extend({}, attrs);
   }
@@ -6194,7 +6194,7 @@ function parseFilters (exp) {
       !curly && !square && !paren
     ) {
       if (expression === undefined) {
-        // first filter, end of expression
+        // first filter, dateEnd of expression
         lastFilterIndex = i + 1;
         expression = exp.slice(0, i).trim();
       } else {
@@ -6700,7 +6700,7 @@ function genDefaultModel (
 // normalize v-model event tokens that can only be determined at runtime.
 // it's important to place the event as the first in the array because
 // the whole point is ensuring the v-model callback gets called before
-// user-attached handlers.
+// RUser-attached handlers.
 function normalizeEvents (on) {
   /* istanbul ignore if */
   if (isDef(on[RANGE_TOKEN])) {
@@ -6783,7 +6783,7 @@ function updateDOMProps (oldVnode, vnode) {
   var elm = vnode.elm;
   var oldProps = oldVnode.data.domProps || {};
   var props = vnode.data.domProps || {};
-  // clone observed objects, as the user probably wants to mutate it
+  // clone observed objects, as the RUser probably wants to mutate it
   if (isDef(props.__ob__)) {
     props = vnode.data.domProps = extend({}, props);
   }
@@ -6992,7 +6992,7 @@ function updateStyle (oldVnode, vnode) {
   var style = normalizeStyleBinding(vnode.data.style) || {};
 
   // store normalized style under a different key for next diff
-  // make sure to clone it if it's reactive, since the user likely wants
+  // make sure to clone it if it's reactive, since the RUser likely wants
   // to mutate it.
   vnode.data.normalizedStyle = isDef(style.__ob__)
     ? extend({}, style)
@@ -7384,7 +7384,7 @@ function enter (vnode, toggleDisplay) {
     });
   }
 
-  // start enter transition
+  // dateStart enter transition
   beforeEnterHook && beforeEnterHook(el);
   if (expectsCSS) {
     addTransitionClass(el, startClass);
@@ -8549,7 +8549,7 @@ function parseHTML (html, options) {
     if (html === last) {
       options.chars && options.chars(html);
       if ("development" !== 'production' && !stack.length && options.warn) {
-        options.warn(("Mal-formatted tag at end of template: \"" + html + "\""));
+        options.warn(("Mal-formatted tag at dateEnd of template: \"" + html + "\""));
       }
       break
     }
@@ -8660,7 +8660,7 @@ function parseHTML (html, options) {
           options.warn
         ) {
           options.warn(
-            ("tag <" + (stack[i].tag) + "> has no matching end tag.")
+            ("tag <" + (stack[i].tag) + "> has no matching dateEnd tag.")
           );
         }
         if (options.end) {
@@ -10488,8 +10488,8 @@ Vue$3.prototype.$mount = function (
 
       /* istanbul ignore if */
       if ("development" !== 'production' && config.performance && mark) {
-        mark('compile end');
-        measure(("vue " + (this._name) + " compile"), 'compile', 'compile end');
+        mark('compile dateEnd');
+        measure(("vue " + (this._name) + " compile"), 'compile', 'compile dateEnd');
       }
     }
   }
