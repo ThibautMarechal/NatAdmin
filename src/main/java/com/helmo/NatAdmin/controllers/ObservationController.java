@@ -20,7 +20,6 @@ public class ObservationController {
 	@RequestMapping(method = RequestMethod.POST, value = "edit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String edit(Model model, @PathVariable("id") long id, @ModelAttribute Observationform observationform) {
-		
 		return "{\"status\" : 1}";
 	}
 	
